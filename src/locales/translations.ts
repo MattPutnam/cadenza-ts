@@ -4,7 +4,6 @@ import { ConvertedToObjectType, TranslationJsonType } from './types';
  * This file is seperate from the './i18n.ts' simply to make the Hot Module Replacement work seamlessly.
  * Your components can import this file in 'messages.ts' files which would ruin the HMR if this isn't a separate module
  */
-
 export const translations: ConvertedToObjectType<TranslationJsonType> =
   {} as any;
 
@@ -17,7 +16,7 @@ export const translations: ConvertedToObjectType<TranslationJsonType> =
 export const convertLanguageJsonToObject = (
   json: any,
   objToConvertTo = translations,
-  current?: string,
+  current?: string
 ) => {
   Object.keys(json).forEach(key => {
     const currentLookupKey = current ? `${current}.${key}` : key;
@@ -26,7 +25,7 @@ export const convertLanguageJsonToObject = (
       convertLanguageJsonToObject(
         json[key],
         objToConvertTo[key],
-        currentLookupKey,
+        currentLookupKey
       );
     } else {
       objToConvertTo[key] = currentLookupKey;

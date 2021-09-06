@@ -9,7 +9,7 @@ import {
   InterpolationFunction,
   ThemedStyledProps,
   Interpolation,
-  FlattenInterpolation,
+  FlattenInterpolation
 } from 'styled-components/macro';
 
 /*
@@ -21,7 +21,7 @@ export const sizes = {
   small: 600,
   medium: 1024,
   large: 1440,
-  xlarge: 1920,
+  xlarge: 1920
 };
 
 // Iterate through the sizes and create a media template
@@ -35,7 +35,7 @@ export const media = (Object.keys(sizes) as Array<keyof typeof sizes>).reduce(
 
     return acc;
   },
-  {} as { [key in keyof typeof sizes]: MediaFunction },
+  {} as { [key in keyof typeof sizes]: MediaFunction }
 );
 
 /*

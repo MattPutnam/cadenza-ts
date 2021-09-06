@@ -3,16 +3,12 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import en from './en/translation.json';
-import de from './de/translation.json';
 import { convertLanguageJsonToObject } from './translations';
 
 export const translationsJson = {
   en: {
-    translation: en,
-  },
-  de: {
-    translation: de,
-  },
+    translation: en
+  }
 };
 
 // Create the 'translations' object to provide full intellisense support for the static json files.
@@ -33,6 +29,6 @@ export const i18n = i18next
       process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test',
 
     interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
-    },
+      escapeValue: false // not needed for react as it escapes by default
+    }
   });
