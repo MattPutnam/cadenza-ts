@@ -1,5 +1,6 @@
-import { Button } from 'app/components/button';
 import React from 'react';
+
+import { Button } from '../../components/button';
 
 interface Props {
   perform: () => void;

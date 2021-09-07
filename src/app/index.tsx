@@ -7,13 +7,13 @@
  */
 
 import React, { useState } from 'react';
+
 import { Helmet } from 'react-helmet-async';
-
-import { GlobalStyle } from 'styles/global-styles';
-
 import { useTranslation } from 'react-i18next';
-import { EditView } from './views/edit';
 import styled from 'styled-components';
+
+import { GlobalStyle } from '../styles/global-styles';
+import { EditView } from './views/edit';
 import { PerformView } from './views/perform';
 
 const Page = styled.div`

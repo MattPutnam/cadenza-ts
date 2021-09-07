@@ -6,10 +6,34 @@ const prettierOptions = JSON.parse(
 );
 
 module.exports = {
-  extends: ['react-app', 'prettier'],
+  extends: [
+    'react-app',
+    'prettier',
+    'plugin:import/recommended',
+    'plugin:import/typescript'
+  ],
   plugins: ['prettier'],
   rules: {
-    'prettier/prettier': ['error', prettierOptions]
+    'prettier/prettier': ['error', prettierOptions],
+    'import/order': [
+      'error',
+      {
+        groups: ['builtin', 'external', 'internal'],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before'
+          }
+        ],
+        pathGroupsExcludedImportTypes: ['react'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true
+        }
+      }
+    ]
   },
   overrides: [
     {
