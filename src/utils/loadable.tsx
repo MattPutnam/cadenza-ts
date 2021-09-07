@@ -17,7 +17,7 @@ export const lazyLoad = <
 
   if (selectorFunc) {
     lazyFactory = () =>
-      importFunc().then(module => ({ default: selectorFunc(module) }));
+      importFunc().then((module) => ({ default: selectorFunc(module) }));
   }
 
   const LazyComponent = lazy(lazyFactory);
