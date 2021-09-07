@@ -6,31 +6,34 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 
-import { HomePage } from './pages/HomePage/Loadable';
 import { useTranslation } from 'react-i18next';
+import { EditView } from './views/edit';
+import styled from 'styled-components';
+import { PerformView } from './views/perform';
 
-export function App() {
+const Page = styled.div`
+  background-color: black;
+  height: 100vh;
+`;
+
+export const App = () => {
   const { i18n } = useTranslation();
-  return (
-    <BrowserRouter>
-      <Helmet
-        titleTemplate="%s - React Boilerplate"
-        defaultTitle="React Boilerplate"
-        htmlAttributes={{ lang: i18n.language }}
-      >
-        <meta name="description" content="A React Boilerplate application" />
-      </Helmet>
+  const [isEditing, setEditing] = useState(true);
 
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-      </Switch>
+  return (
+    <Page>
+      <Helmet htmlAttributes={{ lang: i18n.language }} />
+      {isEditing ? (
+        <EditView perform={() => setEditing(false)} />
+      ) : (
+        <PerformView close={() => setEditing(true)} />
+      )}
       <GlobalStyle />
-    </BrowserRouter>
+    </Page>
   );
-}
+};
