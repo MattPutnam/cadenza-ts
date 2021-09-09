@@ -9,13 +9,7 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-export const Button: React.FC<Props> = ({
-  large,
-  disabled,
-  onClick,
-  style,
-  children
-}) => {
+export const Button: React.FC<Props> = ({ large, disabled, onClick, style, children }) => {
   const myStyle: React.CSSProperties = {
     margin: large ? '0 0 0 0.5rem' : '-2px 0 -2px 0.5rem',
     padding: large ? '0.5rem 0.75rem' : '2px 0.75rem',

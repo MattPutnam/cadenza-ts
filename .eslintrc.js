@@ -1,17 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const prettierOptions = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8')
-);
+const prettierOptions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8'));
 
 module.exports = {
-  extends: [
-    'react-app',
-    'prettier',
-    'plugin:import/recommended',
-    'plugin:import/typescript'
-  ],
+  extends: ['react-app', 'prettier', 'plugin:import/recommended', 'plugin:import/typescript'],
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': ['error', prettierOptions],
@@ -33,7 +26,8 @@ module.exports = {
           caseInsensitive: true
         }
       }
-    ]
+    ],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }]
   },
   overrides: [
     {
