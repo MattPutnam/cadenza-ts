@@ -28,11 +28,7 @@ export const App = () => {
   return (
     <Page>
       <Helmet htmlAttributes={{ lang: i18n.language }} />
-      {isEditing ? (
-        <EditView perform={() => setEditing(false)} />
-      ) : (
-        <PerformView close={() => setEditing(true)} />
-      )}
+      {isEditing ? <EditView perform={() => setEditing(false)} /> : <PerformView close={() => setEditing(true)} />}
       <GlobalStyle />
     </Page>
   );
