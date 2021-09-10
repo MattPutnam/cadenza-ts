@@ -11,7 +11,7 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-const ButtonComp = styled.button<Pick<Props, 'large' | 'disabled'>>`
+const StyledButton = styled.button<Pick<Props, 'large' | 'disabled'>>`
   margin: ${(props) => (props.large ? '0 0 0 0.5rem' : '-2px 0 -2px 0.5rem')};
   padding: ${(props) => (props.large ? '0.5rem 0.75rem' : '2px 0.75rem')};
   color: ${(props) => (props.disabled ? colors.gray[4] : 'white')};
@@ -20,12 +20,16 @@ const ButtonComp = styled.button<Pick<Props, 'large' | 'disabled'>>`
   border: 1px solid ${(props) => (props.disabled ? colors.gray[2] : colors.blue[1])};
   border-radius: 3px;
   cursor: ${(props) => (props.disabled ? undefined : 'pointer')};
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px ${colors.blue[3]};
+  }
 `;
 
 export const Button: React.FC<Props> = ({ large, disabled, onClick, style, children }) => {
   return (
-    <ButtonComp style={style} onClick={onClick} large={large} disabled={disabled}>
+    <StyledButton style={style} onClick={onClick} large={large} disabled={disabled}>
       {children}
-    </ButtonComp>
+    </StyledButton>
   );
 };
