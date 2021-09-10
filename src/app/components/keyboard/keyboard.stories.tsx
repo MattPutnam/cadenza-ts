@@ -28,7 +28,7 @@ storiesOf('Components / Keyboard', module).add('onKeyClick', () => {
 });
 
 storiesOf('Components / Keyboard', module).add('onRangeDrag', () => {
-  const [range, setRange] = useState<number[] | undefined>(undefined);
+  const [range, setRange] = useState<[number, number] | undefined>(undefined);
 
   return (
     <StoryWrapper title="Keyboard with onRangeDrag">

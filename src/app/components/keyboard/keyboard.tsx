@@ -14,7 +14,7 @@ import { BlackKey, KeyContainer, WhiteKey } from './components';
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   keyboard: KeyboardType;
   onKeyClick?: (key: number, keyboardId: number) => void;
-  onRangeDrag?: (range: number[], keyboardId: number) => void;
+  onRangeDrag?: (range: [number, number], keyboardId: number) => void;
   listenerId?: number;
   highlightOnHover?: boolean;
   highlightKeys?: number[];
@@ -36,7 +36,7 @@ export const Keyboard = ({
   const [dragStart, setDragStart] = useState<number | undefined>(undefined);
   const [[pressedNotes], setPressedNotes] = useState([new Set()]);
 
-  useDocumentListener(() => setDragStart(undefined), 'mouseup');
+  useDocumentListener('mouseup', () => setDragStart(undefined));
 
   const handleClick = useCallback(
     (k: number) => {
@@ -48,10 +48,7 @@ export const Keyboard = ({
 
   const handleRangeDrag = useCallback(() => {
     if (dragStart && dragStart !== hoverKey) {
-      onRangeDrag!(
-        [dragStart!, hoverKey!].sort((a, b) => a - b),
-        keyboard.id
-      );
+      onRangeDrag!([dragStart!, hoverKey!].sort((a, b) => a - b) as [number, number], keyboard.id);
       setDragStart(undefined);
     }
   }, [dragStart, hoverKey, keyboard.id, onRangeDrag]);
