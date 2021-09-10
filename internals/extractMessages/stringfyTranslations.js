@@ -21,7 +21,7 @@ function stringfyTranslationObjects(content) {
     }
     const key = match[1];
     let keyAsStringValue = '';
-    if (["'", '"', '`'].some(x => key.includes(x))) {
+    if (["'", '"', '`'].some((x) => key.includes(x))) {
       keyAsStringValue = key;
     } else {
       keyAsStringValue = stringifyRecursively(content, key);
@@ -30,7 +30,7 @@ function stringfyTranslationObjects(content) {
     contentWithObjectsStringified = replaceTranslationObjectWithString(
       contentWithObjectsStringified,
       key,
-      keyAsStringValue,
+      keyAsStringValue
     );
   }
   return contentWithObjectsStringified;

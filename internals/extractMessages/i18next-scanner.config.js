@@ -6,18 +6,14 @@ const compilerOptions = require('../../tsconfig.json').compilerOptions;
 const stringfyTranslationObjects = require('./stringfyTranslations.js');
 
 module.exports = {
-  input: [
-    'src/app/**/**.{ts,tsx}',
-    '!**/node_modules/**',
-    '!src/app/**/*.test.{ts,tsx}',
-  ],
+  input: ['src/app/**/**.{ts,tsx}', '!**/node_modules/**', '!src/app/**/*.test.{ts,tsx}'],
   output: './',
   options: {
     debug: false,
     removeUnusedKeys: false,
     func: {
       list: ['t'],
-      extensions: [''], // We dont want this extension because we manually check on transform function below
+      extensions: [''] // We dont want this extension because we manually check on transform function below
     },
     lngs: ['en', 'de'],
     defaultLng: 'en',
@@ -26,14 +22,14 @@ module.exports = {
       loadPath: 'src/locales/{{lng}}/{{ns}}.json',
       savePath: 'src/locales/{{lng}}/{{ns}}.json',
       jsonIndent: 2,
-      lineEnding: '\n',
+      lineEnding: '\n'
     },
     keySeparator: '.', // char to separate keys
     nsSeparator: ':', // char to split namespace from key
     interpolation: {
       prefix: '{{',
-      suffix: '}}',
-    },
+      suffix: '}}'
+    }
   },
   transform: function transform(file, enc, done) {
     const extensions = ['.ts', '.tsx'];
@@ -46,11 +42,11 @@ module.exports = {
     }
 
     done();
-  },
+  }
 };
 function parseContent(content, parser, shouldStringfyObjects = true) {
   const { outputText } = typescript.transpileModule(content, {
-    compilerOptions: compilerOptions,
+    compilerOptions: compilerOptions
   });
   let cleanedContent = outputText;
   if (shouldStringfyObjects) {
