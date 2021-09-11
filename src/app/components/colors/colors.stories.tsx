@@ -4,12 +4,20 @@ import { storiesOf } from '@storybook/react';
 import styled from 'styled-components';
 
 import { colors } from '.';
+import { luminance } from '../../../utils/color';
 
-const Swatch = styled.div`
+interface SwatchProps {
+  color: string;
+  isLight: boolean;
+}
+
+const Swatch = styled.div<SwatchProps>`
   flex: none;
   height: 80px;
   width: 80px;
   padding: 5px;
+  background-color: ${(props) => props.color};
+  color: ${(props) => (props.isLight ? 'black' : 'white')};
 `;
 
 const SwatchRow = styled.div`
@@ -28,7 +36,7 @@ const ColorStick = ({ name, colors }: { name: string; colors: string[] }) => (
   <SwatchRow>
     <SwatchLabel>{name}</SwatchLabel>
     {colors.map((color, index) => (
-      <Swatch key={index} style={{ backgroundColor: color }}>
+      <Swatch key={index} color={color} isLight={luminance(color) > 0.75}>
         {index}
       </Swatch>
     ))}
