@@ -16,6 +16,8 @@ export const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     color: white;
     user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
   }
 
   * {

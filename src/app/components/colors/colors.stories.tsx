@@ -28,15 +28,17 @@ const ColorStick = ({ name, colors }: { name: string; colors: string[] }) => (
   <SwatchRow>
     <SwatchLabel>{name}</SwatchLabel>
     {colors.map((color, index) => (
-      <Swatch style={{ backgroundColor: color }}>{index}</Swatch>
+      <Swatch key={index} style={{ backgroundColor: color }}>
+        {index}
+      </Swatch>
     ))}
   </SwatchRow>
 );
 
 storiesOf('Colors', module).add('Color Palette', () => (
   <>
-    {Object.keys(colors).map((key) => (
-      <ColorStick name={key} colors={colors[key]} />
+    {Object.keys(colors).map((key, index) => (
+      <ColorStick key={index} name={key} colors={colors[key]} />
     ))}
   </>
 ));
