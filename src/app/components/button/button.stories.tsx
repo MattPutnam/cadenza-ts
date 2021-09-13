@@ -1,36 +1,29 @@
-import React, { useState } from 'react';
-
 import { storiesOf } from '@storybook/react';
 
-import { Button } from '.';
-import { Row, StoryWrapper } from '../../../storybook-components';
+import { Button, ButtonLike } from '.';
 
-storiesOf('Components / Button', module).add('Button', () => {
-  const [count, setCount] = useState(0);
+storiesOf('Components / Button', module).add('Normal', () => <Button onClick={() => {}}>Button</Button>);
 
-  const onClick = () => setCount(count + 1);
+storiesOf('Components / Button', module).add('Large', () => (
+  <Button large onClick={() => {}}>
+    Button
+  </Button>
+));
 
-  return (
-    <>
-      <Row>Click count: {count}</Row>
-      <StoryWrapper title="Regular">
-        <Button onClick={onClick}>Button</Button>
-      </StoryWrapper>
-      <StoryWrapper title="Large">
-        <Button large onClick={onClick}>
-          Button
-        </Button>
-      </StoryWrapper>
-      <StoryWrapper title="Disabled">
-        <Button disabled onClick={onClick}>
-          Button
-        </Button>
-      </StoryWrapper>
-      <StoryWrapper title="Large Disabled">
-        <Button large disabled onClick={onClick}>
-          Button
-        </Button>
-      </StoryWrapper>
-    </>
-  );
-});
+storiesOf('Components / Button', module).add('Disabled', () => (
+  <Button disabled onClick={() => {}}>
+    Button
+  </Button>
+));
+
+storiesOf('Components / Button', module).add('Large Disabled', () => (
+  <Button large disabled onClick={() => {}}>
+    Button
+  </Button>
+));
+
+storiesOf('Components / Button', module).add('ButtonLike', () => (
+  <ButtonLike onClick={() => {}}>
+    <span>I'm clickable too!</span>
+  </ButtonLike>
+));
