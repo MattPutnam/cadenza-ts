@@ -28,4 +28,12 @@ export const GlobalStyle = createGlobalStyle`
     font-family: inherit;
     font-size: inherit;
   }
+
+  .flex.row > section:not(:first-of-type) {
+    margin-left: 0;
+  }
+
+  .flex.column > section:not(:first-of-type) {
+    margin-top: 0;
+  }
 `;
