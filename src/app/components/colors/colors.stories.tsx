@@ -33,7 +33,7 @@ const ColorStick = ({ name, colors }: { name: string; colors: string[] }) => (
   <SwatchRow>
     <SwatchLabel>{name}</SwatchLabel>
     {colors.map((color, index) => (
-      <Swatch key={index} color={color} isLight={luminance(color) > 0.75}>
+      <Swatch key={index} color={color} isLight={luminance(color) > 0.5}>
         {index}
       </Swatch>
     ))}
