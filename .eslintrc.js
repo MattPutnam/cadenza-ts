@@ -33,6 +33,10 @@ module.exports = {
     {
       files: ['**/*.ts?(x)'],
       rules: { 'prettier/prettier': ['warn', prettierOptions] }
+    },
+    {
+      files: ['**/*.stories.ts?(x)'],
+      rules: { 'import/no-anonymous-default-export': ['off'] }
     }
   ]
 };

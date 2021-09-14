@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
-import { Label } from '..';
+import { Label } from '../label';
 
 interface Props {
   label?: string;

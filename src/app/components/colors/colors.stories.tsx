@@ -21,7 +21,6 @@ const Swatch = styled.div<SwatchProps>`
 const SwatchRow = styled.div`
   position: relative;
   display: flex;
-  color: white;
 `;
 
 const SwatchLabel = styled.div`

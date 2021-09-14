@@ -14,7 +14,6 @@ interface Props {
 const StyledButton = styled.button<Pick<Props, 'large' | 'disabled'>>`
   margin: ${(props) => (props.large ? '0 0 0 0.5rem' : '-2px 0 -2px 0.5rem')};
   padding: ${(props) => (props.large ? '0.5rem 0.75rem' : '2px 0.75rem')};
-  color: white;
   background-color: ${(props) => (props.disabled ? colors.gray[2] : colors.blue[2])};
   font-size: 'unset';
   border: 1px solid ${(props) => (props.disabled ? colors.gray[2] : colors.blue[1])};

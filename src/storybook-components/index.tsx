@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
+import { colors } from '../app/components';
+
 export const Row = styled.div``;
 
-const Title = styled.h2``;
+export const StoryWrapper = styled.div`
+  background-color: ${colors.blue[2]};
+  padding: 0.5rem;
+`;
 
-export const StoryWrapper: React.FC<{ title: string }> = ({ title, children }) => (
-  <div>
-    <Title>{title}</Title>
-    {children}
-  </div>
-);
+export const Title = styled.h2`
+  margin-top: 0;
+`;

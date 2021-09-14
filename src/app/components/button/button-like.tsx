@@ -27,7 +27,7 @@ const ButtonWrapper = styled.button`
 
 export const ButtonLike = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Props>>(
   ({ style, children, ...props }, ref) => (
-    <ButtonWrapper ref={ref} style={style} {...{ props }}>
+    <ButtonWrapper ref={ref} style={style} {...props}>
       {children}
     </ButtonWrapper>
   )

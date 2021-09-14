@@ -31,7 +31,7 @@ storiesOf('Components / Keyboard', module).add('onRangeDrag', () => {
   const [range, setRange] = useState<[number, number] | undefined>(undefined);
 
   return (
-    <StoryWrapper title="Keyboard with onRangeDrag">
+    <StoryWrapper>
       <Keyboard keyboard={keyboard} onRangeDrag={setRange} />
       <Row>{`Range dragged: ${
         range
@@ -44,7 +44,7 @@ storiesOf('Components / Keyboard', module).add('onRangeDrag', () => {
 
 storiesOf('Components / Keyboard', module).add('highlightKeys', () => {
   return (
-    <StoryWrapper title="Keyboard with highlightKeys">
+    <StoryWrapper>
       <Keyboard keyboard={keyboard} highlightKeys={[60, 70, 80]} />
     </StoryWrapper>
   );
@@ -52,7 +52,7 @@ storiesOf('Components / Keyboard', module).add('highlightKeys', () => {
 
 storiesOf('Components / Keyboard', module).add('lightHighlightKeys', () => {
   return (
-    <StoryWrapper title="Keyboard with lightHighlightKeys">
+    <StoryWrapper>
       <Keyboard keyboard={keyboard} lightHighlightKeys={[60, 70, 80]} />
     </StoryWrapper>
   );
@@ -62,7 +62,7 @@ storiesOf('Components / Keyboard', module).add('onKeyClick and highlightKeys', (
   const [key, setKey] = useState<number | undefined>(undefined);
 
   return (
-    <StoryWrapper title="Keyboard with onKeyClick and highlightKeys">
+    <StoryWrapper>
       <Keyboard keyboard={keyboard} onKeyClick={setKey} highlightKeys={[60, 72, 84]} />
       <Row>{`Key clicked: ${key ? Midi.midiNoteNumberToName(key) : 'none'}`}</Row>
     </StoryWrapper>

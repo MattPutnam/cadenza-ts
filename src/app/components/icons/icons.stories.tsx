@@ -19,7 +19,6 @@ const IconSwatch = styled.span`
   padding: 5px;
   margin: 5px;
   background-color: ${colors.blue[2]};
-  color: white;
 `;
 
 storiesOf('Icons', module).add('Icon Library', () => {
