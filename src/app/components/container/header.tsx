@@ -3,12 +3,13 @@ import React, { useContext } from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 
+import { HeaderButton } from '.';
 import { ButtonLike, icon, Spacer } from '..';
+import { IconName } from '../icons/icons';
 import { ContainerContext } from './context';
-import { HeaderButton } from './header-button';
 
 interface Props {
-  buttons?: typeof HeaderButton[];
+  buttons?: [IconName, (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void][];
 }
 
 const Caret = styled(ButtonLike)`
@@ -21,8 +22,8 @@ const Caret = styled(ButtonLike)`
 const HeaderContainer = styled.div<{ collapsed: boolean }>`
   display: flex;
   align-items: baseline;
-  align-self: 'stretch';
-  padding: '0.5rem';
+  align-self: stretch;
+  padding: 0.5rem;
   border-bottom: ${({ collapsed }) => (collapsed ? undefined : '1px solid black')};
 `;
 
@@ -35,7 +36,13 @@ export const Header: React.FC<Props> = ({ buttons, children }) => {
       {collapse && !collapsed && <Caret onClick={() => setCollapsed(true)}>{icon('expanded')}</Caret>}
       {children}
       {!_.isEmpty(buttons) && <Spacer />}
-      {!collapsed && buttons}
+      {!collapsed && (
+        <>
+          {buttons?.map(([iconName, onClick], index) => (
+            <HeaderButton key={index} iconName={iconName} onClick={onClick} />
+          ))}
+        </>
+      )}
     </HeaderContainer>
   );
 };

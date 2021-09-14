@@ -11,9 +11,14 @@ export default {
   component: Container
 };
 
-export const Basic = () => (
+export const Buttons = () => (
   <Container>
-    <Header>
+    <Header
+      buttons={[
+        ['add', () => {}],
+        ['delete', () => {}]
+      ]}
+    >
       <Title>Header text</Title>
     </Header>
     <Content>This is the content</Content>
@@ -22,7 +27,12 @@ export const Basic = () => (
 
 export const Collapse = () => (
   <Container collapse>
-    <Header>
+    <Header
+      buttons={[
+        ['add', () => {}],
+        ['delete', () => {}]
+      ]}
+    >
       <Title>Header text</Title>
     </Header>
     <Content>This is the content</Content>
@@ -31,7 +41,12 @@ export const Collapse = () => (
 
 export const StartCollapsed = () => (
   <Container collapse startCollapsed>
-    <Header>
+    <Header
+      buttons={[
+        ['add', () => {}],
+        ['delete', () => {}]
+      ]}
+    >
       <Title>Header text</Title>
     </Header>
     <Content>This is the content</Content>
@@ -40,7 +55,12 @@ export const StartCollapsed = () => (
 
 export const Alternate = () => (
   <Container collapse alternate>
-    <Header>
+    <Header
+      buttons={[
+        ['add', () => {}],
+        ['delete', () => {}]
+      ]}
+    >
       <Title>Header text</Title>
     </Header>
     <Content>This is the content</Content>

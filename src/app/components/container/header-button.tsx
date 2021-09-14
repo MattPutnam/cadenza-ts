@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { IconType } from 'react-icons/lib';
 import styled from 'styled-components';
 
 import { Button, colors } from '..';
+import { icon, IconName } from '../icons/icons';
 
 interface Props {
-  icon: IconType;
+  iconName: IconName;
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
@@ -16,6 +16,11 @@ const StyledButton = styled(Button)`
   margin: -0px.5rem 0 -0.5rem 0.5rem;
 `;
 
-export const HeaderButton: React.FC<Props> = ({ icon, onClick }) => (
-  <StyledButton onClick={onClick}>{React.createElement(icon)}</StyledButton>
+export const HeaderButton: React.FC<Props> = ({ iconName, onClick }) => (
+  <StyledButton onClick={onClick}>{icon(iconName)}</StyledButton>
 );
+
+export const headerButton = (
+  iconName: IconName,
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+) => <HeaderButton iconName={iconName} onClick={onClick} />;
