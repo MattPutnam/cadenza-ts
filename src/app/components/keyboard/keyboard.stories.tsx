@@ -34,7 +34,9 @@ storiesOf('Components / Keyboard', module).add('onRangeDrag', () => {
     <StoryWrapper title="Keyboard with onRangeDrag">
       <Keyboard keyboard={keyboard} onRangeDrag={setRange} />
       <Row>{`Range dragged: ${
-        range ? `${Midi.midiNoteNumberToName(range[0])}-${Midi.midiNoteNumberToName(range[1])}` : 'none'
+        range
+          ? `${Midi.midiNoteNumberToName(range[0], 'flats')}-${Midi.midiNoteNumberToName(range[1], 'sharps')}`
+          : 'none'
       }`}</Row>
     </StoryWrapper>
   );
