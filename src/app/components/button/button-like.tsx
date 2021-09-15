@@ -17,7 +17,7 @@ const ButtonWrapper = styled.button`
   padding: 0px;
   border: none;
   font: inherit;
-  cursor: inherit;
+  cursor: pointer;
   width: 100%;
   &:focus {
     outline: none;

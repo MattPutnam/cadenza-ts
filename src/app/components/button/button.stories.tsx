@@ -1,32 +1,22 @@
-import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
-import { Button, ButtonLike } from '.';
-import { StoryWrapper } from '../../../storybook-components';
+import { Button } from '.';
 
-storiesOf('Components / Button', module).add('Normal', () => <Button onClick={() => {}}>Button</Button>);
+export default {
+  title: 'Components / Button',
+  component: Button,
+  argTypes: {
+    text: { type: 'text', defaultValue: 'Button', control: { type: 'text' } },
+    large: 'boolean',
+    disabled: 'boolean',
+    onClick: { table: { disable: true } },
+    style: { table: { disable: true } }
+  }
+};
 
-storiesOf('Components / Button', module).add('Large', () => (
-  <Button large onClick={() => {}}>
-    Button
+export const ButtonStory = ({ large, disabled, text }) => (
+  <Button large={large} disabled={disabled} onClick={action('clicked')}>
+    {text}
   </Button>
-));
-
-storiesOf('Components / Button', module).add('Disabled', () => (
-  <Button disabled onClick={() => {}}>
-    Button
-  </Button>
-));
-
-storiesOf('Components / Button', module).add('Large Disabled', () => (
-  <Button large disabled onClick={() => {}}>
-    Button
-  </Button>
-));
-
-storiesOf('Components / Button', module).add('ButtonLike', () => (
-  <StoryWrapper>
-    <ButtonLike>
-      <span>I'm clickable too!</span>
-    </ButtonLike>
-  </StoryWrapper>
-));
+);
+ButtonStory.storyName = 'Button';

@@ -11,7 +11,7 @@ export default {
   component: Container
 };
 
-export const Buttons = () => (
+export const Normal = () => (
   <Container>
     <Header
       buttons={[

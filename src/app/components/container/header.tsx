@@ -13,6 +13,7 @@ interface Props {
 }
 
 const Caret = styled(ButtonLike)`
+  flex: none;
   width: unset;
   align-self: center;
   cursor: pointer;
