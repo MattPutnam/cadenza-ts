@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import styled from 'styled-components';
 
 import { colors } from '.';
@@ -40,10 +39,14 @@ const ColorStick = ({ name, colors }: { name: string; colors: string[] }) => (
   </SwatchRow>
 );
 
-storiesOf('Colors', module).add('Color Palette', () => (
+export default {
+  title: 'Color Palette'
+};
+
+export const ColorPalette = () => (
   <>
     {Object.keys(colors).map((key, index) => (
       <ColorStick key={index} name={key} colors={colors[key]} />
     ))}
   </>
-));
+);

@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-import { storiesOf } from '@storybook/react';
-
 import { Checkbox } from '.';
-import { StoryWrapper } from '../../../storybook-components';
+import { storyWrapper } from '../../../storybook-components';
 
-storiesOf('Components', module).add('Checkbox', () => {
+export default {
+  title: 'Components / Checkbox',
+  decorators: storyWrapper
+};
+
+export const CheckboxStory = () => {
   const [checked, setChecked] = useState(false);
 
-  return (
-    <StoryWrapper>
-      <Checkbox checked={checked} onChange={setChecked} label="Check me" />
-    </StoryWrapper>
-  );
-});
+  return <Checkbox checked={checked} onChange={setChecked} label="Check me" />;
+};
+CheckboxStory.storyName = 'Checkbox';

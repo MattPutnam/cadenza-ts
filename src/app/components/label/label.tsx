@@ -4,15 +4,15 @@ import styled from 'styled-components';
 
 interface Props {
   htmlFor: string;
-  style?: React.CSSProperties;
+  className?: string;
 }
 
 const LabelWrapper = styled.label`
   margin-right: 0.5rem;
 `;
 
-export const Label: React.FC<Props> = ({ htmlFor, style, children }) => (
-  <LabelWrapper htmlFor={htmlFor} style={style}>
+export const Label: React.FC<Props> = ({ htmlFor, className, children }) => (
+  <LabelWrapper htmlFor={htmlFor} className={className}>
     {children}
   </LabelWrapper>
 );

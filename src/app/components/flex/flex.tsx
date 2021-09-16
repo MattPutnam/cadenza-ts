@@ -7,7 +7,6 @@ type Props = {
   column?: boolean;
   align?: string;
   pad?: boolean;
-  style?: React.CSSProperties;
 };
 
 const FlexContainer = styled.div<Props>`
@@ -22,10 +21,10 @@ export const Flex = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<Props & React.HTMLAttributes<HTMLDivElement>>
 >((props, ref) => {
-  const { column, align, pad, style } = props;
+  const { column, align, pad, className } = props;
 
   return (
-    <FlexContainer ref={ref} style={style} column={column} align={align} pad={pad}>
+    <FlexContainer ref={ref} column={column} align={align} pad={pad} className={className}>
       {props.children}
     </FlexContainer>
   );

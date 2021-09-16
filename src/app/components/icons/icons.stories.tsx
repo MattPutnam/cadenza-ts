@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import styled from 'styled-components';
 
 import { icon } from '.';
@@ -21,15 +20,17 @@ const IconSwatch = styled.span`
   background-color: ${colors.blue[2]};
 `;
 
-storiesOf('Icons', module).add('Icon Library', () => {
-  return (
-    <IconSwatchContainer>
-      {Object.keys(Icons).map((iconName, index) => (
-        <IconSwatch key={index}>
-          {iconName}
-          {icon(iconName as IconName)}
-        </IconSwatch>
-      ))}
-    </IconSwatchContainer>
-  );
-});
+export default {
+  title: 'Icon Library'
+};
+
+export const IconLibrary = () => (
+  <IconSwatchContainer>
+    {Object.keys(Icons).map((iconName, index) => (
+      <IconSwatch key={index}>
+        {iconName}
+        {icon(iconName as IconName)}
+      </IconSwatch>
+    ))}
+  </IconSwatchContainer>
+);
