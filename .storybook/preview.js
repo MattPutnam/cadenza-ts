@@ -7,3 +7,11 @@ export const parameters = {
     },
   },
 };
+
+export const decorators = [
+  (Story) => (
+    <div className="global-decorator">
+      <Story />
+    </div>
+  )
+]
