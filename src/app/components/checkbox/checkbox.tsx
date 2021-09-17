@@ -11,11 +11,7 @@ interface Props {
   onChange: (newValue: boolean) => void;
 }
 
-const CheckboxWrapper = styled.input`
-  cursor: pointer;
-`;
-
-const LabelWrapper = styled(Label)`
+const StyledCheckbox = styled.input`
   cursor: pointer;
 `;
 
@@ -24,8 +20,8 @@ export const Checkbox: React.FC<Props> = ({ label, checked, onChange }) => {
 
   return (
     <div>
-      <CheckboxWrapper id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-      {id && <LabelWrapper htmlFor={id}>{label}</LabelWrapper>}
+      <StyledCheckbox id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      {id && <Label htmlFor={id}>{label}</Label>}
     </div>
   );
 };

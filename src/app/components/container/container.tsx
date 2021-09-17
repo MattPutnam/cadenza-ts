@@ -23,7 +23,7 @@ type DisplayProps = {
 
 type Props = React.HTMLAttributes<HTMLDivElement> & DisplayProps & CollapseProps;
 
-const ContainerWrapper = styled.section<DisplayProps & CollapsedState>`
+const StyledSection = styled.section<DisplayProps & CollapsedState>`
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -61,15 +61,9 @@ export const Container: React.FC<Props> = ({
 
   return (
     <ContainerContext.Provider value={contextValue}>
-      <ContainerWrapper
-        collapsed={collapsed}
-        flex={flex}
-        alternate={alternate}
-        marginCollapse={marginCollapse}
-        {...props}
-      >
+      <StyledSection collapsed={collapsed} flex={flex} alternate={alternate} marginCollapse={marginCollapse} {...props}>
         {children}
-      </ContainerWrapper>
+      </StyledSection>
     </ContainerContext.Provider>
   );
 };

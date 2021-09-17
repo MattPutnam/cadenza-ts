@@ -7,12 +7,13 @@ interface Props {
   className?: string;
 }
 
-const LabelWrapper = styled.label`
+const StyledLabel = styled.label`
   margin-right: 0.5rem;
+  cursor: pointer;
 `;
 
 export const Label: React.FC<Props> = ({ htmlFor, className, children }) => (
-  <LabelWrapper htmlFor={htmlFor} className={className}>
+  <StyledLabel htmlFor={htmlFor} className={className}>
     {children}
-  </LabelWrapper>
+  </StyledLabel>
 );

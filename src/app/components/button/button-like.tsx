@@ -8,7 +8,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   style?: React.CSSProperties;
 }
 
-const ButtonWrapper = styled.button`
+const StyledButton = styled.button`
   color: inherit;
   background-color: inherit;
   text-align: inherit;
@@ -27,9 +27,9 @@ const ButtonWrapper = styled.button`
 
 export const ButtonLike = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Props>>(
   ({ style, children, ...props }, ref) => (
-    <ButtonWrapper ref={ref} style={style} {...props}>
+    <StyledButton ref={ref} style={style} {...props}>
       {children}
-    </ButtonWrapper>
+    </StyledButton>
   )
 );
 
