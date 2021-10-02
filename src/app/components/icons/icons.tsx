@@ -30,3 +30,9 @@ export type IconName = keyof typeof Icons;
 
 export const icon = (name: IconName, props?: IconBaseProps): React.ReactElement =>
   React.createElement(Icons[name], props);
+
+interface IconProps extends IconBaseProps {
+  name: string;
+}
+
+export const Icon = ({ name, ...props }: IconProps) => React.createElement(Icons[name], props);
