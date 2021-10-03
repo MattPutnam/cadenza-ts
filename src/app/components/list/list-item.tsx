@@ -5,16 +5,17 @@ import styled from 'styled-components';
 
 import { ButtonLike } from '..';
 import { colors } from '../colors';
+import { select, Selectable } from '../utils';
 import { ListContext } from './context';
 
 interface Props<T> {
   value?: T;
 }
 
-const StyledButtonLike = styled(ButtonLike)<{ selected: boolean }>`
+const StyledButtonLike = styled(ButtonLike)<Selectable>`
   align-self: stretch;
   margin: 3px 0;
-  background-color: ${(props) => (props.selected ? colors.blue[2] : undefined)};
+  background-color: ${select(colors.blue[2])};
   padding-left: 0.5rem;
   cursor: pointer;
 `;

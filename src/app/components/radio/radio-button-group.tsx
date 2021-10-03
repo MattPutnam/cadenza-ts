@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { Flex } from '..';
+import { indexChildren } from '../utils';
 import { RadioContext } from './context';
 
 interface RadioButtonGroupProps {
@@ -17,15 +18,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({ selected, se
 
   return (
     <RadioContext.Provider value={contextValue}>
-      <Flex column>
-        {React.Children.map(children, (child, index) => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child, {
-              index
-            });
-          }
-        })}
-      </Flex>
+      <Flex column>{indexChildren(children)}</Flex>
     </RadioContext.Provider>
   );
 };

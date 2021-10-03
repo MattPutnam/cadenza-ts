@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { ButtonLike, Flex, Icon } from '..';
 import { colors } from '../colors';
+import { select, Selectable } from '../utils';
 import { ListContext } from './context';
 
 interface ListSectionProps<T> {
@@ -12,11 +13,11 @@ interface ListSectionProps<T> {
   value: T;
 }
 
-const Container = styled(Flex)<{ selected: boolean }>`
+const Container = styled(Flex)<Selectable>`
   align-self: stretch;
   margin: 3px 0;
-  font-weight: ${({ selected }) => (selected ? 'bold' : undefined)};
-  background-color: ${({ selected }) => (selected ? colors.blue[2] : colors.gray[1])};
+  font-weight: ${select('bold')};
+  background-color: ${select(colors.blue[2], colors.gray[1])};
   cursor: pointer;
 `;
 
