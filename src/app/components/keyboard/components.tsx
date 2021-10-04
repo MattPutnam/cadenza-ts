@@ -11,18 +11,18 @@ interface KeyProps {
 const Key = styled.div<KeyProps>`
   display: inline-block;
   border: 1px solid black;
-  margin-left: ${(props) => (props.first ? 0 : -KeyboardUtils.leftMargin(props.note))}px;
+  margin-left: ${({ first, note }) => (first ? 0 : -KeyboardUtils.leftMargin(note))}px;
 `;
 
 export const WhiteKey = styled(Key)`
-  background-color: ${(props) => props.highlightColor || 'white'};
+  background-color: ${({ highlightColor }) => highlightColor || 'white'};
   width: ${KeyboardUtils.WHITE_WIDTH}px;
   height: ${KeyboardUtils.WHITE_HEIGHT}px;
   z-index: 0;
 `;
 
 export const BlackKey = styled(Key)`
-  background-color: ${(props) => props.highlightColor || 'black'};
+  background-color: ${({ highlightColor }) => highlightColor || 'black'};
   width: ${KeyboardUtils.BLACK_WIDTH}px;
   height: ${KeyboardUtils.BLACK_HEIGHT}px;
   z-index: 1;
