@@ -1,21 +1,22 @@
 import { useState } from 'react';
 
-import { storyWrapper } from '../../../storybook-components';
+import { disableArg, storyWrapper } from '../../../storybook-components';
 import { NumberField } from './number-field';
 
 export default {
   title: 'Components / Number Field',
-  decorators: storyWrapper
+  component: NumberField,
+  decorators: storyWrapper,
+  argTypes: {
+    label: { type: 'text', defaultValue: 'Label:', control: { type: 'text' } },
+    value: disableArg,
+    setValue: disableArg
+  }
 };
 
-export const NoLabel = () => {
+export const NumberFieldStory = ({ label, min, max }) => {
   const [value, setValue] = useState(0);
 
-  return <NumberField value={value} setValue={setValue} />;
+  return <NumberField label={label} value={value} min={min} max={max} setValue={setValue} />;
 };
-
-export const WithLabel = () => {
-  const [value, setValue] = useState(0);
-
-  return <NumberField label="Name:" value={value} setValue={setValue} />;
-};
+NumberFieldStory.storyName = 'Number Field';

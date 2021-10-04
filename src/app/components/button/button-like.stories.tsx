@@ -1,15 +1,15 @@
 import { action } from '@storybook/addon-actions';
 
 import { ButtonLike } from '.';
-import { storyWrapper } from '../../../storybook-components';
+import { disableArg, storyWrapper, textArg } from '../../../storybook-components';
 
 export default {
   title: 'Components / ButtonLike',
   component: ButtonLike,
   argTypes: {
-    text: { type: 'text', defaultValue: 'Clickable', control: { type: 'text' } },
-    onClick: { table: { disable: true } },
-    style: { table: { disable: true } }
+    text: textArg('Clickable'),
+    onClick: disableArg,
+    style: disableArg
   },
   decorators: storyWrapper
 };

@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Flex } from '..';
+import { disableArg, noControls } from '../../../storybook-components';
 import { Container } from './container';
 import { Content } from './content';
 import { Header } from './header';
@@ -8,11 +7,18 @@ import { Title } from './title';
 
 export default {
   title: 'Components / Container',
-  component: Container
+  component: Container,
+  argTypes: {
+    collapse: 'boolean',
+    alternate: 'boolean',
+    startCollapsed: disableArg,
+    flex: disableArg,
+    marginCollapse: disableArg
+  }
 };
 
-export const Normal = () => (
-  <Container>
+export const Basic = ({ collapse, startCollapsed, alternate }) => (
+  <Container collapse={collapse} startCollapsed={startCollapsed} alternate={alternate}>
     <Header
       buttons={[
         ['add', () => {}],
@@ -25,49 +31,7 @@ export const Normal = () => (
   </Container>
 );
 
-export const Collapse = () => (
-  <Container collapse>
-    <Header
-      buttons={[
-        ['add', () => {}],
-        ['delete', () => {}]
-      ]}
-    >
-      <Title>Header text</Title>
-    </Header>
-    <Content>This is the content</Content>
-  </Container>
-);
-
-export const StartCollapsed = () => (
-  <Container collapse startCollapsed>
-    <Header
-      buttons={[
-        ['add', () => {}],
-        ['delete', () => {}]
-      ]}
-    >
-      <Title>Header text</Title>
-    </Header>
-    <Content>This is the content</Content>
-  </Container>
-);
-
-export const Alternate = () => (
-  <Container collapse alternate>
-    <Header
-      buttons={[
-        ['add', () => {}],
-        ['delete', () => {}]
-      ]}
-    >
-      <Title>Header text</Title>
-    </Header>
-    <Content>This is the content</Content>
-  </Container>
-);
-
-export const Nested = () => (
+export const Nested = noControls(() => (
   <Container collapse>
     <Header>
       <Title>Parent container</Title>
@@ -81,9 +45,9 @@ export const Nested = () => (
       </Container>
     </Content>
   </Container>
-);
+));
 
-export const Sibling = () => (
+export const Sibling = noControls(() => (
   <Flex>
     <Flex column>
       <Container collapse>
@@ -112,4 +76,4 @@ export const Sibling = () => (
       <Content>Foo</Content>
     </Container>
   </Flex>
-);
+));

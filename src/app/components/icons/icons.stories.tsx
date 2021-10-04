@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { icon } from '.';
 import { colors } from '..';
+import { noControls } from '../../../storybook-components';
 import { Icons, IconName } from './icons';
 
 const IconSwatchContainer = styled.div`
@@ -24,7 +25,7 @@ export default {
   title: 'Icon Library'
 };
 
-export const IconLibrary = () => (
+export const IconLibrary = noControls(() => (
   <IconSwatchContainer>
     {Object.keys(Icons).map((iconName, index) => (
       <IconSwatch key={index}>
@@ -33,4 +34,4 @@ export const IconLibrary = () => (
       </IconSwatch>
     ))}
   </IconSwatchContainer>
-);
+));

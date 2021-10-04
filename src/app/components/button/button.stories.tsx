@@ -1,16 +1,17 @@
 import { action } from '@storybook/addon-actions';
 
 import { Button } from '.';
+import { disableArg, textArg } from '../../../storybook-components';
 
 export default {
   title: 'Components / Button',
   component: Button,
   argTypes: {
-    text: { type: 'text', defaultValue: 'Button', control: { type: 'text' } },
+    text: textArg('Button'),
     large: 'boolean',
     disabled: 'boolean',
-    onClick: { table: { disable: true } },
-    style: { table: { disable: true } }
+    onClick: disableArg,
+    style: disableArg
   }
 };
 

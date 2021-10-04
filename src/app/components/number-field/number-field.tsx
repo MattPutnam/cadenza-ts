@@ -11,7 +11,6 @@ interface Props {
   max?: number;
   label?: string;
   labelProps?: React.HTMLAttributes<HTMLLabelElement>;
-  style?: React.CSSProperties;
 }
 
 export const NumberField: React.FC<Props & React.HTMLAttributes<HTMLInputElement>> = ({

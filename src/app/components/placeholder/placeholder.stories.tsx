@@ -1,12 +1,20 @@
 import { colors } from '..';
-import { Placeholder as PlaceholderComponent } from './placeholder';
+import { disableArg, textArg } from '../../../storybook-components';
+import { Placeholder } from './placeholder';
 
 export default {
-  title: 'Components / Placeholder'
+  title: 'Components / Placeholder',
+  component: Placeholder,
+  argTypes: {
+    text: textArg('Placeholder Text'),
+    height: disableArg,
+    width: disableArg
+  }
 };
 
-export const Placeholder = () => (
+export const PlaceholderStory = ({ text }) => (
   <div style={{ height: 300, width: 500, backgroundColor: colors.blue[2] }}>
-    <PlaceholderComponent>Placeholder Text</PlaceholderComponent>
+    <Placeholder>{text}</Placeholder>
   </div>
 );
+PlaceholderStory.storyName = 'Placeholder';

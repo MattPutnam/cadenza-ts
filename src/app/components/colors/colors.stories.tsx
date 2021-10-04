@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { colors } from '.';
+import { noControls } from '../../../storybook-components';
 import { luminance } from '../../../utils/color';
 
 interface SwatchProps {
@@ -43,10 +44,10 @@ export default {
   title: 'Color Palette'
 };
 
-export const ColorPalette = () => (
+export const ColorPalette = noControls(() => (
   <>
     {Object.keys(colors).map((key, index) => (
       <ColorStick key={index} name={key} colors={colors[key]} />
     ))}
   </>
-);
+));

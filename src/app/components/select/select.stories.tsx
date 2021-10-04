@@ -1,45 +1,51 @@
 import { useState } from 'react';
 
-import { StoryWrapper } from '../../../storybook-components';
+import { disableArg, storyWrapper, textArg } from '../../../storybook-components';
 import { Select } from './select';
 
 export default {
-  title: 'Components / Select'
+  title: 'Components / Select',
+  component: Select,
+  decorators: storyWrapper,
+  argTypes: {
+    label: textArg('Select:'),
+    useTransform: {
+      control: { type: 'boolean' }
+    },
+    options: disableArg,
+    selected: disableArg,
+    setSelected: disableArg,
+    render: disableArg,
+    ref: disableArg
+  }
 };
 
-export const Basic = () => {
-  const options = ['Apples', 'Oranges', 'Bananas'];
-  const [selected, setSelected] = useState(options[0]);
-
-  return <Select options={options} selected={selected} setSelected={setSelected} />;
-};
-
-export const WithAllParams = () => {
+export const String = ({ label, useTransform }) => {
   const options = ['Apples', 'Oranges', 'Bananas'];
   const [selected, setSelected] = useState(options[0]);
 
   return (
-    <StoryWrapper>
+    <>
       <Select
-        label="Select:"
+        label={label}
         options={options}
         selected={selected}
         setSelected={setSelected}
-        render={(option) => option.toUpperCase()}
+        render={useTransform ? (option) => option.toUpperCase() : undefined}
       />
       <div>Selected item: {selected}</div>
-    </StoryWrapper>
+    </>
   );
 };
 
-export const Number = () => {
+export const Number = ({ label }) => {
   const options = [1, 2, 3, 4];
   const [selected, setSelected] = useState(options[0]);
 
   return (
-    <StoryWrapper>
-      <Select options={options} selected={selected} setSelected={setSelected} />
+    <>
+      <Select label={label} options={options} selected={selected} setSelected={setSelected} />
       <div>Selected item squared: {selected * selected}</div>
-    </StoryWrapper>
+    </>
   );
 };

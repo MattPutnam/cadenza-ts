@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { storyWrapper } from '../../../storybook-components';
+import { noControls, storyWrapper, textArg } from '../../../storybook-components';
 import { RadioButton, RadioButtonGroup } from '../radio';
 
 export default {
@@ -8,10 +8,13 @@ export default {
   decorators: storyWrapper
 };
 
-export const RadioButtonStory = () => <RadioButton>Button Label</RadioButton>;
+export const RadioButtonStory = ({ text }) => <RadioButton>{text}</RadioButton>;
+RadioButtonStory.argTypes = {
+  text: textArg('Button Label')
+};
 RadioButtonStory.storyName = 'Radio Button';
 
-export const RadioButtonGroupStory = () => {
+export const RadioButtonGroupStory = noControls(() => {
   const [selected, setSelected] = React.useState(0);
 
   return (
@@ -21,5 +24,5 @@ export const RadioButtonGroupStory = () => {
       <RadioButton>Option 3</RadioButton>
     </RadioButtonGroup>
   );
-};
+});
 RadioButtonGroupStory.storyName = 'Radio Button Group';

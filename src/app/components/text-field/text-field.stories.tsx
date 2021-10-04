@@ -1,21 +1,24 @@
 import { useState } from 'react';
 
 import { TextField } from '.';
-import { storyWrapper } from '../../../storybook-components';
+import { disableArg, storyWrapper, textArg } from '../../../storybook-components';
 
 export default {
   title: 'Components / Text Field',
-  decorators: storyWrapper
+  component: TextField,
+  decorators: storyWrapper,
+  argTypes: {
+    label: textArg('Name:'),
+    value: disableArg,
+    setValue: disableArg,
+    size: disableArg,
+    style: disableArg
+  }
 };
 
-export const NoLabel = () => {
+export const TextFieldStory = ({ label }) => {
   const [value, setValue] = useState('');
 
-  return <TextField value={value} setValue={setValue} />;
+  return <TextField label={label} value={value} setValue={setValue} />;
 };
-
-export const WithLabel = () => {
-  const [value, setValue] = useState('');
-
-  return <TextField label="Name:" value={value} setValue={setValue} />;
-};
+TextFieldStory.storyName = 'Text Field';

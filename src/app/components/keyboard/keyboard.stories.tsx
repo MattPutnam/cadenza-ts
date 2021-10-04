@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Keyboard } from '.';
 import * as Midi from '../../../midi';
-import { Row, storyWrapper, StoryWrapper } from '../../../storybook-components';
+import { noControls, storyWrapper } from '../../../storybook-components';
 
 const keyboard = {
   range: {
@@ -19,60 +19,52 @@ export default {
   decorators: storyWrapper
 };
 
-export const OnKeyClick = () => {
+export const OnKeyClick = noControls(() => {
   const [key, setKey] = useState<number | undefined>(undefined);
 
   return (
     <>
       <Keyboard keyboard={keyboard} onKeyClick={setKey} />
-      <Row>{`Key clicked: ${key ? Midi.midiNoteNumberToName(key) : 'none'}`}</Row>
+      <div>{`Key clicked: ${key ? Midi.midiNoteNumberToName(key) : 'none'}`}</div>
     </>
   );
-};
+});
 OnKeyClick.storyName = 'onKeyClick';
 
-export const OnRangeDrag = () => {
+export const OnRangeDrag = noControls(() => {
   const [range, setRange] = useState<[number, number] | undefined>(undefined);
 
   return (
-    <StoryWrapper>
+    <>
       <Keyboard keyboard={keyboard} onRangeDrag={setRange} />
-      <Row>{`Range dragged: ${
+      <div>{`Range dragged: ${
         range
           ? `${Midi.midiNoteNumberToName(range[0], 'flats')}-${Midi.midiNoteNumberToName(range[1], 'sharps')}`
           : 'none'
-      }`}</Row>
-    </StoryWrapper>
+      }`}</div>
+    </>
   );
-};
+});
 OnRangeDrag.storyName = 'onRangeDrag';
 
-export const HighlightKeys = () => {
-  return (
-    <StoryWrapper>
-      <Keyboard keyboard={keyboard} highlightKeys={[60, 70, 80]} />
-    </StoryWrapper>
-  );
-};
+export const HighlightKeys = noControls(() => {
+  return <Keyboard keyboard={keyboard} highlightKeys={[60, 70, 80]} />;
+});
 HighlightKeys.storyName = 'highlightKeys';
 
-export const LightHighlightKeys = () => {
-  return (
-    <StoryWrapper>
-      <Keyboard keyboard={keyboard} lightHighlightKeys={[60, 70, 80]} />
-    </StoryWrapper>
-  );
-};
+export const LightHighlightKeys = noControls(() => {
+  return <Keyboard keyboard={keyboard} lightHighlightKeys={[60, 70, 80]} />;
+});
 LightHighlightKeys.storyName = 'lightHighlightKeys';
 
-export const OnKeyClickHighlightKeys = () => {
+export const OnKeyClickHighlightKeys = noControls(() => {
   const [key, setKey] = useState<number | undefined>(undefined);
 
   return (
-    <StoryWrapper>
+    <>
       <Keyboard keyboard={keyboard} onKeyClick={setKey} highlightKeys={[60, 72, 84]} />
-      <Row>{`Key clicked: ${key ? Midi.midiNoteNumberToName(key) : 'none'}`}</Row>
-    </StoryWrapper>
+      <div>{`Key clicked: ${key ? Midi.midiNoteNumberToName(key) : 'none'}`}</div>
+    </>
   );
-};
+});
 OnKeyClickHighlightKeys.storyName = 'onKeyClick and highlightKeys';

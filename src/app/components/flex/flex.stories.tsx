@@ -1,7 +1,5 @@
-import styled from 'styled-components';
-
 import { Flex, Center, Spacer } from '.';
-import { storyWrapper } from '../../../storybook-components';
+import { noControls, storyWrapper } from '../../../storybook-components';
 import { Button } from '../button';
 
 export default {
@@ -9,12 +7,8 @@ export default {
   decorators: storyWrapper
 };
 
-const DecoratedFlex = styled(Flex)`
-  border: 1px dotted;
-`;
-
-export const FlexRow = () => (
-  <DecoratedFlex>
+export const FlexRow = noControls(() => (
+  <Flex>
     <Button large onClick={() => {}}>
       A button
     </Button>
@@ -24,11 +18,11 @@ export const FlexRow = () => (
     <Button large onClick={() => {}}>
       And another button
     </Button>
-  </DecoratedFlex>
-);
+  </Flex>
+));
 
-export const FlexColumn = () => (
-  <DecoratedFlex column>
+export const FlexColumn = noControls(() => (
+  <Flex column>
     <Button large onClick={() => {}}>
       A button
     </Button>
@@ -36,8 +30,8 @@ export const FlexColumn = () => (
     <Button large onClick={() => {}}>
       And another button
     </Button>
-  </DecoratedFlex>
-);
+  </Flex>
+));
 
-export const CenterStory = () => <Center>Centered element</Center>;
+export const CenterStory = noControls(() => <Center>Centered element</Center>);
 CenterStory.storyName = 'Center';

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { noControls } from '../../../storybook-components';
 import { Container } from '../container';
 import { List as ListComponent } from './list';
 import { ListItem } from './list-item';
@@ -9,7 +10,7 @@ export default {
   title: 'Components / List'
 };
 
-export const List = () => {
+export const List = noControls(() => {
   const [selectedItem, setSelectedItem] = React.useState<string | undefined>('Apple');
 
   return (
@@ -21,9 +22,9 @@ export const List = () => {
       </ListComponent>
     </Container>
   );
-};
+});
 
-export const ListWithSections = () => {
+export const ListWithSections = noControls(() => {
   const [selectedItem, setSelectedItem] = React.useState<string | undefined>('Dog');
 
   return (
@@ -42,4 +43,4 @@ export const ListWithSections = () => {
       </ListComponent>
     </Container>
   );
-};
+});

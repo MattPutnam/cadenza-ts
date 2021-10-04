@@ -1,3 +1,4 @@
+import { noControls } from '../../../storybook-components';
 import { Container } from '../container';
 import { TabHeader } from './tab-header';
 import { TabPanel } from './tab-panel';
@@ -7,7 +8,7 @@ export default {
   title: 'Components / Tabs'
 };
 
-export const Tabs = () => {
+export const Tabs = noControls(() => {
   return (
     <Container>
       <TabsComponent>
@@ -20,4 +21,4 @@ export const Tabs = () => {
       </TabsComponent>
     </Container>
   );
-};
+});
