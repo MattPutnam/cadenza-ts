@@ -7,6 +7,7 @@ export * from './icons';
 export * from './keyboard';
 export * from './label';
 export * from './list';
+export * from './message';
 export * from './number-field';
 export * from './placeholder';
 export * from './radio';
