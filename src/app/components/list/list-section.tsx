@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import { ButtonLike, Flex, Icon } from '..';
+import { ButtonLike, Flex, icon } from '..';
 import { colors } from '../colors';
 import { select, Selectable } from '../utils';
 import { ListContext } from './context';
@@ -13,7 +13,7 @@ interface ListSectionProps<T> {
   value: T;
 }
 
-const Container = styled(Flex)<Selectable>`
+const ListSectionContainer = styled(Flex)<Selectable>`
   align-self: stretch;
   margin: 3px 0;
   font-weight: ${select('bold')};
@@ -21,15 +21,15 @@ const Container = styled(Flex)<Selectable>`
   cursor: pointer;
 `;
 
-const Title = styled(ButtonLike)`
+const ListSectionTitle = styled(ButtonLike)`
   flex: 1 1 auto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const Caret = styled(Icon)`
-  flex: none;
+const Caret = styled(ButtonLike)`
+  flex: 0;
   margin: 0 0.25rem;
 `;
 
@@ -39,26 +39,23 @@ export function ListSection<T>({ title, value, children }: React.PropsWithChildr
 
   const selected = _.isEqual(selectedItem, value);
 
-  const keyCollapse = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const keyCollapse = React.useCallback((e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === 'ArrowRight') {
       setCollapsed(false);
     } else if (e.key === 'ArrowLeft') {
       setCollapsed(true);
-    } else if (e.key === ' ' || e.key === 'Enter') {
-      setCollapsed(!collapsed);
     }
-  };
+  }, []);
 
   return (
     <>
-      <Container selected={selected} align="center" onKeyDown={keyCollapse}>
-        <Caret name={collapsed ? 'collapsed' : 'expanded'} tabIndex={0} onClick={() => setCollapsed(!collapsed)} />
-        <Title onClick={() => setSelectedItem(selected ? undefined : value)}>{title}</Title>
-      </Container>
-      {!collapsed &&
-        React.Children.map(children, (child) => {
-          return React.cloneElement(child as React.ReactElement, { selectedItem, setSelectedItem });
-        })}
+      <ListSectionContainer selected={selected} align="center">
+        <Caret onClick={() => setCollapsed(!collapsed)} onKeyDown={keyCollapse}>
+          {icon(collapsed ? 'collapsed' : 'expanded')}
+        </Caret>
+        <ListSectionTitle onClick={() => setSelectedItem(selected ? undefined : value)}>{title}</ListSectionTitle>
+      </ListSectionContainer>
+      {!collapsed && children}
     </>
   );
 }

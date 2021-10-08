@@ -12,7 +12,11 @@ interface Props {
   buttons?: [IconName, (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void][];
 }
 
-const Caret = styled(ButtonLike)`
+interface Collapsible {
+  collapsed: boolean;
+}
+
+const Caret = styled(ButtonLike)<Collapsible>`
   flex: none;
   width: unset;
   align-self: center;
@@ -20,7 +24,7 @@ const Caret = styled(ButtonLike)`
   margin-right: 0.5rem;
 `;
 
-const HeaderContainer = styled.div<{ collapsed: boolean }>`
+const HeaderContainer = styled.div<Collapsible>`
   display: flex;
   align-items: baseline;
   align-self: stretch;
@@ -33,8 +37,11 @@ export const Header: React.FC<Props> = ({ buttons, children }) => {
 
   return (
     <HeaderContainer collapsed={collapsed}>
-      {collapse && collapsed && <Caret onClick={() => setCollapsed(false)}>{icon('collapsed')}</Caret>}
-      {collapse && !collapsed && <Caret onClick={() => setCollapsed(true)}>{icon('expanded')}</Caret>}
+      {collapse && (
+        <Caret collapsed={collapsed} onClick={() => setCollapsed(!collapsed)}>
+          {icon(collapsed ? 'collapsed' : 'expanded')}
+        </Caret>
+      )}
       {children}
       {!_.isEmpty(buttons) && <Spacer />}
       {!collapsed && (
