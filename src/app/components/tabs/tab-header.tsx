@@ -12,6 +12,9 @@ const StyledTab = styled(ButtonLike)<Selectable>`
   background-color: ${select(colors.blue[2])};
   cursor: pointer;
   border-right: 1px solid black;
+  &:focus {
+    z-index: 1;
+  }
 `;
 
 export const TabHeader: React.FC<Indexed> = ({ index, children }) => {

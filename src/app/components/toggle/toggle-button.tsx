@@ -25,6 +25,9 @@ const StyledButton = styled(ButtonLike)<ButtonProp & Selectable>`
   background-color: ${select(colors.gray[2], colors.gray[3])};
   border-radius: ${({ first, last }) => (first ? '3px 0 0 3px' : last ? '0 3px 3px 0' : undefined)};
   border-right: ${({ last }) => (last ? undefined : `1px solid ${colors.gray[2]}`)};
+  &:focus {
+    z-index: 1;
+  }
 `;
 
 export const ToggleButton: React.FC<TabProps> = ({ index, first, last, children }) => {
