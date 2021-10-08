@@ -14,4 +14,5 @@ export * from './radio';
 export * from './select';
 export * from './tabs';
 export * from './text-field';
+export * from './toggle';
 export * from './warning';
