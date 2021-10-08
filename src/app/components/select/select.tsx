@@ -1,9 +1,9 @@
 import React from 'react';
 
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
 
 import { Label } from '..';
+import { useUUID } from '../../../hooks/use-uuid';
 
 type Selectable = string | number | readonly string[] | undefined;
 
@@ -24,7 +24,7 @@ export const Select = <T extends Selectable>({
   ref,
   ...props
 }: Props<T> & { ref?: React.RefObject<HTMLSelectElement> }): JSX.Element => {
-  const id = label && uuid();
+  const id = useUUID();
 
   return (
     <>

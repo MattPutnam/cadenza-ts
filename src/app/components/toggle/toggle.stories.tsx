@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { noControls } from '../../../storybook-components';
 import { Toggle } from './toggle';
@@ -9,7 +9,7 @@ export default {
 };
 
 export const ToggleStory = noControls(() => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   return (
     <Toggle selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { TextField } from '.';
 import { disableArg, storyWrapper, textArg } from '../../../storybook-components';
@@ -17,7 +17,7 @@ export default {
 };
 
 export const TextFieldStory = ({ label }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = React.useState('');
 
   return <TextField label={label} value={value} setValue={setValue} />;
 };

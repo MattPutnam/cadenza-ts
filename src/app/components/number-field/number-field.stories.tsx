@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { disableArg, storyWrapper } from '../../../storybook-components';
 import { NumberField } from './number-field';
@@ -15,7 +15,7 @@ export default {
 };
 
 export const NumberFieldStory = ({ label, min, max }) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = React.useState(0);
 
   return <NumberField label={label} value={value} min={min} max={max} setValue={setValue} />;
 };

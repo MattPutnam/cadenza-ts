@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { storyWrapper } from '../../../storybook-components';
 import { Transpose } from './transpose';
@@ -15,7 +15,7 @@ export default {
 };
 
 export const TransposeStory = ({ alternate }) => {
-  const [transposition, setTransposition] = useState(0);
+  const [transposition, setTransposition] = React.useState(0);
 
   return (
     <>

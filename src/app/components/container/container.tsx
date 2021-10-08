@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -50,7 +50,7 @@ export const Container: React.FC<Props> = ({
 }) => {
   const [collapsed, setCollapsed] = React.useState(!!startCollapsed);
 
-  const contextValue = useMemo(
+  const contextValue = React.useMemo(
     () => ({
       collapse,
       collapsed,

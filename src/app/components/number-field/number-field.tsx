@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { v4 as uuid } from 'uuid';
-
 import { Label } from '..';
+import { useUUID } from '../../../hooks/use-uuid';
 
 interface Props {
   value: number;
@@ -22,7 +21,7 @@ export const NumberField: React.FC<Props & React.HTMLAttributes<HTMLInputElement
   labelProps,
   ...inputProps
 }) => {
-  const id = label && uuid();
+  const id = useUUID(label);
 
   return (
     <>

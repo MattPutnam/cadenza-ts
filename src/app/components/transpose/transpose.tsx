@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -20,14 +20,14 @@ export const Transpose = ({ transposition, setTransposition, alternate }: Props)
   const steps = absTransposition % 12;
   const octaves = Math.floor(absTransposition / 12);
 
-  const setOctaves = useCallback(
+  const setOctaves = React.useCallback(
     (newOctaves: number) => {
       setTransposition((newOctaves * 12 + steps) * (down ? -1 : 1));
     },
     [down, steps, setTransposition]
   );
 
-  const setSteps = useCallback(
+  const setSteps = React.useCallback(
     (newSteps: number) => {
       setTransposition((octaves * 12 + newSteps) * (down ? -1 : 1));
     },

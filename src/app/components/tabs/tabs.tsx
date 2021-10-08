@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ const TabBar = styled(Flex)`
 `;
 
 export const Tabs = ({ children }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = React.useState(0);
 
   const headers = _.filter(children, (child) => child.type?.name === 'TabHeader');
   const panels = _.filter(children, (child) => child.type?.name === 'TabPanel');

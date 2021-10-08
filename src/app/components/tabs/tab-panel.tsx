@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -10,7 +10,7 @@ const Container = styled.div<Selectable>`
 `;
 
 export const TabPanel: React.FC<Indexed> = ({ index, children }) => {
-  const { selectedTab } = useContext(TabContext);
+  const { selectedTab } = React.useContext(TabContext);
 
   return <Container selected={selectedTab === index}>{children}</Container>;
 };

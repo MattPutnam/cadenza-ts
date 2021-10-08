@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -11,7 +11,7 @@ const ContentContainer = styled.div<{ collapsed: boolean }>`
 `;
 
 export const Content: React.FC = ({ children }) => {
-  const { collapsed } = useContext(ContainerContext);
+  const { collapsed } = React.useContext(ContainerContext);
 
   return <ContentContainer collapsed={collapsed}>{children}</ContentContainer>;
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { Checkbox } from '.';
 import { disableArg, storyWrapper, textArg } from '../../../storybook-components';
@@ -15,7 +15,7 @@ export default {
 };
 
 export const CheckboxStory = ({ label }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = React.useState(false);
 
   return <Checkbox checked={checked} onChange={setChecked} label={label} />;
 };

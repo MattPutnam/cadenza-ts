@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react';
-
-import { v4 as uuid } from 'uuid';
+import React from 'react';
 
 import { Flex } from '..';
+import { useUUID } from '../../../hooks/use-uuid';
 import { indexChildren } from '../utils';
 import { RadioContext } from './context';
 
@@ -12,9 +11,8 @@ interface RadioButtonGroupProps {
 }
 
 export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({ selected, setSelected, children }) => {
-  const groupName = uuid();
-
-  const contextValue = useMemo(() => ({ selected, setSelected, groupName }), [selected, setSelected, groupName]);
+  const groupName = useUUID()!;
+  const contextValue = React.useMemo(() => ({ selected, setSelected, groupName }), [selected, setSelected, groupName]);
 
   return (
     <RadioContext.Provider value={contextValue}>

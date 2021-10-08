@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
 import _ from 'lodash';
 
@@ -32,13 +32,13 @@ export const Keyboard = ({
   style,
   ...props
 }: Props) => {
-  const [hoverKey, setHoverKey] = useState<number | undefined>(undefined);
-  const [dragStart, setDragStart] = useState<number | undefined>(undefined);
-  const [[pressedNotes], setPressedNotes] = useState([new Set()]);
+  const [hoverKey, setHoverKey] = React.useState<number | undefined>(undefined);
+  const [dragStart, setDragStart] = React.useState<number | undefined>(undefined);
+  const [[pressedNotes], setPressedNotes] = React.useState([new Set()]);
 
   useDocumentListener('mouseup', () => setDragStart(undefined));
 
-  const handleClick = useCallback(
+  const handleClick = React.useCallback(
     (k: number) => {
       onKeyClick!(k, keyboard.id);
       setDragStart(undefined);
@@ -46,14 +46,14 @@ export const Keyboard = ({
     [keyboard.id, onKeyClick]
   );
 
-  const handleRangeDrag = useCallback(() => {
+  const handleRangeDrag = React.useCallback(() => {
     if (dragStart && dragStart !== hoverKey) {
       onRangeDrag!([dragStart!, hoverKey!].sort((a, b) => a - b) as [number, number], keyboard.id);
       setDragStart(undefined);
     }
   }, [dragStart, hoverKey, keyboard.id, onRangeDrag]);
 
-  const handleMidi = useCallback(
+  const handleMidi = React.useCallback(
     (parsedMessage: MidiMessage) => {
       const { type } = parsedMessage;
 

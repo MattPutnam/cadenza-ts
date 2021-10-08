@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import React from 'react';
 
 import { addMidiListener, MidiFilter, MidiListener, MidiMessage, removeMidiListener } from '../midi';
 
 export const useMidiListener = (dispatch: MidiListener, listenerId?: number | string, keyboardId?: number) => {
-  useEffect(() => {
+  React.useEffect(() => {
     if (listenerId) {
       let filter: MidiFilter | undefined;
       if (keyboardId !== undefined) {

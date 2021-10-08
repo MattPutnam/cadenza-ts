@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -21,7 +21,7 @@ const StyledButtonLike = styled(ButtonLike)<Selectable>`
 `;
 
 export function ListItem<T>({ value, children }: React.PropsWithChildren<Props<T>>): JSX.Element {
-  const { selectedItem, setSelectedItem } = useContext(ListContext);
+  const { selectedItem, setSelectedItem } = React.useContext(ListContext);
   const selected = _.isEqual(selectedItem, value);
 
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { v4 as uuid } from 'uuid';
 
+import { useUUID } from '../../../hooks/use-uuid';
 import { Label } from '../label';
 
 interface Props {
@@ -16,7 +16,7 @@ const StyledCheckbox = styled.input`
 `;
 
 export const Checkbox: React.FC<Props> = ({ label, checked, onChange }) => {
-  const id = label && uuid();
+  const id = useUUID(label);
 
   return (
     <div>

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { v4 as uuid } from 'uuid';
 
 import { Label } from '..';
+import { useUUID } from '../../../hooks/use-uuid';
 
 interface Props {
   value: string;
@@ -17,7 +17,7 @@ const StyledInput = styled.input``;
 
 export const TextField = React.forwardRef<HTMLInputElement, React.PropsWithChildren<Props>>(
   ({ value, setValue, size, label, style }, ref) => {
-    const id = label && uuid();
+    const id = useUUID(label);
 
     return (
       <>

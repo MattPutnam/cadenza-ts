@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -31,7 +31,7 @@ const StyledButton = styled(ButtonLike)<ButtonProp & Selectable>`
 `;
 
 export const ToggleButton: React.FC<TabProps> = ({ index, first, last, children }) => {
-  const { selectedIndex, setSelectedIndex } = useContext(ToggleContext);
+  const { selectedIndex, setSelectedIndex } = React.useContext(ToggleContext);
 
   return (
     <StyledButton first={first} last={last} selected={selectedIndex === index} onClick={() => setSelectedIndex(index!)}>

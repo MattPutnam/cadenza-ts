@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,7 @@ const Page = styled.div`
 
 export const App = () => {
   const { i18n } = useTranslation();
-  const [isEditing, setEditing] = useState(true);
+  const [isEditing, setEditing] = React.useState(true);
 
   return (
     <Page>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -18,7 +18,7 @@ const StyledTab = styled(ButtonLike)<Selectable>`
 `;
 
 export const TabHeader: React.FC<Indexed> = ({ index, children }) => {
-  const { selectedTab, setSelectedTab } = useContext(TabContext);
+  const { selectedTab, setSelectedTab } = React.useContext(TabContext);
 
   return (
     <StyledTab selected={index === selectedTab} onClick={() => setSelectedTab(index!)}>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { disableArg, storyWrapper, textArg } from '../../../storybook-components';
 import { Select } from './select';
@@ -22,7 +22,7 @@ export default {
 
 export const String = ({ label, useTransform }) => {
   const options = ['Apples', 'Oranges', 'Bananas'];
-  const [selected, setSelected] = useState(options[0]);
+  const [selected, setSelected] = React.useState(options[0]);
 
   return (
     <>
@@ -40,7 +40,7 @@ export const String = ({ label, useTransform }) => {
 
 export const Number = ({ label }) => {
   const options = [1, 2, 3, 4];
-  const [selected, setSelected] = useState(options[0]);
+  const [selected, setSelected] = React.useState(options[0]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { Keyboard } from '.';
 import * as Midi from '../../../midi';
@@ -20,7 +20,7 @@ export default {
 };
 
 export const OnKeyClick = noControls(() => {
-  const [key, setKey] = useState<number | undefined>(undefined);
+  const [key, setKey] = React.useState<number | undefined>(undefined);
 
   return (
     <>
@@ -32,7 +32,7 @@ export const OnKeyClick = noControls(() => {
 OnKeyClick.storyName = 'onKeyClick';
 
 export const OnRangeDrag = noControls(() => {
-  const [range, setRange] = useState<[number, number] | undefined>(undefined);
+  const [range, setRange] = React.useState<[number, number] | undefined>(undefined);
 
   return (
     <>
@@ -58,7 +58,7 @@ export const LightHighlightKeys = noControls(() => {
 LightHighlightKeys.storyName = 'lightHighlightKeys';
 
 export const OnKeyClickHighlightKeys = noControls(() => {
-  const [key, setKey] = useState<number | undefined>(undefined);
+  const [key, setKey] = React.useState<number | undefined>(undefined);
 
   return (
     <>

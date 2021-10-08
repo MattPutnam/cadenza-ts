@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -33,7 +33,7 @@ const HeaderContainer = styled.div<Collapsible>`
 `;
 
 export const Header: React.FC<Props> = ({ buttons, children }) => {
-  const { collapse, collapsed, setCollapsed } = useContext(ContainerContext);
+  const { collapse, collapsed, setCollapsed } = React.useContext(ContainerContext);
 
   return (
     <HeaderContainer collapsed={collapsed}>

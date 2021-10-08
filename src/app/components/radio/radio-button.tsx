@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
-import { v4 as uuid } from 'uuid';
 
 import { Flex, Label } from '..';
+import { useUUID } from '../../../hooks/use-uuid';
 import { Indexed } from '../utils';
 import { RadioContext } from './context';
 
@@ -12,9 +12,9 @@ const StyledInput = styled.input`
 `;
 
 export const RadioButton: React.FC<Indexed> = ({ index, children }) => {
-  const id = uuid();
+  const id = useUUID()!;
 
-  const { selected, setSelected, groupName } = useContext(RadioContext);
+  const { selected, setSelected, groupName } = React.useContext(RadioContext);
 
   return (
     <Flex pad>
