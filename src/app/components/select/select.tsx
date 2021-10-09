@@ -24,11 +24,11 @@ export const Select = <T extends Selectable>({
   ref,
   ...props
 }: Props<T> & { ref?: React.RefObject<HTMLSelectElement> }): JSX.Element => {
-  const id = useUUID();
+  const id = useUUID(label);
 
   return (
     <>
-      {id && <Label htmlFor={id}>{label}</Label>}
+      {label && <Label htmlFor={id!}>{label}</Label>}
       <select
         id={id}
         ref={ref}
