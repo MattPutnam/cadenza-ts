@@ -47,5 +47,3 @@ export const Select = <T extends Selectable>({
     </>
   );
 };
-
-Select.displayName = 'Select';

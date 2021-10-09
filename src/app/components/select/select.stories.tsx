@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { disableArg, storyWrapper, textArg } from '../../../storybook-components';
+import { ObjectSelect } from './object-select';
 import { Select } from './select';
 
 export default {
@@ -49,3 +50,26 @@ export const Number = ({ label }) => {
     </>
   );
 };
+
+export const ObjectStory = ({ label }) => {
+  const options = [
+    { name: 'Apple', type: 'fruit' },
+    { name: 'Potato', type: 'vegetable' },
+    { name: 'Mushroom', type: 'fungus' }
+  ];
+  const [selected, setSelected] = React.useState(options[0]);
+
+  return (
+    <>
+      <ObjectSelect
+        label={label}
+        options={options}
+        selected={selected}
+        setSelected={setSelected}
+        render={(option) => option.name}
+      />
+      <div>Selected item: {JSON.stringify(selected)}</div>
+    </>
+  );
+};
+ObjectStory.storyName = 'Object';
