@@ -9,6 +9,7 @@ export * from './keyboard';
 export * from './label';
 export * from './list';
 export * from './message';
+export * from './midi-listener';
 export * from './number-field';
 export * from './placeholder';
 export * from './radio';

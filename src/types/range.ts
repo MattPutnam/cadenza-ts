@@ -25,3 +25,8 @@ export const span = (r1: Range, r2: Range): Range => {
   const highNote = Math.max(r1.highNote || Infinity, r2.highNote || Infinity);
   return { lowNote, highNote };
 };
+
+export const defaultRange = {
+  lowNote: 21,
+  highNote: 108
+};

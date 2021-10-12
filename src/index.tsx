@@ -1,29 +1,29 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
+import 'sanitize.css/sanitize.css';
 
 import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { Provider } from 'react-redux';
-
-import 'sanitize.css/sanitize.css';
 
 import { App } from './app';
-import { configureAppStore } from './store/configureStore';
 import './locales/i18n';
+import { MidiInterfaceProvider } from './midi';
+import { AppStateProvider } from './state';
 
-const store = configureAppStore();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
-  <Provider store={store}>
-    <HelmetProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </HelmetProvider>
-  </Provider>,
+  <AppStateProvider>
+    <MidiInterfaceProvider>
+      <HelmetProvider>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </HelmetProvider>
+    </MidiInterfaceProvider>
+  </AppStateProvider>,
   MOUNT_NODE
 );
 

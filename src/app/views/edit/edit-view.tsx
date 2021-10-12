@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Button, colors, Flex, Spacer, Toggle, ToggleButton } from '../../components';
+import { MidiMonitor } from './midi-monitor';
 import { PatchesTab } from './tabs/patches';
 import { SetupTab } from './tabs/setup';
 import { ShowTab } from './tabs/show';
@@ -27,10 +28,11 @@ export const EditView: React.FC<Props> = ({ perform }) => {
           <ToggleButton>Patches</ToggleButton>
           <ToggleButton>Show</ToggleButton>
         </Toggle>
-        <Spacer />
         <Button large onClick={perform}>
           Perform
         </Button>
+        <Spacer />
+        <MidiMonitor />
       </Flex>
       {selectedIndex === 0 && <SetupTab />}
       {selectedIndex === 1 && <PatchesTab />}

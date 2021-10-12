@@ -7,7 +7,7 @@ import { colors } from '../colors';
 interface Props {
   large?: boolean;
   disabled?: boolean;
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   style?: React.CSSProperties;
 }
 

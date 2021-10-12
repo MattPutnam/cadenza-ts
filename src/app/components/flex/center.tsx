@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Flex, Spacer } from '.';
+import { Flex, FlexProps, Spacer } from '.';
 
-export const Center: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, ...props }) => (
+export const Center: React.FC<FlexProps> = ({ children, ...props }) => (
   <Flex {...props}>
     <Spacer />
     {children}

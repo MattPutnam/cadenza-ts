@@ -3,3 +3,4 @@ export * from './interface';
 export * from './listener';
 export * from './message';
 export * from './notes';
+export * from './webmidi';

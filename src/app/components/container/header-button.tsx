@@ -7,7 +7,8 @@ import { icon, IconName } from '../icons/icons';
 
 interface Props {
   iconName: IconName;
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  disabled?: boolean;
 }
 
 const StyledButton = styled(Button)`
@@ -16,11 +17,14 @@ const StyledButton = styled(Button)`
   margin: -0px.5rem 0 -0.5rem 0.5rem;
 `;
 
-export const HeaderButton: React.FC<Props> = ({ iconName, onClick }) => (
-  <StyledButton onClick={onClick}>{icon(iconName)}</StyledButton>
+export const HeaderButton: React.FC<Props> = ({ iconName, onClick, disabled }) => (
+  <StyledButton onClick={onClick} disabled={!onClick || disabled}>
+    {icon(iconName)}
+  </StyledButton>
 );
 
 export const headerButton = (
   iconName: IconName,
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-) => <HeaderButton iconName={iconName} onClick={onClick} />;
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  disabled?: boolean
+) => <HeaderButton iconName={iconName} onClick={onClick} disabled={disabled} />;

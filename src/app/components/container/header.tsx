@@ -8,8 +8,10 @@ import { ButtonLike, icon, Spacer } from '..';
 import { IconName } from '../icons/icons';
 import { ContainerContext } from './context';
 
+type MaybeAction = ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined;
+
 interface Props {
-  buttons?: [IconName, (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void][];
+  buttons?: [IconName, MaybeAction, boolean?][];
 }
 
 interface Collapsible {
@@ -46,8 +48,8 @@ export const Header: React.FC<Props> = ({ buttons, children }) => {
       {!_.isEmpty(buttons) && <Spacer />}
       {!collapsed && (
         <>
-          {buttons?.map(([iconName, onClick], index) => (
-            <HeaderButton key={index} iconName={iconName} onClick={onClick} />
+          {buttons?.map(([iconName, onClick, disabled], index) => (
+            <HeaderButton key={index} iconName={iconName} onClick={onClick} disabled={disabled} />
           ))}
         </>
       )}

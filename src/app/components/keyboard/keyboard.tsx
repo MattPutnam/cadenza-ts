@@ -2,20 +2,19 @@ import React from 'react';
 
 import _ from 'lodash';
 
+import { colors, MidiListener } from '..';
 import { useDocumentListener } from '../../../hooks/use-document-listener';
-import { useMidiListener } from '../../../hooks/use-midi-listener';
 import * as Midi from '../../../midi';
 import { MidiMessage, NoteOffMessage, NoteOnMessage } from '../../../midi';
 import { Keyboard as KeyboardType } from '../../../types';
 import * as KeyboardUtils from '../../../utils/keyboard-utils';
-import { colors } from '../colors';
 import { BlackKey, KeyContainer, WhiteKey } from './components';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   keyboard: KeyboardType;
   onKeyClick?: (key: number, keyboardId: number) => void;
   onRangeDrag?: (range: [number, number], keyboardId: number) => void;
-  listenerId?: number;
+  listenerId?: string;
   highlightOnHover?: boolean;
   highlightKeys?: number[];
   lightHighlightKeys?: number[];
@@ -67,8 +66,6 @@ export const Keyboard = ({
     [pressedNotes]
   );
 
-  useMidiListener(handleMidi, listenerId, keyboard.id);
-
   const highlightHover = highlightOnHover && !!(onKeyClick || onRangeDrag);
   const { lowNote, highNote } = keyboard.range;
 
@@ -79,6 +76,7 @@ export const Keyboard = ({
       onMouseUp={onRangeDrag ? handleRangeDrag : undefined}
       {...props}
     >
+      {listenerId && <MidiListener id={listenerId} dispatch={handleMidi} keyboard={keyboard} />}
       {_.range(lowNote, highNote + 1).map((key) => {
         let highlightColor: string | undefined;
         if (key === hoverKey || key === dragStart || highlightKeys.includes(key)) {

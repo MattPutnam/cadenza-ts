@@ -21,6 +21,7 @@ export interface ActionPedal {
   keyboardId: number;
   controller: number;
   type: string; // TODO: enum
+  reverse: boolean;
 }
 
 export interface PatchDefinition {
