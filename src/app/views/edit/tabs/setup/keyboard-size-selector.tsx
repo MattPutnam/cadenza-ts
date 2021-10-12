@@ -1,25 +1,31 @@
 import React from 'react';
 
+import _ from 'lodash';
+
 import * as Midi from '../../../../../midi';
 import { Keyboard, ClosedRange } from '../../../../../types';
-import { Button, Message, MidiListener } from '../../../../components';
+import { Button, Message, MidiListener, ObjectSelect } from '../../../../components';
 
-const CUSTOM = 'CUSTOM';
+const ENTER_CUSTOM = 'ENTER_CUSTOM';
+const CUSTOM_RANGE = 'CUSTOM_RANGE';
+const ENTER_CUSTOM_OPTION = { label: 'Enter Custom...', value: ENTER_CUSTOM };
+const CUSTOM_OPTION = { label: 'Custom range', value: CUSTOM_RANGE };
 
-const options: { label: String; value: [Number, number] | string }[] = [
-  { label: '88 keys', value: [21, 108] },
-  { label: '76 keys', value: [28, 103] },
-  { label: '61 keys', value: [36, 96] },
-  { label: '54 keys', value: [36, 89] },
-  { label: '49 keys', value: [36, 84] },
-  { label: '37 keys (low F)', value: [41, 77] },
-  { label: '37 keys (low C)', value: [48, 84] },
-  { label: '36 keys (low F)', value: [41, 76] },
-  { label: '36 keys (low C)', value: [48, 83] },
-  { label: '32 keys (low F)', value: [41, 72] },
-  { label: '32 keys (low C)', value: [48, 79] },
-  { label: '25 keys', value: [48, 72] },
-  { label: 'Custom...', value: CUSTOM }
+type OptionValueType = ClosedRange | typeof ENTER_CUSTOM | typeof CUSTOM_RANGE;
+
+const options = [
+  { label: '88 keys', value: { lowNote: 21, highNote: 108 } },
+  { label: '76 keys', value: { lowNote: 28, highNote: 103 } },
+  { label: '61 keys', value: { lowNote: 36, highNote: 96 } },
+  { label: '54 keys', value: { lowNote: 36, highNote: 89 } },
+  { label: '49 keys', value: { lowNote: 36, highNote: 84 } },
+  { label: '37 keys (low F)', value: { lowNote: 41, highNote: 77 } },
+  { label: '37 keys (low C)', value: { lowNote: 48, highNote: 84 } },
+  { label: '36 keys (low F)', value: { lowNote: 41, highNote: 76 } },
+  { label: '36 keys (low C)', value: { lowNote: 48, highNote: 83 } },
+  { label: '32 keys (low F)', value: { lowNote: 41, highNote: 72 } },
+  { label: '32 keys (low C)', value: { lowNote: 48, highNote: 79 } },
+  { label: '25 keys', value: { lowNote: 48, highNote: 72 } }
 ];
 
 const STAGE1 = 'Press leftmost key...';
@@ -35,18 +41,12 @@ export const KeyboardSizeSelector: React.FC<Props> = ({ keyboard, setRange }) =>
   const [stage, setStage] = React.useState<Stage>(undefined);
   const [leftNote, setLeftNote] = React.useState<number | undefined>(undefined);
 
-  const isCustomRange = React.useMemo(
-    () => !options.map((opt) => opt.value.toString()).includes(keyboard.range.toString()),
-    [keyboard.range]
-  );
-
   const handleChange = React.useCallback(
-    (selection: string) => {
-      if (selection === CUSTOM) {
+    (selection: OptionValueType) => {
+      if (selection === ENTER_CUSTOM) {
         setStage(STAGE1);
-      } else {
-        const range = selection.split(',').map((n) => parseInt(n, 10));
-        setRange({ lowNote: range[0], highNote: range[1] });
+      } else if (selection !== CUSTOM_RANGE) {
+        setRange(selection);
       }
     },
     [setRange]
@@ -60,7 +60,6 @@ export const KeyboardSizeSelector: React.FC<Props> = ({ keyboard, setRange }) =>
   const handleMidi = React.useCallback(
     (parsedMessage: Midi.MidiMessage) => {
       const { type } = parsedMessage;
-      console.log(parsedMessage);
 
       if (type === Midi.NOTE_ON) {
         const noteOn = parsedMessage as Midi.NoteOnMessage;
@@ -78,16 +77,20 @@ export const KeyboardSizeSelector: React.FC<Props> = ({ keyboard, setRange }) =>
     [leftNote, setRange, stage]
   );
 
+  const selected = !!stage
+    ? ENTER_CUSTOM_OPTION
+    : _.find(options, (option) => _.isEqual(option.value, keyboard.range)) ?? CUSTOM_OPTION;
+
   return (
     <>
-      <select value={keyboard.range.toString()} onChange={(e) => handleChange(e.target.value)}>
-        {options.map(({ label, value }, index) => (
-          <option key={index} value={value.toString()}>
-            {label}
-          </option>
-        ))}
-        {isCustomRange && <option value={keyboard.range.toString()}>Custom Range</option>}
-      </select>
+      {!stage && (
+        <ObjectSelect
+          options={[...options, ENTER_CUSTOM_OPTION, ...(selected === CUSTOM_OPTION ? [CUSTOM_OPTION] : [])]}
+          render={(option) => option.label}
+          selected={selected}
+          setSelected={(selected) => handleChange(selected.value as OptionValueType)}
+        />
+      )}
       {!!stage && (
         <>
           <Message>{stage}</Message>
