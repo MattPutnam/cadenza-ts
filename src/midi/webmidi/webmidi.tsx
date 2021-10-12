@@ -3,6 +3,8 @@ import React from 'react';
 import _ from 'lodash';
 
 import { parseMidiMessage, notifyMidiListeners } from '..';
+import { useKeyboards } from '../../state';
+import { Keyboard } from '../../types';
 
 type Input = WebMidi.MIDIInput;
 type Output = WebMidi.MIDIOutput;
@@ -14,12 +16,25 @@ interface MidiInterfaceContextType {
 
 const MidiInterfaceContext = React.createContext({} as MidiInterfaceContextType);
 
+// The main useEffect can only be run once, so each MIDI input's onmidimessage
+// can only be assigned once. Hence that function cannot be recomputed, and to
+// get access to the keyboard list that function needs to reference a mutable
+// yet external cache of the keyboards.
+let cache: Keyboard[] = [];
+const setKeyboards = (keyboards: Keyboard[]) => (cache = keyboards);
+const getKeyboards = () => cache;
+
 export const MidiInterfaceProvider: React.FC = ({ children }) => {
   const [inputs, setInputs] = React.useState([] as Input[]);
   const [outputs, setOutputs] = React.useState([] as Output[]);
 
+  const { keyboards } = useKeyboards();
+  React.useEffect(() => {
+    setKeyboards(keyboards);
+  }, [keyboards]);
+
   const onMidiMessage = React.useCallback((message: WebMidi.MIDIMessageEvent) => {
-    const parsed = parseMidiMessage(message);
+    const parsed = parseMidiMessage(message, getKeyboards());
     if (parsed) {
       notifyMidiListeners(parsed);
     }

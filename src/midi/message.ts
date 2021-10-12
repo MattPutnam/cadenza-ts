@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { midiInterfaceToName, midiNoteNumberToName, shortCCName } from '.';
+import { Keyboard } from '../types';
 
 export const NOTE_OFF = 8 as const;
 export const NOTE_ON = 9 as const;
@@ -17,11 +18,13 @@ export abstract class MidiMessage {
   type: number;
   channel: number;
   midiInterfaceName: string;
+  keyboardId?: number;
 
-  constructor(type: number, channel: number, midiInterfaceName: string) {
+  constructor(type: number, channel: number, midiInterfaceName: string, keyboardId?: number) {
     this.type = type;
     this.channel = channel;
     this.midiInterfaceName = midiInterfaceName;
+    this.keyboardId = keyboardId;
   }
 
   protected getStatus(): number {
@@ -43,8 +46,8 @@ export class NoteOnMessage extends MidiMessage {
   note: number;
   velocity: number;
 
-  constructor(note: number, velocity: number, channel: number, midiInterfaceName: string) {
-    super(NOTE_ON, channel, midiInterfaceName);
+  constructor(note: number, velocity: number, channel: number, midiInterfaceName: string, keyboardId?: number) {
+    super(NOTE_ON, channel, midiInterfaceName, keyboardId);
     this.note = note;
     this.velocity = velocity;
   }
@@ -61,8 +64,8 @@ export class NoteOnMessage extends MidiMessage {
 export class NoteOffMessage extends MidiMessage {
   note: number;
 
-  constructor(note: number, channel: number, midiInterfaceName: string) {
-    super(NOTE_OFF, channel, midiInterfaceName);
+  constructor(note: number, channel: number, midiInterfaceName: string, keyboardId?: number) {
+    super(NOTE_OFF, channel, midiInterfaceName, keyboardId);
     this.note = note;
   }
 
@@ -79,8 +82,8 @@ export class ControllerMessage extends MidiMessage {
   controller: number;
   value: number;
 
-  constructor(controller: number, value: number, channel: number, midiInterfaceName: string) {
-    super(CONTROL, channel, midiInterfaceName);
+  constructor(controller: number, value: number, channel: number, midiInterfaceName: string, keyboardId?: number) {
+    super(CONTROL, channel, midiInterfaceName, keyboardId);
     this.controller = controller;
     this.value = value;
   }
@@ -97,8 +100,8 @@ export class ControllerMessage extends MidiMessage {
 export class ProgramChangeMessage extends MidiMessage {
   value: number;
 
-  constructor(value: number, channel: number, midiInterfaceName: string) {
-    super(PROGRAM_CHANGE, channel, midiInterfaceName);
+  constructor(value: number, channel: number, midiInterfaceName: string, keyboardId?: number) {
+    super(PROGRAM_CHANGE, channel, midiInterfaceName, keyboardId);
     this.value = value;
   }
 
@@ -115,8 +118,8 @@ export class ProgramChangeMessage extends MidiMessage {
 export class PitchBendMessage extends MidiMessage {
   value: number;
 
-  constructor(value: number, channel: number, midiInterfaceName: string) {
-    super(PITCH_BEND, channel, midiInterfaceName);
+  constructor(value: number, channel: number, midiInterfaceName: string, keyboardId?: number) {
+    super(PITCH_BEND, channel, midiInterfaceName, keyboardId);
     this.value = value;
   }
 
@@ -133,8 +136,8 @@ export class UnknownMessage extends MidiMessage {
   byte1: number;
   byte2: number;
 
-  constructor(byte1: number, byte2: number, channel: number, midiInterfaceName: string) {
-    super(UNKNOWN, channel, midiInterfaceName);
+  constructor(byte1: number, byte2: number, channel: number, midiInterfaceName: string, keyboardId?: number) {
+    super(UNKNOWN, channel, midiInterfaceName, keyboardId);
     this.byte1 = byte1;
     this.byte2 = byte2;
   }
@@ -151,7 +154,7 @@ export class UnknownMessage extends MidiMessage {
 // const midiInterfaceIdToChannelToKeyboardId: Record<string, Record<number, number>> = {};
 const midiInterfaceIdToName: Record<string, string> = {};
 
-export const parseMidiMessage = (rawMsg: WebMidi.MIDIMessageEvent): MidiMessage | undefined => {
+export const parseMidiMessage = (rawMsg: WebMidi.MIDIMessageEvent, keyboards: Keyboard[]): MidiMessage | undefined => {
   if (!rawMsg) {
     return undefined;
   }
@@ -178,19 +181,21 @@ export const parseMidiMessage = (rawMsg: WebMidi.MIDIMessageEvent): MidiMessage 
     midiInterfaceIdToName[midiInterface.id] = midiInterfaceName;
   }
 
+  const keyboard = _.find(keyboards, { midiInterfaceName, channel });
+
   if (command === NOTE_OFF || (command === NOTE_ON && byte2 === 0)) {
-    return new NoteOffMessage(byte1, channel, midiInterfaceName);
+    return new NoteOffMessage(byte1, channel, midiInterfaceName, keyboard?.id);
   } else if (command === NOTE_ON) {
-    return new NoteOnMessage(byte1, byte2, channel, midiInterfaceName);
+    return new NoteOnMessage(byte1, byte2, channel, midiInterfaceName, keyboard?.id);
   } else if (command === CONTROL) {
-    return new ControllerMessage(byte1, byte2, channel, midiInterfaceName);
+    return new ControllerMessage(byte1, byte2, channel, midiInterfaceName, keyboard?.id);
   } else if (command === PROGRAM_CHANGE) {
     // TODO: is this the right byte?
-    return new ProgramChangeMessage(byte1, channel, midiInterfaceName);
+    return new ProgramChangeMessage(byte1, channel, midiInterfaceName, keyboard?.id);
   } else if (command === PITCH_BEND) {
-    return new PitchBendMessage(byte2, channel, midiInterfaceName);
+    return new PitchBendMessage(byte2, channel, midiInterfaceName, keyboard?.id);
   } else {
-    return new UnknownMessage(byte1, byte2, channel, midiInterfaceName);
+    return new UnknownMessage(byte1, byte2, channel, midiInterfaceName, keyboard?.id);
   }
 };
 

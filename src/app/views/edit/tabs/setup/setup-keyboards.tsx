@@ -52,8 +52,8 @@ export const SetupKeyboards = () => {
 
   const addNewKeyboardFromMidi = React.useCallback(
     (msg: Midi.MidiMessage) => {
-      const { midiInterfaceName, channel } = msg;
-      if (!_.some(keyboards, { midiInterfaceName, channel })) {
+      const { keyboardId, midiInterfaceName, channel } = msg;
+      if (!_.some(keyboards, { id: keyboardId })) {
         addKeyboard({
           range: defaultRange,
           midiInterfaceName,

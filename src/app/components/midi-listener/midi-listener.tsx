@@ -13,8 +13,7 @@ export const MidiListener: React.FC<Props> = ({ dispatch, id, keyboard }) => {
   React.useEffect(() => {
     let filter: MidiFilter | undefined;
     if (keyboard !== undefined) {
-      filter = (msg: MidiMessage) =>
-        msg.midiInterfaceName === keyboard.midiInterfaceName && msg.channel === keyboard.channel;
+      filter = (msg: MidiMessage) => msg.keyboardId === keyboard.id;
     }
 
     addMidiListener(dispatch, id, filter);
