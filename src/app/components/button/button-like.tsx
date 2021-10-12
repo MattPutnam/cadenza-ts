@@ -17,6 +17,7 @@ const StyledButton = styled.button`
   padding: 0px;
   border: none;
   font: inherit;
+  font-size: unset;
   cursor: pointer;
   width: 100%;
   &:focus {

@@ -22,7 +22,7 @@ export const EditView: React.FC<Props> = ({ perform }) => {
 
   return (
     <Page column align="stretch">
-      <Flex pad>
+      <Flex pad align="center">
         <Toggle selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}>
           <ToggleButton>Setup</ToggleButton>
           <ToggleButton>Patches</ToggleButton>

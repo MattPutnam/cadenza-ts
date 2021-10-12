@@ -16,7 +16,7 @@ const StyledButton = styled.button<Pick<Props, 'large' | 'disabled'>>`
   padding: ${({ large }) => (large ? '0.5rem 0.75rem' : '2px 0.75rem')};
   background-color: ${({ disabled }) => (disabled ? colors.gray[2] : colors.blue[2])};
   color: inherit;
-  font-size: 'unset';
+  font-size: unset;
   border: 1px solid ${({ disabled }) => (disabled ? colors.gray[2] : colors.blue[1])};
   border-radius: 3px;
   cursor: ${({ disabled }) => (disabled ? undefined : 'pointer')};

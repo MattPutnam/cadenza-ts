@@ -12,6 +12,8 @@ interface Props {
 }
 
 const StyledButton = styled(Button)`
+  display: flex;
+  align-self: center;
   background-color: ${colors.gray[1]};
   border: 1px solid ${colors.gray[0]};
   margin: -0px.5rem 0 -0.5rem 0.5rem;
