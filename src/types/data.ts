@@ -17,10 +17,13 @@ export interface SynthesizerConfig extends Ided {
   channels: MIDIChannel[];
 }
 
+export type ActionPedalType = 'single value' | 'alternating value' | 'continuous';
+export const actionPedalTypes = ['single value', 'alternating value', 'continuous'] as ActionPedalType[];
+
 export interface ActionPedal {
   keyboardId: number;
   controller: number;
-  type: string; // TODO: enum
+  type: ActionPedalType;
   reverse: boolean;
 }
 

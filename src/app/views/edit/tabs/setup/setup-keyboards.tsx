@@ -3,16 +3,16 @@ import React from 'react';
 import _ from 'lodash';
 
 import * as Midi from '../../../../../midi';
-import { useKeyboards } from '../../../../../state';
-import { defaultRange } from '../../../../../types';
+import { useActionPedal, useKeyboards } from '../../../../../state';
+import { defaultRange, Keyboard } from '../../../../../types';
 import { findId } from '../../../../../utils/id';
 import { Container, Header, Content, Title, Placeholder, MidiListener } from '../../../../components';
-import { ActionPedalConfig } from './action-pedal/action-pedal-config';
 import { MidiInterfacePlaceholder } from './interface-selector';
 import { KeyboardConfig } from './keyboard-config';
 
 export const SetupKeyboards = () => {
   const { keyboards, addKeyboard, deleteKeyboard, setKeyboards } = useKeyboards();
+  const { actionPedal, updateActionPedal, setActionPedal } = useActionPedal();
   const { inputs } = Midi.useMidiInterfaces();
 
   const moveUp = React.useCallback(
@@ -65,6 +65,18 @@ export const SetupKeyboards = () => {
     [addKeyboard, keyboards]
   );
 
+  const wrappedDelete = (keyboard: Keyboard) => {
+    if (actionPedal?.keyboardId === keyboard.id) {
+      if (keyboards.length > 1) {
+        const newKeyboardId = _.find(keyboards, (kbd) => kbd.id !== keyboard.id)!.id;
+        updateActionPedal({ keyboardId: newKeyboardId });
+      } else {
+        setActionPedal(undefined);
+      }
+    }
+    deleteKeyboard(keyboard);
+  };
+
   return (
     <Container collapse>
       <Header buttons={[['add', addNewKeyboardFromButton]]}>
@@ -76,12 +88,11 @@ export const SetupKeyboards = () => {
           <KeyboardConfig
             key={keyboard.id}
             keyboard={keyboard}
-            deleteSelf={() => deleteKeyboard(keyboard)}
+            deleteSelf={() => wrappedDelete(keyboard)}
             moveUp={index > 0 ? moveUp(index) : undefined}
             moveDown={index < keyboards.length - 1 ? moveDown(index) : undefined}
           />
         ))}
-        <ActionPedalConfig />
         <MidiListener id="SetupKeyboards" dispatch={addNewKeyboardFromMidi} />
       </Content>
     </Container>

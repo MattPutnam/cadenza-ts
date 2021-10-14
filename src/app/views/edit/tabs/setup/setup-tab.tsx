@@ -1,11 +1,13 @@
 import _ from 'lodash';
 
+import { ActionPedalConfig } from './action-pedal';
 import { SetupKeyboards } from './setup-keyboards';
 
 export const SetupTab = () => {
   return (
     <>
       <SetupKeyboards />
+      <ActionPedalConfig />
       {/* <Container collapse>
         <Header>
           <Title>Synthesizers</Title>

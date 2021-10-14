@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import * as Midi from '../../../../../../midi';
 import { useActionPedal, useKeyboards } from '../../../../../../state';
-import { MidiInterfacePlaceholder } from '../interface-selector';
+import { actionPedalTypes } from '../../../../../../types';
+import { Checkbox, ControlSelect, ObjectSelect, Select } from '../../../../../components';
 
 const LabelColumn = styled.td`
   text-align: right;
@@ -11,13 +11,14 @@ const LabelColumn = styled.td`
 
 export const ActionPedalDisplay = () => {
   const { keyboards } = useKeyboards();
-  const { actionPedal } = useActionPedal();
+  const { actionPedal, updateActionPedal } = useActionPedal();
+
+  if (keyboards.length === 0) {
+    return <div>No keyboards available</div>;
+  }
 
   if (!actionPedal) {
     return <div>Not set up</div>;
-  }
-  if (keyboards.length === 0) {
-    return <div>No keyboards available</div>;
   }
 
   const { keyboardId, controller, type, reverse } = actionPedal;
@@ -27,31 +28,36 @@ export const ActionPedalDisplay = () => {
     return <div>Keyboard not found</div>;
   }
 
-  let { midiInterfaceName, channel } = keyboard;
-  if (midiInterfaceName === MidiInterfacePlaceholder) {
-    midiInterfaceName = 'Unconnected keyboard';
-  }
-
   return (
     <table>
       <tbody>
-        {keyboards.length > 1 && (
-          <tr>
-            <LabelColumn>Keyboard:</LabelColumn>
-            <td>
-              {midiInterfaceName} on channel {channel + 1}
-            </td>
-          </tr>
-        )}
+        <tr>
+          <LabelColumn>Keyboard:</LabelColumn>
+          <td>
+            <ObjectSelect
+              options={keyboards}
+              render={(keyboard) => `${keyboard.midiInterfaceName} on ch. ${keyboard.channel + 1}`}
+              selected={keyboard}
+              setSelected={(keyboard) => updateActionPedal({ keyboardId: keyboard.id })}
+            />
+          </td>
+        </tr>
         <tr>
           <LabelColumn>Controller:</LabelColumn>
-          <td>{Midi.longCCName(controller)}</td>
+          <td>
+            <ControlSelect selected={controller} setSelected={(value) => updateActionPedal({ controller: value })} />
+          </td>
         </tr>
         <tr>
           <LabelColumn>Type:</LabelColumn>
           <td>
-            {type}
-            {reverse ? ', reversed' : ''}
+            <Select options={actionPedalTypes} selected={type} setSelected={(type) => updateActionPedal({ type })} />
+          </td>
+        </tr>
+        <tr>
+          <LabelColumn>Reverse:</LabelColumn>
+          <td>
+            <Checkbox checked={reverse} onChange={(newValue) => updateActionPedal({ reverse: newValue })} />
           </td>
         </tr>
       </tbody>

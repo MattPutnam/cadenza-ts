@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 import * as Midi from '../../../../../../midi';
 import { useActionPedal, useKeyboards } from '../../../../../../state';
-import { Button, Container, Flex, Header, Title, Message, MidiListener } from '../../../../../components';
+import { ActionPedalType } from '../../../../../../types';
+import { Button, Container, Flex, Header, Title, Message, MidiListener, Spacer } from '../../../../../components';
 import { ActionPedalDisplay } from './action-pedal-display';
 
 const STAGE1 = 'Press the pedal...';
@@ -38,8 +39,7 @@ export const ActionPedalConfig = () => {
   const finish = React.useCallback(() => {
     clearTimeout(timeoutID);
 
-    const reduce = ({ type, controller, midiInterfaceName, channel }) => ({
-      type,
+    const reduce = ({ controller, midiInterfaceName, channel }) => ({
       controller,
       midiInterfaceName,
       channel
@@ -52,7 +52,7 @@ export const ActionPedalConfig = () => {
       const { channel, midiInterfaceName, controller } = stage1Signals[0];
       const keyboard = _.find(keyboards, { channel, midiInterfaceName })!;
 
-      let type: string;
+      let type: ActionPedalType;
       let reverse: boolean = false;
       if (stage1Signals.length === 1 && stage2Signals.length === 1) {
         const s1 = stage1Signals[0];
@@ -131,9 +131,10 @@ export const ActionPedalConfig = () => {
       {stage && <MidiListener id="ActionPedal" dispatch={handleMidi} />}
       <Flex pad align="center">
         <ActionPedalDisplay />
+        <Spacer width={20} />
         {stage && <Message>{stage}</Message>}
         {error && <Message error>{error}</Message>}
-        {!stage && (
+        {!stage && keyboards.length > 0 && (
           <Button large onClick={startListening}>
             Listen...
           </Button>
