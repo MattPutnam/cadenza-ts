@@ -2,6 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
+import { useReorder } from '../../../../../../hooks/use-reorder';
 import { useSynthesizers } from '../../../../../../state';
 import { findId } from '../../../../../../utils/id';
 import { Container, Content, Header, Placeholder, Title } from '../../../../../components';
@@ -11,30 +12,7 @@ import { SynthConfig } from './synth-config';
 
 export const SetupSynths = () => {
   const { synthesizers, setSynthesizers, addSynthesizer, deleteSynthesizer } = useSynthesizers();
-
-  const moveUp = React.useCallback(
-    (index: number) => () => {
-      const copy = [...synthesizers];
-      const elem = copy[index];
-      const prev = copy[index - 1];
-      copy[index - 1] = elem;
-      copy[index] = prev;
-      setSynthesizers(copy);
-    },
-    [synthesizers, setSynthesizers]
-  );
-
-  const moveDown = React.useCallback(
-    (index: number) => () => {
-      const copy = [...synthesizers];
-      const elem = copy[index];
-      const next = copy[index + 1];
-      copy[index + 1] = elem;
-      copy[index] = next;
-      setSynthesizers(copy);
-    },
-    [synthesizers, setSynthesizers]
-  );
+  const [moveUp, moveDown] = useReorder(synthesizers, setSynthesizers);
 
   const addSynthesizerAction = React.useCallback(() => {
     addSynthesizer({

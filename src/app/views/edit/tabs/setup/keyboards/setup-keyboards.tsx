@@ -2,6 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
+import { useReorder } from '../../../../../../hooks/use-reorder';
 import * as Midi from '../../../../../../midi';
 import { useActionPedal, useKeyboards } from '../../../../../../state';
 import { defaultRange, Keyboard } from '../../../../../../types';
@@ -14,30 +15,7 @@ export const SetupKeyboards = () => {
   const { keyboards, addKeyboard, deleteKeyboard, setKeyboards } = useKeyboards();
   const { actionPedal, updateActionPedal, setActionPedal } = useActionPedal();
   const { inputs } = Midi.useMidiInterfaces();
-
-  const moveUp = React.useCallback(
-    (index: number) => () => {
-      const copy = [...keyboards];
-      const elem = copy[index];
-      const prev = copy[index - 1];
-      copy[index - 1] = elem;
-      copy[index] = prev;
-      setKeyboards(copy);
-    },
-    [keyboards, setKeyboards]
-  );
-
-  const moveDown = React.useCallback(
-    (index: number) => () => {
-      const copy = [...keyboards];
-      const elem = copy[index];
-      const next = copy[index + 1];
-      copy[index + 1] = elem;
-      copy[index] = next;
-      setKeyboards(copy);
-    },
-    [keyboards, setKeyboards]
-  );
+  const [moveUp, moveDown] = useReorder(keyboards, setKeyboards);
 
   const addNewKeyboardFromButton = React.useCallback(
     () =>
