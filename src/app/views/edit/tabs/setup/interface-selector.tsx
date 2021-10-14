@@ -15,7 +15,6 @@ interface Props {
 export const InterfaceSelector = ({ forIO, hardware, setMidiInterfaceName }: Props) => {
   const midiInterfaces = Midi.useMidiInterfaces();
 
-  // const id = `${forIO}SelectorFor${hardware.id}`;
   const selected = hardware.midiInterfaceName;
   const values = midiInterfaces[forIO].map(Midi.midiInterfaceToName);
   const missing = selected !== MidiInterfacePlaceholder && !values.includes(selected);

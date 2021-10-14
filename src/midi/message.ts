@@ -151,7 +151,6 @@ export class UnknownMessage extends MidiMessage {
   }
 }
 
-// const midiInterfaceIdToChannelToKeyboardId: Record<string, Record<number, number>> = {};
 const midiInterfaceIdToName: Record<string, string> = {};
 
 export const parseMidiMessage = (rawMsg: WebMidi.MIDIMessageEvent, keyboards: Keyboard[]): MidiMessage | undefined => {
