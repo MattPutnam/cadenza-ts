@@ -2,11 +2,11 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { useKeyboards } from '../../../../../state';
-import { Keyboard as KeyboardType } from '../../../../../types';
-import { Center, Container, Content, Header, Keyboard } from '../../../../components';
-import { ChannelSelector } from './channel-selector';
-import { InterfaceSelector } from './interface-selector';
+import { useKeyboards } from '../../../../../../state';
+import { Keyboard as KeyboardType } from '../../../../../../types';
+import { Center, Container, Content, Header, Keyboard } from '../../../../../components';
+import { ChannelSelector } from '../channel-selector';
+import { InterfaceSelector } from '../interface-selector';
 import { KeyboardSizeSelector } from './keyboard-size-selector';
 
 interface Props {

@@ -2,9 +2,9 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import * as Midi from '../../../../../midi';
-import { Keyboard, ClosedRange } from '../../../../../types';
-import { Button, Message, MidiListener, ObjectSelect } from '../../../../components';
+import * as Midi from '../../../../../../midi';
+import { Keyboard, ClosedRange } from '../../../../../../types';
+import { Button, Message, MidiListener, ObjectSelect } from '../../../../../components';
 
 const ENTER_CUSTOM = 'ENTER_CUSTOM';
 const CUSTOM_RANGE = 'CUSTOM_RANGE';

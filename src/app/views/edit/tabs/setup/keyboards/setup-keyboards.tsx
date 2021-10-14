@@ -2,12 +2,12 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import * as Midi from '../../../../../midi';
-import { useActionPedal, useKeyboards } from '../../../../../state';
-import { defaultRange, Keyboard } from '../../../../../types';
-import { findId } from '../../../../../utils/id';
-import { Container, Header, Content, Title, Placeholder, MidiListener } from '../../../../components';
-import { MidiInterfacePlaceholder } from './interface-selector';
+import * as Midi from '../../../../../../midi';
+import { useActionPedal, useKeyboards } from '../../../../../../state';
+import { defaultRange, Keyboard } from '../../../../../../types';
+import { findId } from '../../../../../../utils/id';
+import { Container, Header, Content, Title, Placeholder, MidiListener } from '../../../../../components';
+import { MidiInterfacePlaceholder } from '../interface-selector';
 import { KeyboardConfig } from './keyboard-config';
 
 export const SetupKeyboards = () => {
