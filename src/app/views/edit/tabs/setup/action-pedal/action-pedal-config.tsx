@@ -124,7 +124,7 @@ export const ActionPedalConfig = () => {
   );
 
   return (
-    <Container alternate>
+    <Container>
       <Header>
         <Title>Action Pedal</Title>
       </Header>
