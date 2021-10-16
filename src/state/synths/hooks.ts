@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { AppContext } from '..';
 import { SynthesizerConfig } from '../../types';
+import * as SynthUtils from '../../utils/synth-utils';
 
 export const useSynthesizers = () => {
   const { synthesizers, setSynthesizers } = React.useContext(AppContext);
@@ -23,5 +24,15 @@ export const useSynthesizers = () => {
     setSynthesizers(newValue);
   };
 
-  return { synthesizers, setSynthesizers, addSynthesizer, deleteSynthesizer, updateSynthesizer };
+  const allPatches = React.useMemo(() => {
+    const resolution = SynthUtils.resolveSynthesizersAndPatches(synthesizers);
+    return resolution.allPatches;
+  }, [synthesizers]);
+
+  const synthTree = React.useMemo(() => {
+    const resolution = SynthUtils.resolveSynthesizersAndPatches(synthesizers);
+    return resolution.synthTree;
+  }, [synthesizers]);
+
+  return { synthesizers, setSynthesizers, addSynthesizer, deleteSynthesizer, updateSynthesizer, allPatches, synthTree };
 };

@@ -5,6 +5,7 @@ import _ from 'lodash';
 import {
   Button,
   Container,
+  ContainerProps,
   Content,
   ControlOrNoneSelect,
   ControlSelect,
@@ -15,13 +16,12 @@ import {
   Title
 } from '..';
 
-interface Props {
+interface Props extends ContainerProps {
   mapping: Record<number, number | 'none'>;
   setMapping: (newMapping: Record<number, number | 'none'>) => void;
-  alternate?: boolean;
 }
 
-export const ControlMapper: React.FC<Props> = ({ mapping, setMapping, alternate }) => {
+export const ControlMapper: React.FC<Props> = ({ mapping, setMapping, ...containerProps }) => {
   const updateKey = React.useCallback(
     (oldKey: number, newKey: number) => {
       const value = mapping[oldKey];
@@ -59,7 +59,7 @@ export const ControlMapper: React.FC<Props> = ({ mapping, setMapping, alternate 
   }, [mapping, updateValue]);
 
   return (
-    <Container alternate={alternate} flex="none" collapse startCollapsed={_.isEmpty(mapping)}>
+    <Container flex="none" collapse startCollapsed={_.isEmpty(mapping)} {...containerProps}>
       <Header buttons={[['add', addNew]]}>
         <Title>Map controls</Title>
       </Header>

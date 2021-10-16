@@ -15,15 +15,15 @@ type CollapseProps = {
   startCollapsed?: boolean;
 };
 
-type DisplayProps = {
+export type ContainerProps = {
   flex?: string | number;
   alternate?: boolean;
   marginCollapse?: 'top' | 'left';
 };
 
-type Props = React.HTMLAttributes<HTMLDivElement> & DisplayProps & CollapseProps;
+type Props = React.HTMLAttributes<HTMLDivElement> & ContainerProps & CollapseProps;
 
-const StyledSection = styled.section<DisplayProps & CollapsedState>`
+const StyledSection = styled.section<ContainerProps & CollapsedState>`
   display: flex;
   flex-direction: column;
   align-items: stretch;

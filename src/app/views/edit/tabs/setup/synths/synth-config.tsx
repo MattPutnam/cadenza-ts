@@ -39,7 +39,7 @@ export const SynthConfig = ({ synthesizer, deleteSelf, moveUp, moveDown }: Props
         <InterfaceSelector
           hardware={synthesizer}
           forIO="outputs"
-          setMidiInterfaceName={(name) => updateSynthesizer(synthesizer.id, { name })}
+          setMidiInterfaceName={(midiInterfaceName) => updateSynthesizer(synthesizer.id, { midiInterfaceName })}
         />
         <MultiChannelSelector synthesizer={synthesizer} />
       </Header>

@@ -1,3 +1,3 @@
 export interface Transposeable {
-  transposition?: number;
+  transposition: number;
 }

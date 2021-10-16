@@ -2,19 +2,18 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Select, NumberField, Container, Header, Title, Flex } from '..';
+import { Button, Select, NumberField, Container, Header, Title, Flex, ContainerProps } from '..';
 
 const PaddedNumberField = styled(NumberField)`
   margin-right: 0.5rem;
 `;
 
-interface Props {
+interface Props extends ContainerProps {
   transposition: number;
   setTransposition: (newValue: number) => void;
-  alternate?: boolean;
 }
 
-export const Transpose = ({ transposition, setTransposition, alternate }: Props) => {
+export const Transpose = ({ transposition, setTransposition, ...containerProps }: Props) => {
   const down = transposition < 0;
   const absTransposition = Math.abs(transposition);
   const steps = absTransposition % 12;
@@ -35,7 +34,7 @@ export const Transpose = ({ transposition, setTransposition, alternate }: Props)
   );
 
   return (
-    <Container key={transposition} alternate={alternate} flex="none">
+    <Container key={transposition} flex="none" {...containerProps}>
       <Header>
         <Title>Transposition</Title>
       </Header>

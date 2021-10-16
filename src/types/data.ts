@@ -1,6 +1,7 @@
 import { Ided } from './ided';
 import { Mappable } from './mappable';
 import { ClosedRange, OpenRange } from './range';
+import { Transposeable } from './transposeable';
 
 export type MIDIChannel = number;
 
@@ -27,11 +28,14 @@ export interface ActionPedal {
   reverse: boolean;
 }
 
-export interface PatchDefinition {
-  synthesizerId: number;
+export interface PatchAddress {
   synthesizer: string;
   bank: string;
   number: number | [number, number];
+}
+
+export interface PatchDefinition extends PatchAddress {
+  synthesizerId: number;
   name: string;
 }
 
@@ -40,16 +44,16 @@ export interface Bank {
   patches: PatchDefinition[];
 }
 
-export interface Patch extends PatchDefinition, Ided, Mappable {
+export interface PatchSelection extends PatchDefinition, Ided, Mappable, Transposeable {
   volume: number;
 }
 
-export interface Song extends Ided, Mappable {
+export interface Song extends Ided, Mappable, Transposeable {
   number: string;
   name: string;
 }
 
-export interface PatchUsage extends Mappable {
+export interface PatchUsage extends Mappable, Transposeable {
   keyboardId: number;
   patchId: number;
   attributes: {

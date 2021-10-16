@@ -21,10 +21,10 @@ export const Flex = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<FlexProps & React.HTMLAttributes<HTMLDivElement>>
 >((props, ref) => {
-  const { column, align, pad, className } = props;
+  const { column, align, pad, className, ...otherProps } = props;
 
   return (
-    <FlexContainer ref={ref} column={column} align={align} pad={pad} className={className}>
+    <FlexContainer ref={ref} column={column} align={align} pad={pad} className={className} {...otherProps}>
       {props.children}
     </FlexContainer>
   );

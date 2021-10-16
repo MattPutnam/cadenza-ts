@@ -107,7 +107,7 @@ export class ProgramChangeMessage extends MidiMessage {
 
   unparse(): number[] {
     // TODO: is this the right position?
-    return [this.getStatus(), this.value, 0];
+    return [this.getStatus(), this.value];
   }
 
   getFields(): [field, field] {

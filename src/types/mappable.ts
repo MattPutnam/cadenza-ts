@@ -1,3 +1,3 @@
 export interface Mappable {
-  mappings?: Record<number, number>;
+  mapping: Record<number, number | 'none'>;
 }
