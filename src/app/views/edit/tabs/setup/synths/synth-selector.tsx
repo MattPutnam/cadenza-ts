@@ -1,8 +1,9 @@
-import React from 'react';
+import _ from 'lodash';
 
 import { useSynthesizers } from '../../../../../../state';
 import * as Synthesizers from '../../../../../../synthesizers/synthesizers';
 import { SynthesizerConfig } from '../../../../../../types';
+import { ObjectSelect } from '../../../../../components';
 
 interface Props {
   synthesizer: SynthesizerConfig;
@@ -16,14 +17,13 @@ export const SynthSelector = ({ synthesizer, inUse }: Props) => {
     updateSynthesizer(synthesizer.id, { name: selection, expansionCards: {} });
   };
 
-  // TODO: select
   return (
-    <select value={synthesizer.name} disabled={inUse} onChange={(e) => onChange(e.target.value)}>
-      {Synthesizers.synthNames.map((synthName) => (
-        <option key={synthName} value={synthName}>
-          {synthName}
-        </option>
-      ))}
-    </select>
+    <ObjectSelect
+      disabled={inUse}
+      options={Synthesizers.synthNames}
+      render={_.identity}
+      selected={synthesizer.name}
+      setSelected={onChange}
+    />
   );
 };

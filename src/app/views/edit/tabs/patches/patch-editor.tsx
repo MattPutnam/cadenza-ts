@@ -59,7 +59,7 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     selectedPatch ? selectedPatch.number : undefined
   ] as [string, string | undefined, number | [number, number] | undefined];
 
-  // TODO: reenable
+  // TODO: reenable patch delete based on cue
   // const deleteDisabled = _.some(data.show.cues, (cue) => {
   //   return _.some(cue.patchUsages, (patchUsage) => {
   //     return patchUsage.patchId === selectedPatchId;

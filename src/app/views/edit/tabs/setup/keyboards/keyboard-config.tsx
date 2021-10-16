@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const KeyboardConfig = ({ keyboard, deleteSelf, moveUp, moveDown }: Props) => {
-  // TODO
+  // TODO: reenable keyboard delete based on cue
   // const deleteDisabled = _.some(data.show.cues, cue => {
   //   return _.some(cue.patchUsages, patchUsage => {
   //     return patchUsage.keyboardId === keyboard.id;

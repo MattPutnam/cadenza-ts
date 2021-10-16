@@ -1,11 +1,10 @@
-import React from 'react';
-
 import _ from 'lodash';
 
 import { usePatches, useSynthesizers } from '../../../../../../state';
 import * as Expansions from '../../../../../../synthesizers/expansions';
 import * as Synthesizers from '../../../../../../synthesizers/synthesizers';
-import { ExpansionDefinition, SynthesizerConfig } from '../../../../../../types';
+import { ExpansionDefinition, SynthesizerConfig, ExpansionCard } from '../../../../../../types';
+import { ObjectSelect } from '../../../../../components';
 
 interface ExpansionConfigProps {
   synthesizer: SynthesizerConfig;
@@ -37,28 +36,30 @@ interface ExpansionSelectorProps {
   expansionSlot: ExpansionDefinition;
 }
 
+const noneOption: ExpansionCard = { name: 'None', number: '', patches: [] };
+
 const ExpansionSelector = ({ synthesizer, expansionSlot }: ExpansionSelectorProps) => {
   const { updateSynthesizer } = useSynthesizers();
   const { patches } = usePatches();
 
-  const options = Expansions.expansionsOfType(expansionSlot.type);
-  const value = synthesizer.expansionCards[expansionSlot.name];
+  const options = [noneOption, ...Expansions.expansionsOfType(expansionSlot.type)];
+  const value = _.find(options, { number: synthesizer.expansionCards[expansionSlot.name] }) ?? noneOption;
 
-  const onChange = (selection: string) => {
-    updateSynthesizer(synthesizer.id, {
-      expansionCards: { ...synthesizer.expansionCards, [expansionSlot.name]: selection }
-    });
-  };
-
-  const inUse = _.some(patches, { synthesizerId: synthesizer.id, bank: expansionSlot.name });
-
-  // TODO: select
   return (
-    <select disabled={inUse} value={value} onChange={(e) => onChange(e.target.value)}>
-      <option value={undefined}>None</option>
-      {options.map((option) => {
-        return <option key={option.number} value={option.number}>{`${option.number} ${option.name}`}</option>;
-      })}
-    </select>
+    <ObjectSelect
+      disabled={_.some(patches, { synthesizerId: synthesizer.id, bank: expansionSlot.name })}
+      options={options}
+      render={(expansionCard) => `${expansionCard.number} ${expansionCard.name}`}
+      selected={value}
+      setSelected={(expansionCard) => {
+        const newExpansionCards = { ...synthesizer.expansionCards };
+        if (expansionCard.number) {
+          newExpansionCards[expansionSlot.name] = expansionCard.number;
+        } else {
+          delete newExpansionCards[expansionSlot.name];
+        }
+        updateSynthesizer(synthesizer.id, { expansionCards: newExpansionCards });
+      }}
+    />
   );
 };
