@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { useSynthesizers } from '../../../../../../state';
+import { usePatches, useSynthesizers } from '../../../../../../state';
 import { SynthesizerConfig } from '../../../../../../types';
 import { Container, Content, Flex, Header } from '../../../../../components';
 import { InterfaceSelector } from '../interface-selector';
@@ -19,9 +19,8 @@ interface Props {
 
 export const SynthConfig = ({ synthesizer, deleteSelf, moveUp, moveDown }: Props) => {
   const { updateSynthesizer } = useSynthesizers();
-  // TODO: reimplement disabling delete
-  // const inUse = _.some(data.patches, { synthesizerId: synth.id });
-  const inUse = false;
+  const { patches } = usePatches();
+  const inUse = _.some(patches, { synthesizerId: synthesizer.id });
 
   const synthStyle = {
     verticalAlign: 'top'

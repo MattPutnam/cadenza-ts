@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { useSynthesizers } from '../../../../../../state';
+import { usePatches, useSynthesizers } from '../../../../../../state';
 import * as Expansions from '../../../../../../synthesizers/expansions';
 import * as Synthesizers from '../../../../../../synthesizers/synthesizers';
 import { ExpansionDefinition, SynthesizerConfig } from '../../../../../../types';
@@ -39,6 +39,7 @@ interface ExpansionSelectorProps {
 
 const ExpansionSelector = ({ synthesizer, expansionSlot }: ExpansionSelectorProps) => {
   const { updateSynthesizer } = useSynthesizers();
+  const { patches } = usePatches();
 
   const options = Expansions.expansionsOfType(expansionSlot.type);
   const value = synthesizer.expansionCards[expansionSlot.name];
@@ -49,9 +50,7 @@ const ExpansionSelector = ({ synthesizer, expansionSlot }: ExpansionSelectorProp
     });
   };
 
-  // TODO: reimplement disabling
-  // const inUse = _.some(data.patches, { synthesizerId: synth.id, bank: expansionSlot.name });
-  const inUse = false;
+  const inUse = _.some(patches, { synthesizerId: synthesizer.id, bank: expansionSlot.name });
 
   // TODO: select
   return (

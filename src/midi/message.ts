@@ -106,7 +106,6 @@ export class ProgramChangeMessage extends MidiMessage {
   }
 
   unparse(): number[] {
-    // TODO: is this the right position?
     return [this.getStatus(), this.value];
   }
 
@@ -189,7 +188,6 @@ export const parseMidiMessage = (rawMsg: WebMidi.MIDIMessageEvent, keyboards: Ke
   } else if (command === CONTROL) {
     return new ControllerMessage(byte1, byte2, channel, midiInterfaceName, keyboard?.id);
   } else if (command === PROGRAM_CHANGE) {
-    // TODO: is this the right byte?
     return new ProgramChangeMessage(byte1, channel, midiInterfaceName, keyboard?.id);
   } else if (command === PITCH_BEND) {
     return new PitchBendMessage(byte2, channel, midiInterfaceName, keyboard?.id);
