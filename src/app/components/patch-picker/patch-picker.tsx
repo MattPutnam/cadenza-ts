@@ -44,9 +44,10 @@ export const PatchPicker: React.FC<Props> = ({ alternate, initialSelection, onPa
     : undefined;
 
   const patchOptions = selectedSynthTreeBank ? selectedSynthTreeBank.patches : [];
-  const selectedSynthTreePatch = selectedPatchNumber
-    ? _.find(selectedSynthTreeBank!.patches, { number: selectedPatchNumber })
-    : undefined;
+  const selectedSynthTreePatch =
+    selectedPatchNumber !== undefined
+      ? _.find(selectedSynthTreeBank!.patches, { number: selectedPatchNumber })
+      : undefined;
 
   const updateSelection = ([synth, bank, number]: [string, string, number | [number, number]]) => {
     setSelection([synth, bank, number]);
