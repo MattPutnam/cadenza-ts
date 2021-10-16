@@ -25,7 +25,7 @@ export const SetupSynths = () => {
   }, [addSynthesizer, synthesizers]);
 
   return (
-    <Container collapse>
+    <Container collapse marginCollapse="top">
       <Header buttons={[['add', addSynthesizerAction]]}>
         <Title>Synthesizers</Title>
       </Header>

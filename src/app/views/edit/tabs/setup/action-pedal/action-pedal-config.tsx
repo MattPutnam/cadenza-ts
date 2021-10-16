@@ -124,7 +124,7 @@ export const ActionPedalConfig = () => {
   );
 
   return (
-    <Container flex="none">
+    <Container flex="none" marginCollapse="top">
       <Header>
         <Title>Action Pedal</Title>
       </Header>
