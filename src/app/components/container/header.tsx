@@ -11,7 +11,7 @@ import { ContainerContext } from './context';
 type MaybeAction = ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined;
 
 interface Props {
-  buttons?: [IconName, MaybeAction, boolean?][];
+  buttons?: ([IconName, MaybeAction, boolean?] | false | undefined)[];
 }
 
 interface Collapsible {
@@ -48,9 +48,14 @@ export const Header: React.FC<Props> = ({ buttons, children }) => {
       {!_.isEmpty(buttons) && <Spacer />}
       {!collapsed && (
         <>
-          {buttons?.map(([iconName, onClick, disabled], index) => (
-            <HeaderButton key={index} iconName={iconName} onClick={onClick} disabled={disabled} />
-          ))}
+          {buttons?.map((buttonSpec, index) => {
+            if (buttonSpec) {
+              const [iconName, onClick, disabled] = buttonSpec;
+              return <HeaderButton key={index} iconName={iconName} onClick={onClick} disabled={disabled} />;
+            } else {
+              return undefined;
+            }
+          })}
         </>
       )}
     </HeaderContainer>

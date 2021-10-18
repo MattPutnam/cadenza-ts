@@ -16,6 +16,7 @@ export const SetupKeyboards = () => {
   const { actionPedal, updateActionPedal, setActionPedal } = useActionPedal();
   const { inputs } = Midi.useMidiInterfaces();
   const [moveUp, moveDown] = useReorder(keyboards, setKeyboards);
+  const [listening, setListening] = React.useState(false);
 
   const addNewKeyboardFromButton = React.useCallback(
     () =>
@@ -32,6 +33,7 @@ export const SetupKeyboards = () => {
     (msg: Midi.MidiMessage) => {
       const { keyboardId, midiInterfaceName, channel } = msg;
       if (!_.some(keyboards, { id: keyboardId })) {
+        setListening(false);
         addKeyboard({
           range: defaultRange,
           midiInterfaceName,
@@ -57,7 +59,12 @@ export const SetupKeyboards = () => {
 
   return (
     <Container collapse>
-      <Header buttons={[['add', addNewKeyboardFromButton]]}>
+      <Header
+        buttons={[
+          [listening ? 'cancel' : 'ear', () => setListening(!listening)],
+          ['add', addNewKeyboardFromButton]
+        ]}
+      >
         <Title>Keyboards</Title>
       </Header>
       <Content>
@@ -71,7 +78,7 @@ export const SetupKeyboards = () => {
             moveDown={index < keyboards.length - 1 ? moveDown(index) : undefined}
           />
         ))}
-        <MidiListener id="SetupKeyboards" dispatch={addNewKeyboardFromMidi} />
+        {listening && <MidiListener id="SetupKeyboards" dispatch={addNewKeyboardFromMidi} />}
       </Content>
     </Container>
   );

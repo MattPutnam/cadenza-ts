@@ -12,15 +12,18 @@ import {
   FaSortAlphaDown,
   FaTrash
 } from 'react-icons/fa';
+import { MdHearing, MdCancel } from 'react-icons/md';
 
 export const Icons = {
   add: FaPlus,
   addSong: FaFolderPlus,
   arrowDown: FaArrowDown,
   arrowUp: FaArrowUp,
+  cancel: MdCancel,
   clone: FaCopy,
   collapsed: FaCaretRight,
   delete: FaTrash,
+  ear: MdHearing,
   expanded: FaCaretDown,
   sortDown: FaSortAlphaDown,
   treeSeparator: FaCaretRight
