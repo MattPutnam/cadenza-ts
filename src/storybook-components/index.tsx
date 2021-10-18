@@ -1,4 +1,3 @@
-import { StoryFnReactReturnType } from '@storybook/react/dist/ts3.9/client/preview/types';
 import styled from 'styled-components';
 
 import { colors } from '../app/components';
@@ -9,7 +8,7 @@ export const StoryWrapper = styled.div`
 `;
 
 export const storyWrapper = [
-  (Story: () => StoryFnReactReturnType) => (
+  (Story: () => any) => (
     <StoryWrapper>
       <Story />
     </StoryWrapper>
