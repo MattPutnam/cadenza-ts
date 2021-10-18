@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { parseMidiMessage, notifyMidiListeners } from '..';
 import { useKeyboards } from '../../state';
-import { Keyboard } from '../../types';
+import { KeyboardDefinition } from '../../types';
 
 type Input = WebMidi.MIDIInput;
 type Output = WebMidi.MIDIOutput;
@@ -20,8 +20,8 @@ const MidiInterfaceContext = React.createContext({} as MidiInterfaceContextType)
 // can only be assigned once. Hence that function cannot be recomputed, and to
 // get access to the keyboard list that function needs to reference a mutable
 // yet external cache of the keyboards.
-let cache: Keyboard[] = [];
-const setKeyboards = (keyboards: Keyboard[]) => (cache = keyboards);
+let cache: KeyboardDefinition[] = [];
+const setKeyboards = (keyboards: KeyboardDefinition[]) => (cache = keyboards);
 const getKeyboards = () => cache;
 
 export const MidiInterfaceProvider: React.FC = ({ children }) => {

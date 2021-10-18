@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { useReorder } from '../../../../../../hooks/use-reorder';
 import * as Midi from '../../../../../../midi';
 import { useActionPedal, useKeyboards } from '../../../../../../state';
-import { defaultRange, Keyboard } from '../../../../../../types';
+import { defaultRange, KeyboardDefinition } from '../../../../../../types';
 import { findId } from '../../../../../../utils/id';
 import { Container, Header, Content, Title, Placeholder, MidiListener } from '../../../../../components';
 import { MidiInterfacePlaceholder } from '../interface-selector';
@@ -43,7 +43,7 @@ export const SetupKeyboards = () => {
     [addKeyboard, keyboards]
   );
 
-  const wrappedDelete = (keyboard: Keyboard) => {
+  const wrappedDelete = (keyboard: KeyboardDefinition) => {
     if (actionPedal?.keyboardId === keyboard.id) {
       if (keyboards.length > 1) {
         const newKeyboardId = _.find(keyboards, (kbd) => kbd.id !== keyboard.id)!.id;

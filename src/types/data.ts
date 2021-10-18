@@ -5,7 +5,7 @@ import { Transposeable } from './transposeable';
 
 export type MIDIChannel = number;
 
-export interface Keyboard extends Ided {
+export interface KeyboardDefinition extends Ided {
   range: ClosedRange;
   midiInterfaceName: string;
   channel: MIDIChannel;

@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import * as Midi from '../../../../../../midi';
-import { Keyboard, ClosedRange } from '../../../../../../types';
+import { KeyboardDefinition, ClosedRange } from '../../../../../../types';
 import { Button, Message, MidiListener, ObjectSelect } from '../../../../../components';
 
 const ENTER_CUSTOM = 'ENTER_CUSTOM';
@@ -33,7 +33,7 @@ const STAGE2 = 'Press rightmost key...';
 type Stage = typeof STAGE1 | typeof STAGE2 | undefined;
 
 interface Props {
-  keyboard: Keyboard;
+  keyboard: KeyboardDefinition;
   setRange: (range: ClosedRange) => void;
 }
 

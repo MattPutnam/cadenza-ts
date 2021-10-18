@@ -6,12 +6,12 @@ import { colors, MidiListener } from '..';
 import { useDocumentListener } from '../../../hooks/use-document-listener';
 import * as Midi from '../../../midi';
 import { MidiMessage, NoteOffMessage, NoteOnMessage } from '../../../midi';
-import { Keyboard as KeyboardType } from '../../../types';
+import { KeyboardDefinition } from '../../../types';
 import * as KeyboardUtils from '../../../utils/keyboard-utils';
 import { BlackKey, KeyContainer, WhiteKey } from './components';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  keyboard: KeyboardType;
+  keyboard: KeyboardDefinition;
   onKeyClick?: (key: number, keyboardId: number) => void;
   onRangeDrag?: (range: [number, number], keyboardId: number) => void;
   listenerId?: string;
@@ -20,7 +20,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   lightHighlightKeys?: number[];
 }
 
-export const Keyboard = ({
+export const KeyboardPanel = ({
   keyboard,
   onKeyClick,
   onRangeDrag,

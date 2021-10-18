@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { midiInterfaceToName, midiNoteNumberToName, shortCCName } from '.';
-import { Keyboard } from '../types';
+import { KeyboardDefinition } from '../types';
 
 export const NOTE_OFF = 8 as const;
 export const NOTE_ON = 9 as const;
@@ -152,7 +152,10 @@ export class UnknownMessage extends MidiMessage {
 
 const midiInterfaceIdToName: Record<string, string> = {};
 
-export const parseMidiMessage = (rawMsg: WebMidi.MIDIMessageEvent, keyboards: Keyboard[]): MidiMessage | undefined => {
+export const parseMidiMessage = (
+  rawMsg: WebMidi.MIDIMessageEvent,
+  keyboards: KeyboardDefinition[]
+): MidiMessage | undefined => {
   if (!rawMsg) {
     return undefined;
   }

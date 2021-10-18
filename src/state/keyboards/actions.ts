@@ -1,5 +1,5 @@
-import { Keyboard } from '../../types';
+import { KeyboardDefinition } from '../../types';
 
 export type KeyboardActions = {
-  setKeyboards: (newKeyboards: Keyboard[]) => void;
+  setKeyboards: (newKeyboards: KeyboardDefinition[]) => void;
 };

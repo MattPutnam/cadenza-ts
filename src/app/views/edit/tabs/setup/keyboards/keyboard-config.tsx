@@ -3,14 +3,14 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useKeyboards } from '../../../../../../state';
-import { Keyboard as KeyboardType } from '../../../../../../types';
-import { Center, Container, Content, Header, Keyboard } from '../../../../../components';
+import { KeyboardDefinition } from '../../../../../../types';
+import { Center, Container, Content, Header, KeyboardPanel } from '../../../../../components';
 import { ChannelSelector } from '../channel-selector';
 import { InterfaceSelector } from '../interface-selector';
 import { KeyboardSizeSelector } from './keyboard-size-selector';
 
 interface Props {
-  keyboard: KeyboardType;
+  keyboard: KeyboardDefinition;
   deleteSelf: () => void;
   moveUp?: () => void;
   moveDown?: () => void;
@@ -47,7 +47,7 @@ export const KeyboardConfig = ({ keyboard, deleteSelf, moveUp, moveDown }: Props
       </Header>
       <Content>
         <Center pad>
-          <Keyboard keyboard={keyboard} listenerId={`${keyboard.midiInterfaceName}&${keyboard.channel}&CONFIG`} />
+          <KeyboardPanel keyboard={keyboard} listenerId={`${keyboard.midiInterfaceName}&${keyboard.channel}&CONFIG`} />
         </Center>
         <Center pad>
           <KeyboardSizeSelector keyboard={keyboard} setRange={(range) => updateKeyboard(keyboard.id, { range })} />

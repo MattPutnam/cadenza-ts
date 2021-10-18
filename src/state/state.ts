@@ -1,7 +1,7 @@
-import { Keyboard, ActionPedal, SynthesizerConfig, PatchSelection } from '../types';
+import { KeyboardDefinition, ActionPedal, SynthesizerConfig, PatchSelection } from '../types';
 
 export type State = {
-  keyboards: Keyboard[];
+  keyboards: KeyboardDefinition[];
   actionPedal?: ActionPedal;
   synthesizers: SynthesizerConfig[];
   patches: PatchSelection[];

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Keyboard } from '.';
+import { KeyboardPanel } from '.';
 import * as Midi from '../../../midi';
 import { noControls, storyWrapper } from '../../../storybook-components';
 
@@ -15,7 +15,7 @@ const keyboard = {
 };
 
 export default {
-  title: 'Components / Keyboard',
+  title: 'Components / KeyboardPanel',
   decorators: storyWrapper
 };
 
@@ -24,7 +24,7 @@ export const OnKeyClick = noControls(() => {
 
   return (
     <>
-      <Keyboard keyboard={keyboard} onKeyClick={setKey} />
+      <KeyboardPanel keyboard={keyboard} onKeyClick={setKey} />
       <div>{`Key clicked: ${key ? Midi.midiNoteNumberToName(key) : 'none'}`}</div>
     </>
   );
@@ -36,7 +36,7 @@ export const OnRangeDrag = noControls(() => {
 
   return (
     <>
-      <Keyboard keyboard={keyboard} onRangeDrag={setRange} />
+      <KeyboardPanel keyboard={keyboard} onRangeDrag={setRange} />
       <div>{`Range dragged: ${
         range
           ? `${Midi.midiNoteNumberToName(range[0], 'flats')}-${Midi.midiNoteNumberToName(range[1], 'sharps')}`
@@ -48,12 +48,12 @@ export const OnRangeDrag = noControls(() => {
 OnRangeDrag.storyName = 'onRangeDrag';
 
 export const HighlightKeys = noControls(() => {
-  return <Keyboard keyboard={keyboard} highlightKeys={[60, 70, 80]} />;
+  return <KeyboardPanel keyboard={keyboard} highlightKeys={[60, 70, 80]} />;
 });
 HighlightKeys.storyName = 'highlightKeys';
 
 export const LightHighlightKeys = noControls(() => {
-  return <Keyboard keyboard={keyboard} lightHighlightKeys={[60, 70, 80]} />;
+  return <KeyboardPanel keyboard={keyboard} lightHighlightKeys={[60, 70, 80]} />;
 });
 LightHighlightKeys.storyName = 'lightHighlightKeys';
 
@@ -62,7 +62,7 @@ export const OnKeyClickHighlightKeys = noControls(() => {
 
   return (
     <>
-      <Keyboard keyboard={keyboard} onKeyClick={setKey} highlightKeys={[60, 72, 84]} />
+      <KeyboardPanel keyboard={keyboard} onKeyClick={setKey} highlightKeys={[60, 72, 84]} />
       <div>{`Key clicked: ${key ? Midi.midiNoteNumberToName(key) : 'none'}`}</div>
     </>
   );

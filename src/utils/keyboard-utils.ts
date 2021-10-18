@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { ClosedRange, Keyboard, PatchUsage, toClosed } from '../types';
+import { ClosedRange, KeyboardDefinition, PatchUsage, toClosed } from '../types';
 
 export const WHITE_HEIGHT = 81; // height of white key
 export const WHITE_WIDTH = 14; // width of white key
@@ -98,9 +98,9 @@ export const groupIntoRows = (patchUsages: PatchUsage[]): PatchUsage[][] => {
 };
 
 export const createSubKeyboard = (
-  keyboard: Keyboard,
+  keyboard: KeyboardDefinition,
   range: ClosedRange
-): { keyboard: Partial<Keyboard>; offsetLeft: number } => {
+): { keyboard: Partial<KeyboardDefinition>; offsetLeft: number } => {
   const { lowNote, highNote } = range;
 
   const newLow = lowNote || keyboard.range.lowNote;

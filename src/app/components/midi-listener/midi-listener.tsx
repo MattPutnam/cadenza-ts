@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { MidiMessage, addMidiListener, removeMidiListener, MidiFilter } from '../../../midi';
-import { Keyboard } from '../../../types';
+import { KeyboardDefinition } from '../../../types';
 
 interface Props {
   dispatch: (msg: MidiMessage) => void;
   id: number | string;
-  keyboard?: Keyboard;
+  keyboard?: KeyboardDefinition;
 }
 
 export const MidiListener: React.FC<Props> = ({ dispatch, id, keyboard }) => {
