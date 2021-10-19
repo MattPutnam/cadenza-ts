@@ -1,28 +1,13 @@
 import React from 'react';
 
-import _ from 'lodash';
-
 import { AppContext } from '..';
-import { SynthesizerConfig } from '../../types';
 import * as SynthUtils from '../../utils/synth-utils';
+import { CRUD } from '../utils';
 
 export const useSynthesizers = () => {
   const { synthesizers, setSynthesizers } = React.useContext(AppContext);
 
-  const addSynthesizer = (newSynth: SynthesizerConfig) => setSynthesizers([...synthesizers, newSynth]);
-
-  const deleteSynthesizer = (toDelete: SynthesizerConfig) => {
-    const newValue = [...synthesizers];
-    _.remove(newValue, { id: toDelete.id });
-    setSynthesizers(newValue);
-  };
-
-  const updateSynthesizer = (id: number, newKeyboard: Partial<SynthesizerConfig>) => {
-    const newValue = [...synthesizers];
-    const index = _.findIndex(newValue, { id });
-    newValue[index] = { ...newValue[index], ...newKeyboard };
-    setSynthesizers(newValue);
-  };
+  const [addSynthesizer, deleteSynthesizer, updateSynthesizer] = CRUD(synthesizers, setSynthesizers);
 
   const allPatches = React.useMemo(() => {
     const resolution = SynthUtils.resolveSynthesizersAndPatches(synthesizers);

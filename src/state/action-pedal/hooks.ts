@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppContext } from '../../state';
+import { AppContext } from '..';
 import { ActionPedal } from '../../types';
 
 export const useActionPedal = () => {

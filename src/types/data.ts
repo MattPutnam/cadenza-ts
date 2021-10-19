@@ -1,4 +1,5 @@
 import { Ided } from './ided';
+import { HasLocation } from './location';
 import { Mappable } from './mappable';
 import { ClosedRange, OpenRange } from './range';
 import { Transposeable } from './transposeable';
@@ -39,17 +40,11 @@ export interface PatchDefinition extends PatchAddress {
   name: string;
 }
 
-export interface Bank {
-  name: string;
-  patches: PatchDefinition[];
-}
-
 export interface PatchSelection extends PatchDefinition, Ided, Mappable, Transposeable {
   volume: number;
 }
 
-export interface Song extends Ided, Mappable, Transposeable {
-  number: string;
+export interface Song extends HasLocation, Ided, Mappable, Transposeable {
   name: string;
 }
 
@@ -68,9 +63,8 @@ export interface Trigger {
   actions: any[]; // TODO
 }
 
-export interface Cue extends Ided, Mappable {
+export interface Cue extends HasLocation, Ided, Mappable {
   songId: number;
-  measure: string;
   patchUsages: PatchUsage[];
   triggers: Trigger[];
 }

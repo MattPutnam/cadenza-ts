@@ -4,5 +4,6 @@ export const initialState: State = {
   keyboards: [],
   actionPedal: undefined,
   synthesizers: [],
-  patches: []
+  patches: [],
+  songs: []
 };

@@ -1,4 +1,4 @@
-import { PatchSelection } from './../../types/data';
+import { PatchSelection } from './../../types';
 
 export type PatchesActions = {
   setPatches: (patches: PatchSelection[]) => void;

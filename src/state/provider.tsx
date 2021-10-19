@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { initialState, AppContext } from '.';
-import { ActionPedal, KeyboardDefinition, SynthesizerConfig, PatchSelection } from '../types';
+import { ActionPedal, KeyboardDefinition, SynthesizerConfig, PatchSelection, Song } from '../types';
 
 export const AppStateProvider: React.FC = ({ children }) => {
   const [state, setState] = React.useState(initialState);
@@ -10,13 +10,15 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const setKeyboards = (keyboards: KeyboardDefinition[]) => setState({ ...state, keyboards });
   const setSynthesizers = (synthesizers: SynthesizerConfig[]) => setState({ ...state, synthesizers });
   const setPatches = (patches: PatchSelection[]) => setState({ ...state, patches });
+  const setSongs = (songs: Song[]) => setState({ ...state, songs });
 
   const value = {
     ...state,
     setActionPedal,
     setKeyboards,
     setSynthesizers,
-    setPatches
+    setPatches,
+    setSongs
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
