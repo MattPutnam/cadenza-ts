@@ -1,6 +1,5 @@
-import React from 'react';
-
 import _ from 'lodash';
+import styled from 'styled-components';
 
 import { usePatches, useSynthesizers } from '../../../../../../state';
 import { SynthesizerConfig } from '../../../../../../types';
@@ -9,6 +8,10 @@ import { InterfaceSelector } from '../interface-selector';
 import { ExpansionConfig } from './expansion-config';
 import { MultiChannelSelector } from './multi-channel-selector';
 import { SynthSelector } from './synth-selector';
+
+const SynthColumn = styled.td`
+  vertical-align: top;
+`;
 
 interface Props {
   synthesizer: SynthesizerConfig;
@@ -21,10 +24,6 @@ export const SynthConfig = ({ synthesizer, deleteSelf, moveUp, moveDown }: Props
   const { updateSynthesizer } = useSynthesizers();
   const { patches } = usePatches();
   const inUse = _.some(patches, { synthesizerId: synthesizer.id });
-
-  const synthStyle = {
-    verticalAlign: 'top'
-  };
 
   return (
     <Container alternate>
@@ -51,9 +50,9 @@ export const SynthConfig = ({ synthesizer, deleteSelf, moveUp, moveDown }: Props
                 <td>Expansions</td>
               </tr>
               <tr>
-                <td style={synthStyle}>
+                <SynthColumn>
                   <SynthSelector synthesizer={synthesizer} inUse={inUse} />
-                </td>
+                </SynthColumn>
                 <td>
                   <ExpansionConfig synthesizer={synthesizer} />
                 </td>

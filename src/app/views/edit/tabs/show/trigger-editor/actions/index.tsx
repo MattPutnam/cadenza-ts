@@ -18,12 +18,12 @@ export const Actions = ({ trigger, setTrigger }: Props) => {
   const addAction = () => {
     const newAction = new StepTriggerAction();
     setTrigger({ ...trigger, actions: [...trigger.actions, newAction] });
-    setSelectedIndex(trigger.actions.length - 1);
+    setSelectedIndex(trigger.actions.length);
   };
 
   const deleteSelf = () => {
     const newActions = [...actions];
-    newActions.splice(selectedIndex!);
+    newActions.splice(selectedIndex!, 1);
     setTrigger({ ...trigger, actions: newActions });
     setSelectedIndex(undefined);
   };

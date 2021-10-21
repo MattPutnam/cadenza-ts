@@ -1,12 +1,16 @@
-import { WaitTriggerAction } from '../../../../../../../types';
-import { Flex, NumberField } from '../../../../../../components';
+import { TriggerAction, WaitTriggerAction } from '../../../../../../../types';
+import { Flex, NumberField, Placeholder } from '../../../../../../components';
 
 interface Props {
-  action: WaitTriggerAction;
+  action: TriggerAction;
   setAction: (action: WaitTriggerAction) => void;
 }
 
 export const WaitEditor = ({ action, setAction }: Props) => {
+  if (!(action instanceof WaitTriggerAction)) {
+    return <Placeholder>Wrong action type</Placeholder>;
+  }
+
   return (
     <Flex pad>
       <NumberField

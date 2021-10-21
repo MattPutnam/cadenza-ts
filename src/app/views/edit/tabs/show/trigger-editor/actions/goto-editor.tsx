@@ -3,20 +3,27 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useSongs } from '../../../../../../../state';
-import { GotoTriggerAction, isValidLocation, parseLocation } from '../../../../../../../types';
-import { Flex, ObjectSelect, TextField, Warning } from '../../../../../../components';
+import { GotoTriggerAction, isValidLocation, parseLocation, TriggerAction } from '../../../../../../../types';
+import { Flex, ObjectSelect, Placeholder, TextField, Warning } from '../../../../../../components';
 
 interface Props {
-  action: GotoTriggerAction;
+  action: TriggerAction;
   setAction: (action: GotoTriggerAction) => void;
 }
 
 export const GotoEditor = ({ action, setAction }: Props) => {
   const { songs } = useSongs();
+  const [error, setError] = React.useState<string | undefined>(undefined);
+
+  if (!(action instanceof GotoTriggerAction)) {
+    return <Placeholder>Wrong action type</Placeholder>;
+  }
+
+  if (songs.length === 0) {
+    return <Placeholder>Add a song first</Placeholder>;
+  }
 
   const selectedSong = _.find(songs, { id: action.songId })!;
-
-  const [error, setError] = React.useState<string | undefined>(undefined);
 
   const setMeasure = (newMeasure: string) => {
     const trimmed = newMeasure.trim();

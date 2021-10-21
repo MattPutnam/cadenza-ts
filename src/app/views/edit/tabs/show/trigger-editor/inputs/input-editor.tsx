@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { ControlTriggerInput, KeyPressTriggerInput, TriggerInput } from '../../../../../../../types';
 import { Container, Content, Header, Tabs, TabHeader, TabPanel, Title } from '../../../../../../components';
+import { SectionWrapper } from '../section-wrapper';
 import { ControlEditor } from './control-editor';
 import { KeyPressEditor } from './key-press-editor';
 
@@ -27,15 +28,8 @@ export const InputEditor = ({ input, setInput, deleteSelf, moveUp, moveDown }: P
     }
   };
 
-  const styles = {
-    container: {
-      marginTop: '1rem',
-      borderTop: '1px solid black'
-    }
-  };
-
   return (
-    <div style={styles.container}>
+    <SectionWrapper>
       <Container>
         <Header
           buttons={[
@@ -51,14 +45,14 @@ export const InputEditor = ({ input, setInput, deleteSelf, moveUp, moveDown }: P
             <TabHeader>Key Press</TabHeader>
             <TabHeader>Controller</TabHeader>
             <TabPanel>
-              <KeyPressEditor input={input as KeyPressTriggerInput} setInput={setInput} />
+              <KeyPressEditor input={input} setInput={setInput} />
             </TabPanel>
             <TabPanel>
-              <ControlEditor input={input as ControlTriggerInput} setInput={setInput} />
+              <ControlEditor input={input} setInput={setInput} />
             </TabPanel>
           </Tabs>
         </Content>
       </Container>
-    </div>
+    </SectionWrapper>
   );
 };

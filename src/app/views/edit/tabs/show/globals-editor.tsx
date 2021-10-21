@@ -6,7 +6,7 @@ export const GlobalsEditor = () => {
   const { transposition, setTransposition, triggers, setTriggers, mapping, setMapping } = useGlobals();
 
   return (
-    <Container>
+    <Container marginCollapse="left">
       <Header>
         <Title>Edit global settings</Title>
       </Header>

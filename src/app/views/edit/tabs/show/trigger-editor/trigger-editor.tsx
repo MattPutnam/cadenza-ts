@@ -6,6 +6,7 @@ import { Trigger } from '../../../../../../types';
 import { Container, Content, Flex, Header, List, ListItem, Placeholder, Title } from '../../../../../components';
 import { Actions } from './actions';
 import { Inputs } from './inputs';
+import { SectionWrapper } from './section-wrapper';
 import { TriggerType } from './trigger-type';
 
 const summarize = (trigger: Trigger) => {
@@ -36,6 +37,7 @@ export const TriggerEditor = ({ triggers, setTriggers }: Props) => {
     };
 
     setTriggers([...triggers, newTrigger]);
+    setSelectedIndex(triggers.length);
   };
 
   const setSelectedTrigger = (newValue: Trigger) => {
@@ -46,7 +48,7 @@ export const TriggerEditor = ({ triggers, setTriggers }: Props) => {
 
   const deleteSelf = () => {
     const newTriggers = [...triggers];
-    newTriggers.splice(selectedIndex!);
+    newTriggers.splice(selectedIndex!, 1);
     setSelectedIndex(undefined);
     setTriggers(newTriggers);
   };
@@ -56,31 +58,26 @@ export const TriggerEditor = ({ triggers, setTriggers }: Props) => {
       <Header buttons={[['add', addTrigger]]}>
         <Title>Triggers</Title>
       </Header>
-      {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
-      <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
-        {triggers.map((trigger, index) => {
-          return (
-            <ListItem key={index} value={index}>
-              {summarize(trigger)}
-            </ListItem>
-          );
-        })}
-      </List>
-      {trigger && <Editor trigger={trigger} setSelectedTrigger={setSelectedTrigger} deleteSelf={deleteSelf} />}
+      <Content>
+        {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
+        <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+          {triggers.map((trigger, index) => {
+            return (
+              <ListItem key={index} value={index}>
+                {summarize(trigger)}
+              </ListItem>
+            );
+          })}
+        </List>
+        {trigger && <Editor trigger={trigger} setSelectedTrigger={setSelectedTrigger} deleteSelf={deleteSelf} />}
+      </Content>
     </Container>
   );
 };
 
 const Editor = ({ trigger, setSelectedTrigger, deleteSelf }) => {
-  const styles = {
-    container: {
-      marginTop: '1rem',
-      borderTop: '1px solid black'
-    }
-  };
-
   return (
-    <div style={styles.container}>
+    <SectionWrapper>
       <Container>
         <Header buttons={[['delete', deleteSelf]]}>
           <Title>Edit Trigger</Title>
@@ -92,6 +89,6 @@ const Editor = ({ trigger, setSelectedTrigger, deleteSelf }) => {
           <Actions trigger={trigger} setTrigger={setSelectedTrigger} />
         </Content>
       </Container>
-    </div>
+    </SectionWrapper>
   );
 };

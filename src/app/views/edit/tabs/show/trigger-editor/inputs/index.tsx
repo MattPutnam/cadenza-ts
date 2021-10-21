@@ -18,12 +18,12 @@ export const Inputs = ({ trigger, setTrigger }: Props) => {
   const addInput = () => {
     const newInput = new KeyPressTriggerInput(undefined, undefined);
     setTrigger({ ...trigger, inputs: [...trigger.inputs, newInput] });
-    setSelectedIndex(trigger.inputs.length - 1);
+    setSelectedIndex(trigger.inputs.length);
   };
 
   const deleteSelf = () => {
     const newInputs = [...inputs];
-    newInputs.splice(selectedIndex!);
+    newInputs.splice(selectedIndex!, 1);
     setTrigger({ ...trigger, inputs: newInputs });
     setSelectedIndex(undefined);
   };

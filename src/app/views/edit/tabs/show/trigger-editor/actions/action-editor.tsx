@@ -17,6 +17,7 @@ import {
   Tabs,
   Title
 } from '../../../../../../components';
+import { SectionWrapper } from '../section-wrapper';
 import { CueStepEditor } from './cue-step-editor';
 import { GotoEditor } from './goto-editor';
 import { WaitEditor } from './wait-editor';
@@ -43,7 +44,7 @@ export const ActionEditor = ({ action, setAction, deleteSelf, moveUp, moveDown }
     if (index === 0) {
       setAction(new StepTriggerAction());
     } else if (index === 1) {
-      setAction(new GotoTriggerAction(songs[0].id, new LocationNumber(1, '')));
+      setAction(new GotoTriggerAction(songs[0]?.id || 0, new LocationNumber(1, '')));
     } else if (index === 2) {
       setAction(new WaitTriggerAction(1000));
     } else if (index === 3) {
@@ -51,15 +52,8 @@ export const ActionEditor = ({ action, setAction, deleteSelf, moveUp, moveDown }
     }
   };
 
-  const styles = {
-    container: {
-      marginTop: '1rem',
-      borderTop: '1px solid black'
-    }
-  };
-
   return (
-    <div style={styles.container}>
+    <SectionWrapper>
       <Container>
         <Header
           buttons={[
@@ -77,13 +71,13 @@ export const ActionEditor = ({ action, setAction, deleteSelf, moveUp, moveDown }
             <TabHeader>Wait</TabHeader>
             <TabHeader>Panic</TabHeader>
             <TabPanel>
-              <CueStepEditor action={action as StepTriggerAction} setAction={setAction} />
+              <CueStepEditor action={action} setAction={setAction} />
             </TabPanel>
             <TabPanel>
-              <GotoEditor action={action as GotoTriggerAction} setAction={setAction} />
+              <GotoEditor action={action} setAction={setAction} />
             </TabPanel>
             <TabPanel>
-              <WaitEditor action={action as WaitTriggerAction} setAction={setAction} />
+              <WaitEditor action={action} setAction={setAction} />
             </TabPanel>
             <TabPanel>
               <Placeholder>Panic (all notes off)</Placeholder>
@@ -91,6 +85,6 @@ export const ActionEditor = ({ action, setAction, deleteSelf, moveUp, moveDown }
           </Tabs>
         </Content>
       </Container>
-    </div>
+    </SectionWrapper>
   );
 };

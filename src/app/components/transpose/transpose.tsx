@@ -1,12 +1,6 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Button, Select, NumberField, Container, Header, Title, Flex, ContainerProps } from '..';
-
-const PaddedNumberField = styled(NumberField)`
-  margin-right: 0.5rem;
-`;
 
 interface Props extends ContainerProps {
   transposition: number;
@@ -40,8 +34,8 @@ export const Transpose = ({ transposition, setTransposition, ...containerProps }
       </Header>
       <Flex pad>
         {/* max of 10 just to make the fields the same size */}
-        <PaddedNumberField label="Transpose" value={octaves} max={10} setValue={setOctaves} />
-        <PaddedNumberField label="octaves plus" value={steps} max={11} setValue={setSteps} />
+        <NumberField label="Transpose" value={octaves} max={10} setValue={setOctaves} />
+        <NumberField label="octaves plus" value={steps} max={11} setValue={setSteps} />
         <Select
           label="half steps"
           disabled={!transposition}

@@ -22,7 +22,6 @@ export const InterfaceSelector = ({ forIO, hardware, setMidiInterfaceName }: Pro
   return (
     <>
       <Select
-        style={{ marginRight: '0.5rem' }}
         label="Interface:"
         options={[MidiInterfacePlaceholder, ...values, ...(missing ? [selected] : [])]}
         selected={selected}

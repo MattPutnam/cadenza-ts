@@ -10,6 +10,9 @@ interface Props {
 const StyledLabel = styled.label`
   margin-right: 0.5rem;
   cursor: pointer;
+  &:not(:first-child) {
+    margin-left: 0.5rem;
+  }
 `;
 
 export const Label: React.FC<Props> = ({ htmlFor, className, children }) => (
