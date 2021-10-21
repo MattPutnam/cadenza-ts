@@ -1,4 +1,4 @@
-import { LocationNumber, isValidLocation, parseLocation, compareLocation } from '../location';
+import { LocationNumber, isValidLocation, parseLocation, compareLocation, generateNext } from '../location';
 
 describe('location', () => {
   it('throws when trying to construct an empty LocationNumber', () => {
@@ -31,5 +31,16 @@ describe('location', () => {
     const locationNumbers = start.map(parseLocation);
     locationNumbers.sort(compareLocation);
     expect(locationNumbers.map((l) => l.toString())).toEqual(end);
+  });
+
+  it('generates next location numbers correctly', () => {
+    expect(generateNext(new LocationNumber(1, undefined))).toEqual(new LocationNumber(2, undefined));
+    expect(generateNext(new LocationNumber(2, 'a'))).toEqual(new LocationNumber(3, undefined));
+    expect(generateNext(new LocationNumber(3, undefined), [new LocationNumber(4, 'a')])).toEqual(
+      new LocationNumber(4, undefined)
+    );
+    expect(generateNext(new LocationNumber(3, 'a'), [new LocationNumber(4, undefined)])).toEqual(
+      new LocationNumber(5, undefined)
+    );
   });
 });

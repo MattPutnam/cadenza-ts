@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export class LocationNumber {
   numberPart: number | undefined;
   letterPart: string | undefined;
@@ -7,8 +9,8 @@ export class LocationNumber {
       throw Error('LocationNumber must have at least one of numberPart and letterPart');
     }
 
-    this.numberPart = numberPart;
-    this.letterPart = letterPart;
+    this.numberPart = numberPart || undefined; // prevent 0
+    this.letterPart = letterPart || undefined; // prevent ''
   }
 
   toString(): string {
@@ -51,4 +53,17 @@ export const parseLocation = (location: string): LocationNumber => {
   const numberPart = numberString.length > 0 ? parseInt(numberString, 10) : undefined;
   const letterPart = letterString.length > 0 ? letterString : undefined;
   return new LocationNumber(numberPart, letterPart);
+};
+
+export const generateNext = (location: LocationNumber, avoid: LocationNumber[] = []): LocationNumber => {
+  const toAvoid = avoid.filter((a) => a.letterPart === undefined);
+
+  let candidate = (location.numberPart || 0) + 1;
+
+  const test = (a: LocationNumber) => a.numberPart === candidate;
+  while (!!_.find(toAvoid, test)) {
+    ++candidate;
+  }
+
+  return new LocationNumber(candidate, undefined);
 };

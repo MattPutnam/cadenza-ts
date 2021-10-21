@@ -11,11 +11,14 @@ const TabBar = styled(Flex)`
   border-bottom: 1px solid black;
 `;
 
-export const Tabs = ({ children }) => {
-  const [selectedTab, setSelectedTab] = React.useState(0);
+interface Props {
+  selectedTab: number;
+  setSelectedTab: (index: number) => void;
+}
 
-  const headers = _.filter(children, (child) => child.type?.name === 'TabHeader');
-  const panels = _.filter(children, (child) => child.type?.name === 'TabPanel');
+export const Tabs: React.FC<Props> = ({ selectedTab, setSelectedTab, children }) => {
+  const headers = _.filter(children as any, (child) => child.type?.name === 'TabHeader');
+  const panels = _.filter(children as any, (child) => child.type?.name === 'TabPanel');
 
   return (
     <TabContext.Provider value={{ selectedTab, setSelectedTab }}>
