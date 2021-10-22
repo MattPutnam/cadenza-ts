@@ -1,21 +1,23 @@
 import React from 'react';
 
-import { initialState, AppContext } from '.';
+import { initialState, AppContext, State } from '.';
 import { Globals, ActionPedal, KeyboardDefinition, SynthesizerConfig, PatchSelection, Song, Cue } from '../types';
 
 export const AppStateProvider: React.FC = ({ children }) => {
-  const [state, setState] = React.useState(initialState);
+  const [state, doSetState] = React.useState(initialState);
 
-  const setGlobals = (globals: Globals) => setState({ ...state, globals });
-  const setActionPedal = (actionPedal?: ActionPedal) => setState({ ...state, actionPedal });
-  const setKeyboards = (keyboards: KeyboardDefinition[]) => setState({ ...state, keyboards });
-  const setSynthesizers = (synthesizers: SynthesizerConfig[]) => setState({ ...state, synthesizers });
-  const setPatches = (patches: PatchSelection[]) => setState({ ...state, patches });
-  const setSongs = (songs: Song[]) => setState({ ...state, songs });
-  const setCues = (cues: Cue[]) => setState({ ...state, cues });
+  const setState = (newState: Partial<State>) => doSetState({ ...state, ...newState });
+  const setGlobals = (globals: Globals) => doSetState({ ...state, globals });
+  const setActionPedal = (actionPedal?: ActionPedal) => doSetState({ ...state, actionPedal });
+  const setKeyboards = (keyboards: KeyboardDefinition[]) => doSetState({ ...state, keyboards });
+  const setSynthesizers = (synthesizers: SynthesizerConfig[]) => doSetState({ ...state, synthesizers });
+  const setPatches = (patches: PatchSelection[]) => doSetState({ ...state, patches });
+  const setSongs = (songs: Song[]) => doSetState({ ...state, songs });
+  const setCues = (cues: Cue[]) => doSetState({ ...state, cues });
 
   const value = {
     ...state,
+    setState,
     setGlobals,
     setActionPedal,
     setKeyboards,

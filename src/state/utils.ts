@@ -6,7 +6,13 @@ export const CRUD = <T extends Ided>(
   objects: T[],
   setObjects: (newObjects: T[]) => void,
   transform: (values: T[]) => T[] = _.identity
-): [(object: T) => void, (object: T) => void, (id: number, props: Partial<T>) => void] => {
+): [
+  (object: T) => void,
+  (object: T) => void,
+  (id: number, props: Partial<T>) => void,
+  (objects: T[]) => void,
+  (objects: T[]) => void
+] => {
   const addObject = (object: T) => {
     const newObjects = [...objects, object];
     setObjects(transform(newObjects));
@@ -25,5 +31,16 @@ export const CRUD = <T extends Ided>(
     setObjects(transform(newObjects));
   };
 
-  return [addObject, deleteObject, updateObject];
+  const addAll = (newObjects: T[]) => {
+    setObjects(transform([...objects, ...newObjects]));
+  };
+
+  const deleteAll = (toDelete: T[]) => {
+    const targetIds = new Set(toDelete.map((obj) => obj.id));
+    const newObjects = [...objects];
+    _.remove(newObjects, (obj) => targetIds.has(obj.id));
+    setObjects(newObjects);
+  };
+
+  return [addObject, deleteObject, updateObject, addAll, deleteAll];
 };

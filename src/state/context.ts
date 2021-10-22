@@ -2,6 +2,7 @@ import React from 'react';
 
 import { State } from '.';
 import { ActionPedalActions } from './action-pedal/actions';
+import { BaseActions } from './actions';
 import { CuesActions } from './cues/actions';
 import { GlobalsActions } from './globals/actions';
 import { KeyboardActions } from './keyboards/actions';
@@ -10,6 +11,7 @@ import { SongsActions } from './songs/actions';
 import { SynthesizerActions } from './synths/actions';
 
 type AppState = State &
+  BaseActions &
   GlobalsActions &
   ActionPedalActions &
   KeyboardActions &

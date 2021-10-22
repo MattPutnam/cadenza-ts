@@ -28,7 +28,7 @@ export const GotoEditor = ({ action, setAction }: Props) => {
   const setMeasure = (newMeasure: string) => {
     const trimmed = newMeasure.trim();
     if (isValidLocation(trimmed)) {
-      setAction({ ...action, measure: parseLocation(trimmed) });
+      setAction(new GotoTriggerAction(action.songId, parseLocation(trimmed)));
       setError(undefined);
     } else {
       setError('Invalid measure number');
@@ -42,7 +42,7 @@ export const GotoEditor = ({ action, setAction }: Props) => {
         options={songs}
         render={(song) => `${song.location.toString()}. ${song.name}`}
         selected={selectedSong}
-        setSelected={(song) => setAction({ ...action, songId: song.id })}
+        setSelected={(song) => setAction(new GotoTriggerAction(song.id, action.measure))}
       />
       <TextField label="Measure:" size={6} value={action.measure.toString()} setValue={setMeasure} />
       {error && <Warning>{error}</Warning>}

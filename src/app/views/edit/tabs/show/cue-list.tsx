@@ -49,7 +49,8 @@ export const CueList = ({ selection, setSelection }: Props) => {
       name: '',
       location: newNumber,
       transposition: 0,
-      mapping: {}
+      mapping: {},
+      triggers: []
     });
 
     setSelection({ type: 'song', selectedId: id });
