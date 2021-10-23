@@ -16,6 +16,10 @@ export class LocationNumber {
   toString(): string {
     return `${this.numberPart || ''}${this.letterPart || ''}`;
   }
+
+  equals(other: LocationNumber) {
+    return this.numberPart === other.numberPart && this.letterPart === other.letterPart;
+  }
 }
 
 export interface HasLocation {

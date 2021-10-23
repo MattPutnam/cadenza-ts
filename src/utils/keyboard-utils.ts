@@ -100,7 +100,7 @@ export const groupIntoRows = (patchUsages: PatchUsage[]): PatchUsage[][] => {
 export const createSubKeyboard = (
   keyboard: KeyboardDefinition,
   range: ClosedRange
-): { keyboard: Partial<KeyboardDefinition>; offsetLeft: number } => {
+): { keyboard: Pick<KeyboardDefinition, 'id' | 'range'>; offsetLeft: number } => {
   const { lowNote, highNote } = range;
 
   const newLow = lowNote || keyboard.range.lowNote;
@@ -113,6 +113,7 @@ export const createSubKeyboard = (
 
   return {
     keyboard: {
+      id: -1,
       range: {
         lowNote: newLow,
         highNote: newHigh

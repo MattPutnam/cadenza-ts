@@ -9,13 +9,14 @@ import { renderPatch } from './render-patch';
 import { SearchSection } from './search-section';
 import { Selection } from './selection';
 
-export type PatchSelection = [string, string, number | [number, number]];
-type PartialPatchSelection = [string, string | undefined, number | [number, number] | undefined];
+export type PatchTreeSelection = [string, string, number | [number, number]];
+type PartialPatchTreeSelection = [string, string | undefined, number | [number, number] | undefined];
 
 interface Props {
   alternate?: boolean;
-  initialSelection: PartialPatchSelection;
-  onPatchSelected: (selection: PatchSelection) => void;
+  initialSelection: PartialPatchTreeSelection;
+  onPatchSelected: (selection: PatchTreeSelection) => void;
+  className?: string;
 }
 
 const MyContainer = styled(Flex)`
@@ -23,10 +24,10 @@ const MyContainer = styled(Flex)`
   height: 100%;
 `;
 
-export const PatchPicker: React.FC<Props> = ({ alternate, initialSelection, onPatchSelected }) => {
+export const PatchPicker: React.FC<Props> = ({ alternate, initialSelection, onPatchSelected, className }) => {
   const { synthesizers, synthTree } = useSynthesizers();
 
-  const [selection, setSelection] = React.useState<PartialPatchSelection>(initialSelection);
+  const [selection, setSelection] = React.useState<PartialPatchTreeSelection>(initialSelection);
   React.useEffect(() => {
     setSelection(initialSelection);
   }, [initialSelection, setSelection, synthTree]);
@@ -55,7 +56,7 @@ export const PatchPicker: React.FC<Props> = ({ alternate, initialSelection, onPa
   };
 
   return (
-    <MyContainer align="stretch">
+    <MyContainer align="stretch" className={className}>
       <Selection
         options={synthOptions}
         selected={selectedSynthName}

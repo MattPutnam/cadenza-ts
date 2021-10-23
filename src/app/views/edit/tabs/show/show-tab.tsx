@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useSongs, useSynthesizers } from '../../../../../state';
 import { Flex, Placeholder } from '../../../../components';
 import { CueList } from './cue-list';
+import { CueEditor } from './cue/cue-editor';
 import { GlobalsEditor } from './globals-editor';
 import { Selection } from './selection';
 import SongEditor from './song/song-editor';
@@ -38,6 +39,10 @@ export const ShowTab = () => {
     deleteSong(song);
   }, [deleteSong, selection, songs]);
 
+  const cloneCueAction = React.useCallback(() => {}, []);
+
+  const deleteCueAction = React.useCallback(() => {}, []);
+
   let mainDisplay: React.ReactNode;
   if (selection && selection.type === 'globals') {
     mainDisplay = <GlobalsEditor />;
@@ -49,6 +54,8 @@ export const ShowTab = () => {
     mainDisplay = (
       <SongEditor songId={selection.selectedId} cloneSelf={cloneSongAction} deleteSelf={deleteSongAction} />
     );
+  } else if (selection.type === 'cue') {
+    mainDisplay = <CueEditor cueId={selection.selectedId} cloneSelf={cloneCueAction} deleteSelf={deleteCueAction} />;
   }
 
   return (

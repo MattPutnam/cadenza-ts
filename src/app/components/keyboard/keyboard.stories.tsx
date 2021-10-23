@@ -9,8 +9,6 @@ const keyboard = {
     lowNote: 50,
     highNote: 100
   },
-  midiInterfaceName: 'dummy',
-  channel: 0,
   id: 0
 };
 

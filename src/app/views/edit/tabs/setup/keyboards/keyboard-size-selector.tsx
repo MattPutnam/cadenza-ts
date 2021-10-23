@@ -94,7 +94,7 @@ export const KeyboardSizeSelector: React.FC<Props> = ({ keyboard, setRange }) =>
       {!!stage && (
         <>
           <Message>{stage}</Message>
-          <MidiListener id={`KSS${keyboard.id}`} dispatch={handleMidi} keyboard={keyboard} />
+          <MidiListener id={`KSS${keyboard.id}`} dispatch={handleMidi} keyboardId={keyboard.id} />
           <Button large onClick={() => cancelCustom()}>
             Cancel
           </Button>

@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 import { useSongs } from '../../../../../../../state';
 import { GotoTriggerAction, isValidLocation, parseLocation, TriggerAction } from '../../../../../../../types';
-import { Flex, ObjectSelect, Placeholder, TextField, Warning } from '../../../../../../components';
+import { Flex, Placeholder, TextField, Warning } from '../../../../../../components';
+import { SongSelector } from '../../song-selector';
 
 interface Props {
   action: TriggerAction;
@@ -37,12 +38,9 @@ export const GotoEditor = ({ action, setAction }: Props) => {
 
   return (
     <Flex pad>
-      <ObjectSelect
-        label="Song:"
-        options={songs}
-        render={(song) => `${song.location.toString()}. ${song.name}`}
-        selected={selectedSong}
-        setSelected={(song) => setAction(new GotoTriggerAction(song.id, action.measure))}
+      <SongSelector
+        selectedSong={selectedSong}
+        setSelectedSong={(song) => setAction(new GotoTriggerAction(song.id, action.measure))}
       />
       <TextField label="Measure:" size={6} value={action.measure.toString()} setValue={setMeasure} />
       {error && <Warning>{error}</Warning>}

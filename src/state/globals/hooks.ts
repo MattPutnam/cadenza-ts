@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AppContext } from '..';
-import { Trigger } from '../../types';
+import { MappingType, Trigger } from '../../types';
 
 export const useGlobals = () => {
   const {
@@ -14,7 +14,7 @@ export const useGlobals = () => {
 
   const setTriggers = (triggers: Trigger[]) => setGlobals({ ...globals, triggers });
 
-  const setMapping = (mapping: Record<number, number | 'none'>) => setGlobals({ ...globals, mapping });
+  const setMapping = (mapping: MappingType) => setGlobals({ ...globals, mapping });
 
   return {
     transposition,

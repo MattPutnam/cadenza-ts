@@ -15,10 +15,11 @@ import {
   Placeholder,
   Title
 } from '..';
+import { MappingType, MaybeController } from '../../../types';
 
 interface Props extends ContainerProps {
-  mapping: Record<number, number | 'none'>;
-  setMapping: (newMapping: Record<number, number | 'none'>) => void;
+  mapping: MappingType;
+  setMapping: (newMapping: MappingType) => void;
 }
 
 export const ControlMapper: React.FC<Props> = ({ mapping, setMapping, ...containerProps }) => {
@@ -34,7 +35,7 @@ export const ControlMapper: React.FC<Props> = ({ mapping, setMapping, ...contain
   );
 
   const updateValue = React.useCallback(
-    (key: number, newValue: number | 'none') => {
+    (key: number, newValue: MaybeController) => {
       setMapping({ ...mapping, [key]: newValue });
     },
     [mapping, setMapping]

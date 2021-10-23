@@ -4,10 +4,11 @@ import _ from 'lodash';
 
 import { Select } from '..';
 import * as Midi from '../../../midi';
+import { MaybeController } from '../../../types';
 
 interface Props {
-  selected: number | 'none';
-  setSelected: (value: number | 'none') => void;
+  selected: MaybeController;
+  setSelected: (value: MaybeController) => void;
 }
 
 const options = _.range(-1, 128);

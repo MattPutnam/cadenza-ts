@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { noControls } from '../../../storybook-components';
+import { MaybeController } from '../../../types';
 import { ControlOrNoneSelect } from './control-or-none-select';
 import { ControlSelect } from './control-select';
 
@@ -16,7 +17,7 @@ export const ControlSelectStory = noControls(() => {
 ControlSelectStory.storyName = 'Control Select';
 
 export const ControlOrNoneSelectStory = noControls(() => {
-  const [selected, setSelected] = React.useState<number | 'none'>('none');
+  const [selected, setSelected] = React.useState<MaybeController>('none');
 
   return <ControlOrNoneSelect selected={selected} setSelected={setSelected} />;
 });

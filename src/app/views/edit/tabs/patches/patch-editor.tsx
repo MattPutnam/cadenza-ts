@@ -16,6 +16,7 @@ import {
   Header,
   MidiListener,
   PatchPicker,
+  PatchTreeSelection,
   Title,
   Transpose,
   Warning
@@ -57,7 +58,7 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     selectedSynth ? selectedSynth.name : synthesizers[0].name,
     selectedPatch ? selectedPatch.bank : undefined,
     selectedPatch ? selectedPatch.number : undefined
-  ] as [string, string | undefined, number | [number, number] | undefined];
+  ] as PatchTreeSelection;
 
   // TODO: reenable patch delete based on cue
   // const deleteDisabled = _.some(data.show.cues, (cue) => {

@@ -3,7 +3,17 @@ import React from 'react';
 import _ from 'lodash';
 
 import { Trigger } from '../../../../../../types';
-import { Container, Content, Flex, Header, List, ListItem, Placeholder, Title } from '../../../../../components';
+import {
+  Container,
+  ContainerProps,
+  Content,
+  Flex,
+  Header,
+  List,
+  ListItem,
+  Placeholder,
+  Title
+} from '../../../../../components';
 import { Actions } from './actions';
 import { Inputs } from './inputs';
 import { SectionWrapper } from './section-wrapper';
@@ -18,12 +28,12 @@ const summarize = (trigger: Trigger) => {
   return `On ${type}: ${inputString} do: ${actionString}`;
 };
 
-interface Props {
+interface Props extends ContainerProps {
   triggers: Trigger[];
   setTriggers: (triggers: Trigger[]) => void;
 }
 
-export const TriggerEditor = ({ triggers, setTriggers }: Props) => {
+export const TriggerEditor = ({ triggers, setTriggers, ...containerProps }: Props) => {
   const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
 
   const trigger = selectedIndex === undefined ? undefined : triggers[selectedIndex];
@@ -54,7 +64,7 @@ export const TriggerEditor = ({ triggers, setTriggers }: Props) => {
   };
 
   return (
-    <Container alternate collapse startCollapsed={noTriggers}>
+    <Container alternate collapse startCollapsed={noTriggers} {...containerProps}>
       <Header buttons={[['add', addTrigger]]}>
         <Title>Triggers</Title>
       </Header>

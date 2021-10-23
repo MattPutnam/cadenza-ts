@@ -11,7 +11,7 @@ import * as KeyboardUtils from '../../../utils/keyboard-utils';
 import { BlackKey, KeyContainer, WhiteKey } from './components';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  keyboard: KeyboardDefinition;
+  keyboard: Pick<KeyboardDefinition, 'id' | 'range'>;
   onKeyClick?: (key: number, keyboardId: number) => void;
   onRangeDrag?: (range: [number, number], keyboardId: number) => void;
   listenerId?: string;
@@ -76,7 +76,7 @@ export const KeyboardPanel = ({
       onMouseUp={onRangeDrag ? handleRangeDrag : undefined}
       {...props}
     >
-      {listenerId && <MidiListener id={listenerId} dispatch={handleMidi} keyboard={keyboard} />}
+      {listenerId && <MidiListener id={listenerId} dispatch={handleMidi} keyboardId={keyboard.id} />}
       {_.range(lowNote, highNote + 1).map((key) => {
         let highlightColor: string | undefined;
         if (key === hoverKey || key === dragStart || highlightKeys.includes(key)) {

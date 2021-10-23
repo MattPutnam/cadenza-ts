@@ -1,24 +1,23 @@
 import React from 'react';
 
 import { MidiMessage, addMidiListener, removeMidiListener, MidiFilter } from '../../../midi';
-import { KeyboardDefinition } from '../../../types';
 
 interface Props {
   dispatch: (msg: MidiMessage) => void;
   id: number | string;
-  keyboard?: KeyboardDefinition;
+  keyboardId?: number;
 }
 
-export const MidiListener: React.FC<Props> = ({ dispatch, id, keyboard }) => {
+export const MidiListener: React.FC<Props> = ({ dispatch, id, keyboardId }) => {
   React.useEffect(() => {
     let filter: MidiFilter | undefined;
-    if (keyboard !== undefined) {
-      filter = (msg: MidiMessage) => msg.keyboardId === keyboard.id;
+    if (keyboardId !== undefined) {
+      filter = (msg: MidiMessage) => msg.keyboardId === keyboardId;
     }
 
     addMidiListener(dispatch, id, filter);
     return () => removeMidiListener(id);
-  }, [dispatch, id, keyboard]);
+  }, [dispatch, id, keyboardId]);
 
   return null;
 };
