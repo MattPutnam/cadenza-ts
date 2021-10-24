@@ -1,9 +1,9 @@
-import { ClosedRange, Ided } from '..';
+import { Range, Ided } from '..';
 
 export type MIDIChannel = number;
 
 export interface KeyboardDefinition extends Ided {
-  range: ClosedRange;
+  range: Range;
   midiInterfaceName: string;
   channel: MIDIChannel;
 }

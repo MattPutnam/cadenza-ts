@@ -3,12 +3,10 @@ import React from 'react';
 import { KeyboardPanel } from '.';
 import * as Midi from '../../../midi';
 import { noControls, storyWrapper } from '../../../storybook-components';
+import { defaultRange } from '../../../types';
 
 const keyboard = {
-  range: {
-    lowNote: 50,
-    highNote: 100
-  },
+  range: defaultRange,
   id: 0
 };
 

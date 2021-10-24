@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useKeyboards } from '../../../../../../../state';
-import { GhostNotesPatchUsage, toClosed } from '../../../../../../../types';
+import { GhostNotesPatchUsage } from '../../../../../../../types';
 import { createSubKeyboard } from '../../../../../../../utils/keyboard-utils';
 import { Center, Checkbox, Flex, KeyboardPanel, Spacer } from '../../../../../../components';
 import { PatchUsageEditorProps } from './patch-usage-editor-props';
@@ -36,7 +36,7 @@ export const GhostNotesEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditor
   };
 
   const keyboard = _.find(keyboards, { id: patchUsage.keyboardId })!;
-  const subKeyboard = createSubKeyboard(keyboard, toClosed(patchUsage.range));
+  const subKeyboard = createSubKeyboard(keyboard, patchUsage.range);
 
   const sourceHighlight = _.keys(mappedNotes).map((x) => parseInt(x, 10));
   const destHighlight = (selectedKey && mappedNotes[selectedKey]) || [];

@@ -1,13 +1,13 @@
-import { Mappable, MappingType, OpenRange, Transposeable } from '..';
+import { Mappable, MappingType, Range, Transposeable } from '..';
 
 export abstract class PatchUsage implements Mappable, Transposeable {
   keyboardId: number;
   patchId: number;
-  range: OpenRange;
+  range: Range;
   mapping: MappingType;
   transposition: number;
 
-  constructor(keyboardId: number, patchId: number, range: OpenRange, mapping: MappingType, transposition: number) {
+  constructor(keyboardId: number, patchId: number, range: Range, mapping: MappingType, transposition: number) {
     this.keyboardId = keyboardId;
     this.patchId = patchId;
     this.range = range;
@@ -22,7 +22,7 @@ export class NormalPatchUsage extends PatchUsage {
   constructor(
     keyboardId: number,
     patchId: number,
-    range: OpenRange,
+    range: Range,
     mapping: MappingType,
     transposition: number,
     monophonic: boolean
@@ -52,7 +52,7 @@ export class GhostNotesPatchUsage extends PatchUsage {
   constructor(
     keyboardId: number,
     patchId: number,
-    range: OpenRange,
+    range: Range,
     mapping: MappingType,
     transposition: number,
     mappedNotes: GhostNotesMapping,
@@ -84,7 +84,7 @@ export class HarpPedalsPatchUsage extends PatchUsage {
   constructor(
     keyboardId: number,
     patchId: number,
-    range: OpenRange,
+    range: Range,
     mapping: MappingType,
     transposition: number,
     pedalPositions: PedalPositions

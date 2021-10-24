@@ -2,7 +2,7 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 import { useKeyboards, usePatches } from '../../../../../../../state';
-import { Cue, KeyboardDefinition, NormalPatchUsage, PatchUsage, toClosed } from '../../../../../../../types';
+import { Cue, KeyboardDefinition, NormalPatchUsage, PatchUsage } from '../../../../../../../types';
 import * as KeyboardUtils from '../../../../../../../utils/keyboard-utils';
 import {
   ButtonLike,
@@ -32,14 +32,7 @@ export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsa
   const patchUsagesByKeyboardId = _.groupBy(cue.patchUsages, 'keyboardId');
 
   const onRangeDrag = (keyboard: KeyboardDefinition, low: number, high: number) => {
-    const newPatchUsage = new NormalPatchUsage(
-      keyboard.id,
-      patches[0].id,
-      { lowNote: low, highNote: high },
-      {},
-      0,
-      false
-    );
+    const newPatchUsage = new NormalPatchUsage(keyboard.id, patches[0].id, [low, high], {}, 0, false);
 
     addPatchUsage(newPatchUsage);
   };
@@ -108,7 +101,7 @@ const PatchUsageRow = ({ patchUsageRow, keyboard, selectedPatchUsage, setSelecte
   const tagged = patchUsageRow.map((patchUsage) => {
     return {
       patchUsage,
-      ...KeyboardUtils.getDimensions(keyboard.range, toClosed(patchUsage.range))
+      ...KeyboardUtils.getDimensions(keyboard.range, patchUsage.range)
     };
   });
 

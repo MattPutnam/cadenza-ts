@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { ClosedRange, KeyboardDefinition, PatchUsage, toClosed } from '../types';
+import { KeyboardDefinition, PatchUsage, Range } from '../types';
 
 export const WHITE_HEIGHT = 81; // height of white key
 export const WHITE_WIDTH = 14; // width of white key
@@ -32,19 +32,16 @@ const BLACK_NOTES_MOD = new Set([1, 3, 6, 8, 10]);
 export const isWhite = (note: number): boolean => !isBlack(note);
 export const isBlack = (note: number): boolean => BLACK_NOTES_MOD.has(note % 12);
 
-export const getDimensions = (
-  keyboardRange: ClosedRange,
-  { lowNote, highNote }: ClosedRange
-): { left: number; width: number } => {
+export const getDimensions = (keyboardRange: Range, [lowNote, highNote]: Range): { left: number; width: number } => {
   let left = 0;
-  if (lowNote && lowNote > keyboardRange.lowNote) {
+  if (lowNote > keyboardRange[0]) {
     left =
-      _.range(keyboardRange.lowNote, lowNote).filter(isWhite).length * WHITE_WIDTH -
+      _.range(keyboardRange[0], lowNote).filter(isWhite).length * WHITE_WIDTH -
       (isBlack(lowNote) ? leftMargin(lowNote) : 0);
   }
 
-  const realLow = lowNote ? Math.max(keyboardRange.lowNote, lowNote) : keyboardRange.lowNote;
-  const realHigh = highNote ? Math.min(keyboardRange.highNote, highNote) : keyboardRange.highNote;
+  const realLow = Math.max(keyboardRange[0], lowNote);
+  const realHigh = Math.min(keyboardRange[1], highNote);
   const width =
     _.range(realLow, realHigh + 1).filter(isWhite).length * WHITE_WIDTH +
     (isBlack(realLow) ? leftMargin(realLow) : 0) +
@@ -55,16 +52,11 @@ export const getDimensions = (
 };
 
 export const groupIntoRows = (patchUsages: PatchUsage[]): PatchUsage[][] => {
-  const [fulls, partials] = _.partition(
-    patchUsages,
-    (patchUsage) => !patchUsage.range.lowNote && !patchUsage.range.highNote
-  );
-  const rows = fulls.map((full) => [full]);
+  const rows: PatchUsage[][] = [];
 
-  partials.forEach((patchUsage) => (patchUsage.range = toClosed(patchUsage.range)));
-  const sorted = _.sortBy(partials, 'highNote');
+  const sorted = _.sortBy(patchUsages, (patchUsage) => patchUsage.range[1]);
 
-  const filter = (head: PatchUsage) => (candidate: PatchUsage) => candidate.range.lowNote! > head.range.highNote!;
+  const filter = (head: PatchUsage) => (candidate: PatchUsage) => candidate.range[0] > head.range[1];
 
   while (!_.isEmpty(sorted)) {
     const accumulation: PatchUsage[] = [];
@@ -83,42 +75,22 @@ export const groupIntoRows = (patchUsages: PatchUsage[]): PatchUsage[][] => {
     rows.push(accumulation);
   }
 
-  rows.forEach((row) => {
-    row.forEach((patchUsage) => {
-      if (patchUsage.range.highNote === Infinity) {
-        delete patchUsage.range.highNote;
-      }
-      if (patchUsage.range.lowNote === -Infinity) {
-        delete patchUsage.range.lowNote;
-      }
-    });
-  });
-
   return rows;
 };
 
 export const createSubKeyboard = (
   keyboard: KeyboardDefinition,
-  range: ClosedRange
+  range: Range
 ): { keyboard: Pick<KeyboardDefinition, 'id' | 'range'>; offsetLeft: number } => {
-  const { lowNote, highNote } = range;
+  const [lowNote, __] = range;
 
-  const newLow = lowNote || keyboard.range.lowNote;
-  const newHigh = highNote || keyboard.range.highNote;
-
-  const dimensions =
-    lowNote > keyboard.range.lowNote
-      ? getDimensions(keyboard.range, { highNote: lowNote - 1, lowNote: 0 })
-      : { width: 0 };
+  const dimensions = lowNote > keyboard.range[0] ? getDimensions(keyboard.range, [0, lowNote - 1]) : { width: 0 };
 
   return {
     keyboard: {
       id: -1,
-      range: {
-        lowNote: newLow,
-        highNote: newHigh
-      }
+      range
     },
-    offsetLeft: dimensions.width - (isBlack(newLow) ? leftMargin(newLow) : 0)
+    offsetLeft: dimensions.width - (isBlack(lowNote) ? leftMargin(lowNote) : 0)
   };
 };

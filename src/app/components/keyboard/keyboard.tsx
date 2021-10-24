@@ -6,14 +6,14 @@ import { colors, MidiListener } from '..';
 import { useDocumentListener } from '../../../hooks/use-document-listener';
 import * as Midi from '../../../midi';
 import { MidiMessage, NoteOffMessage, NoteOnMessage } from '../../../midi';
-import { KeyboardDefinition } from '../../../types';
+import { KeyboardDefinition, Range } from '../../../types';
 import * as KeyboardUtils from '../../../utils/keyboard-utils';
 import { BlackKey, KeyContainer, WhiteKey } from './components';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   keyboard: Pick<KeyboardDefinition, 'id' | 'range'>;
   onKeyClick?: (key: number, keyboardId: number) => void;
-  onRangeDrag?: (range: [number, number], keyboardId: number) => void;
+  onRangeDrag?: (range: Range, keyboardId: number) => void;
   listenerId?: string;
   highlightOnHover?: boolean;
   highlightKeys?: number[];
@@ -47,7 +47,7 @@ export const KeyboardPanel = ({
 
   const handleRangeDrag = React.useCallback(() => {
     if (dragStart && dragStart !== hoverKey) {
-      onRangeDrag!([dragStart!, hoverKey!].sort((a, b) => a - b) as [number, number], keyboard.id);
+      onRangeDrag!([dragStart!, hoverKey!].sort((a, b) => a - b) as Range, keyboard.id);
       setDragStart(undefined);
     }
   }, [dragStart, hoverKey, keyboard.id, onRangeDrag]);
@@ -67,7 +67,7 @@ export const KeyboardPanel = ({
   );
 
   const highlightHover = highlightOnHover && !!(onKeyClick || onRangeDrag);
-  const { lowNote, highNote } = keyboard.range;
+  const [lowNote, highNote] = keyboard.range;
 
   return (
     <KeyContainer

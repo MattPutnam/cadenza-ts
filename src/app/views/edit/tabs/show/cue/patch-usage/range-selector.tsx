@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { useKeyboards } from '../../../../../../../state';
-import { PatchUsage } from '../../../../../../../types';
+import { PatchUsage, Range } from '../../../../../../../types';
 import { Center, Container, Content, Header, KeyboardPanel, Title } from '../../../../../../components';
 
 interface Props {
@@ -19,21 +19,11 @@ export const RangeSelector = ({ patchUsage, updatePatchUsage }: Props) => {
 
   const move = (newIndex: number) => {
     const newKeyboard = keyboards[newIndex];
-    const { lowNote, highNote } = patchUsage.range;
-    const newLow =
-      lowNote === keyboard.range.lowNote
-        ? newKeyboard.range.lowNote
-        : lowNote! < keyboard.range.lowNote
-        ? keyboard.range.lowNote
-        : lowNote;
-    const newHigh =
-      highNote === keyboard.range.highNote
-        ? newKeyboard.range.highNote
-        : highNote! > keyboard.range.highNote
-        ? keyboard.range.highNote
-        : highNote;
+    const [klow, khigh] = keyboard.range;
+    const [plow, phigh] = patchUsage.range;
+    const newRange: Range = [Math.max(klow, plow), Math.min(khigh, phigh)];
 
-    updatePatchUsage({ keyboardId: newKeyboard.id, range: { lowNote: newLow, highNote: newHigh } });
+    updatePatchUsage({ keyboardId: newKeyboard.id, range: newRange });
   };
 
   return (
@@ -50,8 +40,8 @@ export const RangeSelector = ({ patchUsage, updatePatchUsage }: Props) => {
         <Center pad>
           <KeyboardPanel
             keyboard={keyboard}
-            onKeyClick={(key) => updatePatchUsage({ range: { lowNote: key, highNote: key } })}
-            onRangeDrag={([lowNote, highNote]) => updatePatchUsage({ range: { lowNote, highNote } })}
+            onKeyClick={(key) => updatePatchUsage({ range: [key, key] })}
+            onRangeDrag={([lowNote, highNote]) => updatePatchUsage({ range: [lowNote, highNote] })}
           />
         </Center>
       </Content>
