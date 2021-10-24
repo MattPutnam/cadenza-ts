@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { useKeyboards } from '../../../../../../state';
+import { useCues, useKeyboards } from '../../../../../../state';
 import { KeyboardDefinition } from '../../../../../../types';
 import { Center, Container, Content, Header, KeyboardPanel } from '../../../../../components';
 import { ChannelSelector } from '../channel-selector';
@@ -17,12 +17,13 @@ interface Props {
 }
 
 export const KeyboardConfig = ({ keyboard, deleteSelf, moveUp, moveDown }: Props) => {
-  // TODO: reenable keyboard delete based on cue
-  // const deleteDisabled = _.some(data.show.cues, cue => {
-  //   return _.some(cue.patchUsages, patchUsage => {
-  //     return patchUsage.keyboardId === keyboard.id;
-  //   });
-  // });
+  const { cues } = useCues();
+
+  const deleteDisabled = _.some(cues, (cue) => {
+    return _.some(cue.patchUsages, (patchUsage) => {
+      return patchUsage.keyboardId === keyboard.id;
+    });
+  });
 
   const { updateKeyboard } = useKeyboards();
 
@@ -32,7 +33,7 @@ export const KeyboardConfig = ({ keyboard, deleteSelf, moveUp, moveDown }: Props
         buttons={[
           ['arrowUp', moveUp],
           ['arrowDown', moveDown],
-          ['delete', deleteSelf]
+          ['delete', deleteSelf, deleteDisabled]
         ]}
       >
         <InterfaceSelector

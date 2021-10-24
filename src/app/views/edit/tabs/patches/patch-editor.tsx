@@ -4,7 +4,7 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 import * as Midi from '../../../../../midi';
-import { usePatches, useSynthesizers } from '../../../../../state';
+import { useCues, usePatches, useSynthesizers } from '../../../../../state';
 import { PatchSelection } from '../../../../../types';
 import { findId } from '../../../../../utils/id';
 import * as SynthUtils from '../../../../../utils/synth-utils';
@@ -41,6 +41,7 @@ interface Props {
 export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
   const { patches, addPatch, deletePatch, updatePatch } = usePatches();
   const { synthesizers } = useSynthesizers();
+  const { cues } = useCues();
   const midiInterfaces = Midi.useMidiInterfaces();
 
   const { allPatches } = SynthUtils.resolveSynthesizersAndPatches(synthesizers);
@@ -60,13 +61,11 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     selectedPatch ? selectedPatch.number : undefined
   ] as PatchTreeSelection;
 
-  // TODO: reenable patch delete based on cue
-  // const deleteDisabled = _.some(data.show.cues, (cue) => {
-  //   return _.some(cue.patchUsages, (patchUsage) => {
-  //     return patchUsage.patchId === selectedPatchId;
-  //   });
-  // });
-  const deleteDisabled = false;
+  const deleteDisabled = _.some(cues, (cue) => {
+    return _.some(cue.patchUsages, (patchUsage) => {
+      return patchUsage.patchId === selectedPatchId;
+    });
+  });
 
   const onPatchSelected = ([selectedSynthName, selectedBankName, selectedNumber]: [
     string,

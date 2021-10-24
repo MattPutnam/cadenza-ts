@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Trigger, TriggerAction } from '../../../../../../../types';
+import { useSongs } from '../../../../../../../state';
+import { printTriggerAction, Trigger, TriggerAction } from '../../../../../../../types';
 import { Container, Content, Header, List, ListItem, Title } from '../../../../../../components';
 import { ActionEditor } from './action-editor';
 
@@ -11,6 +12,7 @@ interface Props {
 
 export const Actions = ({ trigger, setTrigger }: Props) => {
   const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
+  const { songs } = useSongs();
   const { actions } = trigger;
 
   const action = selectedIndex === undefined ? undefined : actions[selectedIndex];
@@ -64,7 +66,7 @@ export const Actions = ({ trigger, setTrigger }: Props) => {
           {actions.map((action, index) => {
             return (
               <ListItem key={index} value={index}>
-                {action.toString()}
+                {printTriggerAction(action, songs)}
               </ListItem>
             );
           })}
