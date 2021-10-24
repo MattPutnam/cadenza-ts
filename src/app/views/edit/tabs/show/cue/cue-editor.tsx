@@ -47,7 +47,7 @@ export const CueEditor = ({ cueId, cloneSelf, deleteSelf }) => {
   };
 
   return (
-    <Container>
+    <Container marginCollapse="left">
       <Header
         buttons={[
           ['clone', cloneSelf],
