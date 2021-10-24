@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { ControlTriggerInput, KeyPressTriggerInput, TriggerInput } from '../../../../../../../types';
+import { TriggerInput } from '../../../../../../../types';
 import { Container, Content, Header, Tabs, TabHeader, TabPanel, Title } from '../../../../../../components';
 import { SectionWrapper } from '../section-wrapper';
 import { ControlEditor } from './control-editor';
@@ -16,15 +16,15 @@ interface Props {
 
 export const InputEditor = ({ input, setInput, deleteSelf, moveUp, moveDown }: Props) => {
   let selectedTab: number = 0;
-  if (input instanceof ControlTriggerInput) {
+  if (input.type === 'control') {
     selectedTab = 1;
   }
 
   const setSelectedTab = (index: number) => {
     if (index === 0) {
-      setInput(new KeyPressTriggerInput(undefined, undefined));
+      setInput({ type: 'key-press' });
     } else if (index === 1) {
-      setInput(new ControlTriggerInput(0, 127));
+      setInput({ type: 'control', controller: 0, value: 127 });
     }
   };
 

@@ -2,7 +2,8 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { Trigger } from '../../../../../../types';
+import { useSongs } from '../../../../../../state';
+import { printTriggerAction, printTriggerInput, Song, Trigger } from '../../../../../../types';
 import {
   Container,
   ContainerProps,
@@ -19,11 +20,11 @@ import { Inputs } from './inputs';
 import { SectionWrapper } from './section-wrapper';
 import { TriggerType } from './trigger-type';
 
-const summarize = (trigger: Trigger) => {
+const summarize = (trigger: Trigger, songs: Song[]) => {
   const { inputs, actions, type } = trigger;
 
-  const inputString = `[${inputs.map((input) => input.toString()).join(', ')}]`;
-  const actionString = `[${actions.map((action) => action.toString()).join(', ')}]`;
+  const inputString = `[${inputs.map(printTriggerInput).join(', ')}]`;
+  const actionString = `[${actions.map((action) => printTriggerAction(action, songs)).join(', ')}]`;
 
   return `On ${type}: ${inputString} do: ${actionString}`;
 };
@@ -35,6 +36,7 @@ interface Props extends ContainerProps {
 
 export const TriggerEditor = ({ triggers, setTriggers, ...containerProps }: Props) => {
   const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
+  const { songs } = useSongs();
 
   const trigger = selectedIndex === undefined ? undefined : triggers[selectedIndex];
   const noTriggers = _.isEmpty(triggers);
@@ -74,7 +76,7 @@ export const TriggerEditor = ({ triggers, setTriggers, ...containerProps }: Prop
           {triggers.map((trigger, index) => {
             return (
               <ListItem key={index} value={index}>
-                {summarize(trigger)}
+                {summarize(trigger, songs)}
               </ListItem>
             );
           })}

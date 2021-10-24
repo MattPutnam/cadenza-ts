@@ -1,22 +1,22 @@
-import { StepTriggerAction, TriggerAction } from '../../../../../../../types';
+import { TriggerAction } from '../../../../../../../types';
 import { Placeholder, RadioButton, RadioButtonGroup } from '../../../../../../components';
 
 interface Props {
   action: TriggerAction;
-  setAction: (action: StepTriggerAction) => void;
+  setAction: (action: TriggerAction) => void;
 }
 
 export const CueStepEditor = ({ action, setAction }: Props) => {
-  if (!(action instanceof StepTriggerAction)) {
+  if (action.type !== 'step') {
     return <Placeholder>Wrong action type</Placeholder>;
   }
 
   const selected = action.reverse ? 1 : 0;
   const setSelected = (index: number) => {
     if (index === 0) {
-      setAction(new StepTriggerAction(false));
+      setAction({ ...action, reverse: false });
     } else if (index === 1) {
-      setAction(new StepTriggerAction(true));
+      setAction({ ...action, reverse: true });
     }
   };
 

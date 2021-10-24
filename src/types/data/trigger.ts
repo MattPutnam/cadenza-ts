@@ -1,91 +1,68 @@
-import { LocationNumber } from '..';
+import _ from 'lodash';
+
+import { LocationNumber, Song } from '..';
 import * as Midi from '../../midi';
 
-export abstract class TriggerInput {
-  abstract toString(): string;
-}
+type KeyPressTriggerInput = {
+  type: 'key-press';
+  key?: number; // optional because it needs to be set first
+  keyboardId?: number; // optional because it needs to be set first
+};
 
-export class KeyPressTriggerInput extends TriggerInput {
-  key?: number;
-  keyboardId?: number;
-
-  constructor(key?: number, keyboardId?: number) {
-    super();
-    this.key = key;
-    this.keyboardId = keyboardId;
-  }
-
-  toString() {
-    return `${this.key ? Midi.midiNoteNumberToName(this.key) : '[unset key]'} pressed`;
-  }
-}
-
-export class ControlTriggerInput extends TriggerInput {
+type ControlTriggerInput = {
+  type: 'control';
   controller: number;
   value: number;
+};
 
-  constructor(controller: number, value: number) {
-    super();
-    this.controller = controller;
-    this.value = value;
+export type TriggerInput = KeyPressTriggerInput | ControlTriggerInput;
+
+export const printTriggerInput = (triggerInput: TriggerInput): string => {
+  if (triggerInput.type === 'key-press') {
+    return triggerInput.key ? Midi.midiNoteNumberToName(triggerInput.key) : '[unset key]';
+  } else if (triggerInput.type === 'control') {
+    return `${Midi.shortCCName(triggerInput.controller)}@${triggerInput.value}`;
+  } else {
+    return 'unknown';
   }
+};
 
-  toString() {
-    return `${Midi.shortCCName(this.controller)}@${this.value}`;
-  }
-}
-
-export abstract class TriggerAction {
-  abstract toString(): string;
-}
-
-export class StepTriggerAction extends TriggerAction {
+type StepTriggerAction = {
+  type: 'step';
   reverse: boolean;
+};
 
-  constructor(reverse?: boolean) {
-    super();
-    this.reverse = !!reverse;
-  }
-
-  toString() {
-    return this.reverse ? 'Prev cue' : 'Next cue';
-  }
-}
-
-export class GotoTriggerAction extends TriggerAction {
+type GotoTriggerAction = {
+  type: 'goto';
   songId: number;
   measure: LocationNumber;
+};
 
-  constructor(songId: number, measure: LocationNumber) {
-    super();
-    this.songId = songId;
-    this.measure = measure;
-  }
-
-  toString() {
-    // TODO: songId => song number
-    return `Go to #${this.songId} m. ${this.measure.toString()}`;
-  }
-}
-
-export class WaitTriggerAction extends TriggerAction {
+type WaitTriggerAction = {
+  type: 'wait';
   millis: number;
+};
 
-  constructor(millis: number) {
-    super();
-    this.millis = millis;
-  }
+type PanicTriggerAction = {
+  type: 'panic';
+};
 
-  toString() {
-    return `Wait ${this.millis}ms`;
-  }
-}
+export type TriggerAction = StepTriggerAction | GotoTriggerAction | WaitTriggerAction | PanicTriggerAction;
 
-export class PanicTriggerAction extends TriggerAction {
-  toString() {
-    return 'Panic (all notes off)';
+export const printTriggerAction = (triggerAction: TriggerAction, songs: Song[]): string => {
+  if (triggerAction.type === 'step') {
+    return triggerAction.reverse ? 'Prev cue' : 'Next cue';
+  } else if (triggerAction.type === 'goto') {
+    const song = _.find(songs, { id: triggerAction.songId })!;
+    return `Go to #${song.location.toString()} m. ${triggerAction.measure.toString()}`;
+  } else if (triggerAction.type === 'wait') {
+    return `Wait ${triggerAction.millis}ms`;
+  } else if (triggerAction.type === 'panic') {
+    return 'Panic';
+  } else {
+    return 'unknown';
   }
-}
+};
 
 export type TriggerSequenceType = 'any of' | 'all of' | 'all in sequence';
 export const triggerSequenceTypes = ['any of', 'all of', 'all in sequence'] as TriggerSequenceType[];

@@ -1,12 +1,5 @@
 import { useSongs } from '../../../../../../../state';
-import {
-  GotoTriggerAction,
-  LocationNumber,
-  PanicTriggerAction,
-  StepTriggerAction,
-  TriggerAction,
-  WaitTriggerAction
-} from '../../../../../../../types';
+import { LocationNumber, TriggerAction } from '../../../../../../../types';
 import {
   Container,
   Content,
@@ -34,21 +27,23 @@ export const ActionEditor = ({ action, setAction, deleteSelf, moveUp, moveDown }
   const { songs } = useSongs();
 
   let selectedTab: number = 0;
-  if (action instanceof GotoTriggerAction) {
+  if (action.type === 'goto') {
     selectedTab = 1;
-  } else if (action instanceof WaitTriggerAction) {
+  } else if (action.type === 'wait') {
     selectedTab = 2;
+  } else if (action.type === 'panic') {
+    selectedTab = 3;
   }
 
   const setSelectedTab = (index: number) => {
     if (index === 0) {
-      setAction(new StepTriggerAction());
+      setAction({ type: 'step', reverse: false });
     } else if (index === 1) {
-      setAction(new GotoTriggerAction(songs[0]?.id || 0, new LocationNumber(1, '')));
+      setAction({ type: 'goto', songId: songs[0].id, measure: new LocationNumber(1, undefined) });
     } else if (index === 2) {
-      setAction(new WaitTriggerAction(1000));
+      setAction({ type: 'wait', millis: 500 });
     } else if (index === 3) {
-      setAction(new PanicTriggerAction());
+      setAction({ type: 'panic' });
     }
   };
 

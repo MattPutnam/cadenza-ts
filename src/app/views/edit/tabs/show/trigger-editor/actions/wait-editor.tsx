@@ -1,13 +1,13 @@
-import { TriggerAction, WaitTriggerAction } from '../../../../../../../types';
+import { TriggerAction } from '../../../../../../../types';
 import { Flex, NumberField, Placeholder } from '../../../../../../components';
 
 interface Props {
   action: TriggerAction;
-  setAction: (action: WaitTriggerAction) => void;
+  setAction: (action: TriggerAction) => void;
 }
 
 export const WaitEditor = ({ action, setAction }: Props) => {
-  if (!(action instanceof WaitTriggerAction)) {
+  if (action.type !== 'wait') {
     return <Placeholder>Wrong action type</Placeholder>;
   }
 
@@ -17,7 +17,7 @@ export const WaitEditor = ({ action, setAction }: Props) => {
         label="Wait"
         max={10000}
         value={action.millis}
-        setValue={(newValue) => setAction(new WaitTriggerAction(newValue))}
+        setValue={(millis) => setAction({ ...action, millis })}
       />
       milliseconds
     </Flex>

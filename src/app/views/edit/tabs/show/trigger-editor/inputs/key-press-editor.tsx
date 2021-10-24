@@ -1,16 +1,16 @@
 import { useKeyboards } from '../../../../../../../state';
-import { KeyPressTriggerInput, TriggerInput } from '../../../../../../../types';
+import { TriggerInput } from '../../../../../../../types';
 import { Center, KeyboardPanel, Placeholder } from '../../../../../../components';
 
 interface Props {
   input: TriggerInput;
-  setInput: (input: KeyPressTriggerInput) => void;
+  setInput: (input: TriggerInput) => void;
 }
 
 export const KeyPressEditor = ({ input, setInput }: Props) => {
   const { keyboards } = useKeyboards();
 
-  if (!(input instanceof KeyPressTriggerInput)) {
+  if (input.type !== 'key-press') {
     return <Placeholder>Wrong input type</Placeholder>;
   }
 
@@ -23,7 +23,7 @@ export const KeyPressEditor = ({ input, setInput }: Props) => {
               keyboard={keyboard}
               highlightKeys={input.key !== undefined && input.keyboardId === keyboard.id ? [input.key] : []}
               listenerId={`TriggerInputEditor${keyboard.id}`}
-              onKeyClick={(key, keyboardId) => setInput(new KeyPressTriggerInput(key, keyboardId))}
+              onKeyClick={(key, keyboardId) => setInput({ ...input, key, keyboardId })}
             />
           </Center>
         );

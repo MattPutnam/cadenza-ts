@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { KeyPressTriggerInput, Trigger, TriggerInput } from '../../../../../../../types';
+import { printTriggerInput, Trigger, TriggerInput } from '../../../../../../../types';
 import { Container, Content, Header, List, ListItem, Title } from '../../../../../../components';
 import { InputEditor } from './input-editor';
 
@@ -16,7 +16,7 @@ export const Inputs = ({ trigger, setTrigger }: Props) => {
   const input = selectedIndex === undefined ? undefined : inputs[selectedIndex];
 
   const addInput = () => {
-    const newInput = new KeyPressTriggerInput(undefined, undefined);
+    const newInput: TriggerInput = { type: 'key-press' };
     setTrigger({ ...trigger, inputs: [...trigger.inputs, newInput] });
     setSelectedIndex(trigger.inputs.length);
   };
@@ -64,7 +64,7 @@ export const Inputs = ({ trigger, setTrigger }: Props) => {
           {inputs.map((input, index) => {
             return (
               <ListItem key={index} value={index}>
-                {input.toString()}
+                {printTriggerInput(input)}
               </ListItem>
             );
           })}

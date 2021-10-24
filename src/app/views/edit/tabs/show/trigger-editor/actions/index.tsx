@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StepTriggerAction, Trigger, TriggerAction } from '../../../../../../../types';
+import { Trigger, TriggerAction } from '../../../../../../../types';
 import { Container, Content, Header, List, ListItem, Title } from '../../../../../../components';
 import { ActionEditor } from './action-editor';
 
@@ -16,7 +16,7 @@ export const Actions = ({ trigger, setTrigger }: Props) => {
   const action = selectedIndex === undefined ? undefined : actions[selectedIndex];
 
   const addAction = () => {
-    const newAction = new StepTriggerAction();
+    const newAction: TriggerAction = { type: 'step', reverse: false };
     setTrigger({ ...trigger, actions: [...trigger.actions, newAction] });
     setSelectedIndex(trigger.actions.length);
   };

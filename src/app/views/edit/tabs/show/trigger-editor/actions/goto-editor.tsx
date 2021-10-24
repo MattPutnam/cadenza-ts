@@ -3,20 +3,20 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useSongs } from '../../../../../../../state';
-import { GotoTriggerAction, isValidLocation, parseLocation, TriggerAction } from '../../../../../../../types';
+import { isValidLocation, parseLocation, TriggerAction } from '../../../../../../../types';
 import { Flex, Placeholder, TextField, Warning } from '../../../../../../components';
 import { SongSelector } from '../../song-selector';
 
 interface Props {
   action: TriggerAction;
-  setAction: (action: GotoTriggerAction) => void;
+  setAction: (action: TriggerAction) => void;
 }
 
 export const GotoEditor = ({ action, setAction }: Props) => {
   const { songs } = useSongs();
   const [error, setError] = React.useState<string | undefined>(undefined);
 
-  if (!(action instanceof GotoTriggerAction)) {
+  if (action.type !== 'goto') {
     return <Placeholder>Wrong action type</Placeholder>;
   }
 
@@ -29,7 +29,7 @@ export const GotoEditor = ({ action, setAction }: Props) => {
   const setMeasure = (newMeasure: string) => {
     const trimmed = newMeasure.trim();
     if (isValidLocation(trimmed)) {
-      setAction(new GotoTriggerAction(action.songId, parseLocation(trimmed)));
+      setAction({ ...action, measure: parseLocation(trimmed) });
       setError(undefined);
     } else {
       setError('Invalid measure number');
@@ -38,10 +38,7 @@ export const GotoEditor = ({ action, setAction }: Props) => {
 
   return (
     <Flex pad>
-      <SongSelector
-        selectedSong={selectedSong}
-        setSelectedSong={(song) => setAction(new GotoTriggerAction(song.id, action.measure))}
-      />
+      <SongSelector selectedSong={selectedSong} setSelectedSong={(song) => setAction({ ...action, songId: song.id })} />
       <TextField label="Measure:" size={6} value={action.measure.toString()} setValue={setMeasure} />
       {error && <Warning>{error}</Warning>}
     </Flex>
