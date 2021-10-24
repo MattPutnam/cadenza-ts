@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useCues } from '../../../../../../state';
-import { PatchUsage } from '../../../../../../types';
+import { PatchUsage, printLocation } from '../../../../../../types';
 import { Container, ControlMapper, Header, Title } from '../../../../../components';
 import { TriggerEditor } from '../trigger-editor';
 import { CueLocationEditor } from './cue-location-editor';
@@ -56,7 +56,7 @@ export const CueEditor = ({ cueId, cloneSelf, deleteSelf }) => {
       >
         <Title>Edit Cue</Title>
       </Header>
-      <CueLocationEditor key={`${cue.songId}#${cue.location.toString()}`} cueId={cueId} />
+      <CueLocationEditor key={`${cue.songId}#${printLocation(cue.location)}`} cueId={cueId} />
       <PatchUsageDisplay
         cue={cue}
         selectedPatchUsage={selectedPatchUsage}

@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useSongs } from '../../../../../../../state';
-import { isValidLocation, parseLocation, TriggerAction } from '../../../../../../../types';
+import { isValidLocation, parseLocation, printLocation, TriggerAction } from '../../../../../../../types';
 import { Flex, Placeholder, TextField, Warning } from '../../../../../../components';
 import { SongSelector } from '../../song-selector';
 
@@ -39,7 +39,7 @@ export const GotoEditor = ({ action, setAction }: Props) => {
   return (
     <Flex pad>
       <SongSelector selectedSong={selectedSong} setSelectedSong={(song) => setAction({ ...action, songId: song.id })} />
-      <TextField label="Measure:" size={6} value={action.measure.toString()} setValue={setMeasure} />
+      <TextField label="Measure:" size={6} value={printLocation(action.measure)} setValue={setMeasure} />
       {error && <Warning>{error}</Warning>}
     </Flex>
   );

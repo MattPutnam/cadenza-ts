@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { useSongs } from '../../../../../../state';
+import { printLocation } from '../../../../../../types';
 import { Container, Content, ControlMapper, Header, Title, Transpose } from '../../../../../components/';
 import { TriggerEditor } from '../trigger-editor';
 import { SongLocationEditor } from './song-location-editor';
@@ -26,7 +27,7 @@ const SongEditor = ({ songId, cloneSelf, deleteSelf }: Props) => {
         <Title>Edit song</Title>
       </Header>
       <Content>
-        <SongLocationEditor key={song.location.toString()} songId={songId} />
+        <SongLocationEditor key={printLocation(song.location)} songId={songId} />
         <Transpose
           alternate
           transposition={song.transposition}

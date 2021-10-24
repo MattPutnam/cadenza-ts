@@ -4,7 +4,7 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 import { useSongs } from '../../../../../../state';
-import { isValidLocation, parseLocation } from '../../../../../../types';
+import { isValidLocation, parseLocation, printLocation } from '../../../../../../types';
 import { Button, Container, Content, Flex, TextField, Warning } from '../../../../../components';
 
 const StyledButton = styled(Button)`
@@ -32,7 +32,12 @@ export const SongLocationEditor = ({ songId }: Props) => {
   const song = _.find(songs, { id: songId })!;
 
   React.useEffect(() => {
-    setSongNumber(_.find(songs, { id: songId })?.location.toString());
+    const song = _.find(songs, { id: songId });
+    if (song) {
+      setSongNumber(printLocation(song.location));
+    } else {
+      setSongNumber(undefined);
+    }
   }, [songId, songs]);
 
   const updateSongNumber = React.useCallback(
@@ -42,8 +47,8 @@ export const SongLocationEditor = ({ songId }: Props) => {
       if (!isValidLocation(trimmed)) {
         setError('Not a valid song number');
       } else if (
-        trimmedTL !== song.location.toString().toLowerCase() &&
-        _.some(songs, (s) => s.location.toString().toLowerCase() === trimmedTL)
+        trimmedTL !== printLocation(song.location).toLowerCase() &&
+        _.some(songs, (s) => printLocation(s.location).toLowerCase() === trimmedTL)
       ) {
         setError('Another song already has this number');
       } else {

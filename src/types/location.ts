@@ -1,41 +1,40 @@
 import _ from 'lodash';
 
-export class LocationNumber {
-  numberPart: number | undefined;
-  letterPart: string | undefined;
+export type LocationNumber =
+  | { numberPart: number }
+  | { letterPart: string }
+  | { numberPart: number; letterPart: string };
 
-  constructor(numberPart: number | undefined, letterPart: string | undefined) {
-    if (numberPart === undefined && letterPart === undefined) {
-      throw Error('LocationNumber must have at least one of numberPart and letterPart');
-    }
+type LenientLocationNumber = { numberPart: number | undefined; letterPart: string | undefined };
 
-    this.numberPart = numberPart || undefined; // prevent 0
-    this.letterPart = letterPart || undefined; // prevent ''
-  }
+export const printLocation = (location: LocationNumber): string => {
+  const lenient = location as LenientLocationNumber;
+  const { numberPart, letterPart } = lenient;
+  return `${numberPart || ''}${letterPart || ''}`;
+};
 
-  toString(): string {
-    return `${this.numberPart || ''}${this.letterPart || ''}`;
-  }
-
-  equals(other: LocationNumber) {
-    return this.numberPart === other.numberPart && this.letterPart === other.letterPart;
-  }
-}
+export const locationEquals = (loc1: LocationNumber, loc2: LocationNumber): boolean => {
+  const lenient1 = loc1 as LenientLocationNumber;
+  const lenient2 = loc2 as LenientLocationNumber;
+  return lenient1.numberPart === lenient2.numberPart && lenient1.letterPart === lenient2.letterPart;
+};
 
 export interface HasLocation {
   location: LocationNumber;
 }
 
 export const compareLocation = (l1: LocationNumber, l2: LocationNumber): number => {
-  if (l1.numberPart !== l2.numberPart) {
-    return (l1.numberPart || -1) - (l2.numberPart || -1);
-  } else if (l1.letterPart !== l2.letterPart) {
-    if (l1.letterPart === undefined) {
+  const lenient1 = l1 as LenientLocationNumber;
+  const lenient2 = l2 as LenientLocationNumber;
+  if (lenient1.numberPart !== lenient2.numberPart) {
+    return (lenient1.numberPart || -1) - (lenient2.numberPart || -1);
+  } else if (lenient1.letterPart !== lenient2.letterPart) {
+    if (lenient1.letterPart === undefined) {
       return -1;
-    } else if (l2.letterPart === undefined) {
+    } else if (lenient2.letterPart === undefined) {
       return 1;
     } else {
-      return l1.letterPart < l2.letterPart ? -1 : 1;
+      return lenient1.letterPart < lenient2.letterPart ? -1 : 1;
     }
   } else {
     return 0;
@@ -56,18 +55,31 @@ export const parseLocation = (location: string): LocationNumber => {
   const [_, numberString, letterString] = location.match(pattern)!;
   const numberPart = numberString.length > 0 ? parseInt(numberString, 10) : undefined;
   const letterPart = letterString.length > 0 ? letterString : undefined;
-  return new LocationNumber(numberPart, letterPart);
+  if (numberPart) {
+    if (letterPart) {
+      return { numberPart, letterPart };
+    } else {
+      return { numberPart };
+    }
+  } else {
+    if (letterPart) {
+      return { letterPart };
+    } else {
+      throw new Error('Invalid location string');
+    }
+  }
 };
 
 export const generateNext = (location: LocationNumber, avoid: LocationNumber[] = []): LocationNumber => {
-  const toAvoid = avoid.filter((a) => a.letterPart === undefined);
+  const lenientLocation = location as LenientLocationNumber;
+  const toAvoid = avoid.filter((a) => (a as LenientLocationNumber).letterPart === undefined);
 
-  let candidate = (location.numberPart || 0) + 1;
+  let candidate = (lenientLocation.numberPart || 0) + 1;
 
-  const test = (a: LocationNumber) => a.numberPart === candidate;
+  const test = (a: LenientLocationNumber) => a.numberPart === candidate;
   while (!!_.find(toAvoid, test)) {
     ++candidate;
   }
 
-  return new LocationNumber(candidate, undefined);
+  return { numberPart: candidate };
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useCues, useSongs, useSynthesizers } from '../../../../../state';
-import { compareHasLocation, generateNext, LocationNumber } from '../../../../../types';
+import { compareHasLocation, generateNext, LocationNumber, printLocation } from '../../../../../types';
 import { findId } from '../../../../../utils/id';
 import { Container, Content, Header, List, ListItem, ListSection, Title } from '../../../../components';
 import { Selection } from './selection';
@@ -21,7 +21,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
   const addSongAction = React.useCallback(() => {
     let newNumber: LocationNumber;
     if (_.isEmpty(songs)) {
-      newNumber = new LocationNumber(1, undefined);
+      newNumber = { numberPart: 1 };
     } else if (!selection || selection.type === 'globals') {
       // nothing is selected, add to the end
       newNumber = generateNext(_.last(songs)!.location);
@@ -68,7 +68,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
       if (lastCue) {
         newNumber = generateNext(lastCue.location);
       } else {
-        newNumber = new LocationNumber(1, undefined);
+        newNumber = { numberPart: 1 };
       }
     } else if (selection.type === 'song') {
       // a song is selected, add to the end of the song
@@ -78,7 +78,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
       if (lastCue) {
         newNumber = generateNext(lastCue.location);
       } else {
-        newNumber = new LocationNumber(1, undefined);
+        newNumber = { numberPart: 1 };
       }
     } else {
       // a cue is selected, insert after
@@ -126,13 +126,13 @@ export const CueList = ({ selection, setSelection }: Props) => {
             return (
               <ListSection
                 key={songIndex}
-                title={`${location.toString()}: ${name}`}
+                title={`${printLocation(location)}: ${name}`}
                 value={{ type: 'song', selectedId: song.id }}
               >
                 {songCues.map((cue, cueIndex) => {
                   return (
                     <ListItem key={cueIndex} value={{ type: 'cue', selectedId: cue.id }}>
-                      {`m. ${cue.location.toString()}`}
+                      {`m. ${printLocation(cue.location)}`}
                     </ListItem>
                   );
                 })}

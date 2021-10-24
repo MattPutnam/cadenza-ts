@@ -1,5 +1,5 @@
 import { useSongs } from '../../../../../state';
-import { Song } from '../../../../../types';
+import { printLocation, Song } from '../../../../../types';
 import { ObjectSelect } from '../../../../components';
 
 interface Props {
@@ -14,7 +14,7 @@ export const SongSelector = ({ selectedSong, setSelectedSong }: Props) => {
     <ObjectSelect
       label="Song:"
       options={songs}
-      render={(song) => `${song.location.toString()}. ${song.name}`}
+      render={(song) => `${printLocation(song.location)}. ${song.name}`}
       selected={selectedSong}
       setSelected={setSelectedSong}
     />

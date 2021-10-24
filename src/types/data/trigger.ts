@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { LocationNumber, Song } from '..';
+import { LocationNumber, printLocation, Song } from '..';
 import * as Midi from '../../midi';
 
 type KeyPressTriggerInput = {
@@ -54,7 +54,7 @@ export const printTriggerAction = (triggerAction: TriggerAction, songs: Song[]):
     return triggerAction.reverse ? 'Prev cue' : 'Next cue';
   } else if (triggerAction.type === 'goto') {
     const song = _.find(songs, { id: triggerAction.songId })!;
-    return `Go to #${song.location.toString()} m. ${triggerAction.measure.toString()}`;
+    return `Go to #${printLocation(song.location)} m. ${printLocation(triggerAction.measure)}`;
   } else if (triggerAction.type === 'wait') {
     return `Wait ${triggerAction.millis}ms`;
   } else if (triggerAction.type === 'panic') {

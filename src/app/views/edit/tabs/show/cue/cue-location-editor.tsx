@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useCues, useSongs } from '../../../../../../state';
-import { isValidLocation, parseLocation, Song } from '../../../../../../types';
+import { isValidLocation, locationEquals, parseLocation, printLocation, Song } from '../../../../../../types';
 import { Button, Container, Content, Flex, TextField, Warning } from '../../../../../components';
 import { SongSelector } from '../song-selector';
 
@@ -28,10 +28,10 @@ export const CueLocationEditor = ({ cueId }: Props) => {
     setModified(true);
   };
 
-  const sameSongAndMeasureAsUnedited = selectedSongId === cue.songId && selectedMeasure.equals(cue.location);
+  const sameSongAndMeasureAsUnedited = selectedSongId === cue.songId && locationEquals(selectedMeasure, cue.location);
   const conflict =
     !sameSongAndMeasureAsUnedited &&
-    _.some(cues, (c) => c.songId === selectedSongId && selectedMeasure.equals(c.location));
+    _.some(cues, (c) => c.songId === selectedSongId && locationEquals(selectedMeasure, c.location));
 
   const measureUpdate = (measureText: string) => {
     const trimmed = measureText.trim();
@@ -54,7 +54,7 @@ export const CueLocationEditor = ({ cueId }: Props) => {
       <Content>
         <Flex pad>
           <SongSelector selectedSong={selectedSong} setSelectedSong={setSelectedSong} />
-          <TextField label="Measure:" size={6} value={selectedMeasure.toString()} setValue={measureUpdate} />
+          <TextField label="Measure:" size={6} value={printLocation(selectedMeasure)} setValue={measureUpdate} />
           {modified && <span>- Modified</span>}
           {error && <Warning>{error}</Warning>}
           {conflict && <Warning>Another cue with this song/measure already exists</Warning>}
