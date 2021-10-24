@@ -29,9 +29,9 @@ export const SynthConfig = ({ synthesizer, deleteSelf, moveUp, moveDown }: Props
     <Container alternate>
       <Header
         buttons={[
-          ['delete', deleteSelf, inUse],
           ['arrowUp', moveUp],
-          ['arrowDown', moveDown]
+          ['arrowDown', moveDown],
+          ['delete', deleteSelf, inUse]
         ]}
       >
         <InterfaceSelector
