@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { HarpPedalPosition, HarpPedalsPatchUsage } from '../../../../../../../types';
+import { HarpPedalPosition, PedalPositions } from '../../../../../../../types';
 import { Center, ObjectSelect } from '../../../../../../components';
 import { PatchUsageEditorProps } from './patch-usage-editor-props';
 import { wrongType } from './wrong-type';
@@ -8,7 +8,7 @@ import { wrongType } from './wrong-type';
 const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
 export const HarpPedalsEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditorProps) => {
-  if (!(patchUsage instanceof HarpPedalsPatchUsage)) {
+  if (patchUsage.type !== 'harp-pedals') {
     return wrongType;
   }
 
@@ -16,7 +16,7 @@ export const HarpPedalsEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditor
   const setPedalPositions = (index: number) => (value: HarpPedalPosition) => {
     const newPedalPositions = [...pedalPositions];
     newPedalPositions[index] = value;
-    setPatchUsage(patchUsage.clone(newPedalPositions));
+    setPatchUsage({ ...patchUsage, pedalPositions: newPedalPositions as PedalPositions });
   };
 
   return (

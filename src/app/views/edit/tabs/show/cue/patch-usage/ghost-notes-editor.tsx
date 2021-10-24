@@ -3,7 +3,6 @@ import React from 'react';
 import _ from 'lodash';
 
 import { useKeyboards } from '../../../../../../../state';
-import { GhostNotesPatchUsage } from '../../../../../../../types';
 import { createSubKeyboard } from '../../../../../../../utils/keyboard-utils';
 import { Center, Checkbox, Flex, KeyboardPanel, Spacer } from '../../../../../../components';
 import { PatchUsageEditorProps } from './patch-usage-editor-props';
@@ -13,7 +12,7 @@ export const GhostNotesEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditor
   const { keyboards } = useKeyboards();
   const [selectedKey, setSelectedKey] = React.useState<number | undefined>(undefined);
 
-  if (!(patchUsage instanceof GhostNotesPatchUsage)) {
+  if (patchUsage.type !== 'ghost-notes') {
     return wrongType;
   }
 
@@ -31,7 +30,7 @@ export const GhostNotesEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditor
 
       const newMapping = { ...mappedNotes, [selectedKey]: Array.from(mappingForSelectedKey) };
 
-      setPatchUsage(patchUsage.clone(newMapping, patchUsage.passthrough));
+      setPatchUsage({ ...patchUsage, mappedNotes: newMapping });
     }
   };
 
@@ -59,7 +58,7 @@ export const GhostNotesEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditor
         <Checkbox
           label="Pass through non-mapped notes"
           checked={passthrough}
-          onChange={(passthrough) => setPatchUsage(patchUsage.clone(patchUsage.mappedNotes, passthrough))}
+          onChange={(passthrough) => setPatchUsage({ ...patchUsage, passthrough })}
         />
       </Flex>
     </Center>

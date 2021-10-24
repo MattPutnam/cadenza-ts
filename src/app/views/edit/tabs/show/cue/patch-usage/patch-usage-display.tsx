@@ -2,7 +2,7 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 import { useKeyboards, usePatches } from '../../../../../../../state';
-import { Cue, KeyboardDefinition, NormalPatchUsage, PatchUsage } from '../../../../../../../types';
+import { Cue, KeyboardDefinition, PatchUsage } from '../../../../../../../types';
 import * as KeyboardUtils from '../../../../../../../utils/keyboard-utils';
 import {
   ButtonLike,
@@ -32,7 +32,15 @@ export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsa
   const patchUsagesByKeyboardId = _.groupBy(cue.patchUsages, 'keyboardId');
 
   const onRangeDrag = (keyboard: KeyboardDefinition, low: number, high: number) => {
-    const newPatchUsage = new NormalPatchUsage(keyboard.id, patches[0].id, [low, high], {}, 0, false);
+    const newPatchUsage: PatchUsage = {
+      type: 'normal',
+      keyboardId: keyboard.id,
+      patchId: patches[0].id,
+      range: [low, high],
+      mapping: {},
+      transposition: 0,
+      monophonic: false
+    };
 
     addPatchUsage(newPatchUsage);
   };

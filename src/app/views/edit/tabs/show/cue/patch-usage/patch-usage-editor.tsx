@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { GhostNotesPatchUsage, HarpPedalsPatchUsage, NormalPatchUsage, PatchUsage } from '../../../../../../../types';
+import { PatchUsage } from '../../../../../../../types';
 import {
   Container,
   Content,
@@ -26,47 +26,19 @@ interface Props {
 
 export const PatchUsageEditor = ({ patchUsage, setPatchUsage, updatePatchUsage, deleteSelf }: Props) => {
   let selectedTab = 0;
-  if (patchUsage instanceof GhostNotesPatchUsage) {
+  if (patchUsage.type === 'ghost-notes') {
     selectedTab = 1;
-  } else if (patchUsage instanceof HarpPedalsPatchUsage) {
+  } else if (patchUsage.type === 'harp-pedals') {
     selectedTab = 2;
   }
 
   const onTabSelected = (index: number) => {
     if (index === 0) {
-      setPatchUsage(
-        new NormalPatchUsage(
-          patchUsage.keyboardId,
-          patchUsage.patchId,
-          patchUsage.range,
-          patchUsage.mapping,
-          patchUsage.transposition,
-          false
-        )
-      );
+      setPatchUsage({ ...patchUsage, type: 'normal', monophonic: false });
     } else if (index === 1) {
-      setPatchUsage(
-        new GhostNotesPatchUsage(
-          patchUsage.keyboardId,
-          patchUsage.patchId,
-          patchUsage.range,
-          patchUsage.mapping,
-          patchUsage.transposition,
-          {},
-          false
-        )
-      );
+      setPatchUsage({ ...patchUsage, type: 'ghost-notes', mappedNotes: {}, passthrough: false });
     } else if (index === 2) {
-      setPatchUsage(
-        new HarpPedalsPatchUsage(
-          patchUsage.keyboardId,
-          patchUsage.patchId,
-          patchUsage.range,
-          patchUsage.mapping,
-          patchUsage.transposition,
-          [0, 0, 0, 0, 0, 0, 0]
-        )
-      );
+      setPatchUsage({ ...patchUsage, type: 'harp-pedals', pedalPositions: [0, 0, 0, 0, 0, 0, 0] });
     }
   };
 
