@@ -14,7 +14,7 @@ export const useSongs = () => {
     songs.sort(compareHasLocation);
     return songs;
   };
-  const [addSong, __, updateSong] = CRUD(songs, setSongs, transform);
+  const [createSong, findSong, updateSong] = CRUD(songs, setSongs, transform);
 
   const cloneSong = (song: Song) => {
     const newLocation = generateNext(
@@ -56,5 +56,5 @@ export const useSongs = () => {
     setState({ songs: newSongs, cues: newCues });
   };
 
-  return { songs, setSongs, addSong, deleteSong, updateSong, cloneSong };
+  return { songs, setSongs, createSong, findSong, updateSong, deleteSong, cloneSong };
 };

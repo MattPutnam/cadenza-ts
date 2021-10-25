@@ -6,7 +6,7 @@ import { CRUD } from '../utils';
 export const useKeyboards = () => {
   const { keyboards, setKeyboards } = React.useContext(AppContext);
 
-  const [addKeyboard, deleteKeyboard, updateKeyboard] = CRUD(keyboards, setKeyboards);
+  const [createKeyboard, findKeyboard, updateKeyboard, deleteKeyboard] = CRUD(keyboards, setKeyboards);
 
-  return { keyboards, setKeyboards, addKeyboard, deleteKeyboard, updateKeyboard };
+  return { keyboards, setKeyboards, createKeyboard, findKeyboard, updateKeyboard, deleteKeyboard };
 };

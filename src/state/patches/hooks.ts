@@ -6,7 +6,7 @@ import { CRUD } from '../utils';
 export const usePatches = () => {
   const { patches, setPatches } = React.useContext(AppContext);
 
-  const [addPatch, deletePatch, updatePatch] = CRUD(patches, setPatches);
+  const [createPatch, findPatch, updatePatch, deletePatch] = CRUD(patches, setPatches);
 
-  return { patches, setPatches, addPatch, deletePatch, updatePatch };
+  return { patches, setPatches, createPatch, findPatch, updatePatch, deletePatch };
 };

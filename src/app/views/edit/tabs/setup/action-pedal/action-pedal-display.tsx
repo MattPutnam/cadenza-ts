@@ -10,7 +10,7 @@ const LabelColumn = styled.td`
 `;
 
 export const ActionPedalDisplay = () => {
-  const { keyboards } = useKeyboards();
+  const { keyboards, findKeyboard } = useKeyboards();
   const { actionPedal, updateActionPedal } = useActionPedal();
 
   if (keyboards.length === 0) {
@@ -22,7 +22,7 @@ export const ActionPedalDisplay = () => {
   }
 
   const { keyboardId, controller, type, reverse } = actionPedal;
-  const keyboard = _.find(keyboards, { id: keyboardId });
+  const keyboard = findKeyboard(keyboardId);
 
   if (!keyboard) {
     return <div>Keyboard not found</div>;

@@ -12,17 +12,17 @@ interface Props {
 }
 
 export const CueLocationEditor = ({ cueId }: Props) => {
-  const { songs } = useSongs();
-  const { cues, updateCue } = useCues();
+  const { findSong } = useSongs();
+  const { cues, findCue, updateCue } = useCues();
 
-  const cue = _.find(cues, { id: cueId })!;
+  const cue = findCue(cueId)!;
 
   const [selectedSongId, setSelectedSongId] = React.useState(cue.songId);
   const [modified, setModified] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [selectedMeasure, setSelectedMeasure] = React.useState(cue.location);
 
-  const selectedSong = _.find(songs, { id: selectedSongId })!;
+  const selectedSong = findSong(selectedSongId)!;
   const setSelectedSong = (song: Song) => {
     setSelectedSongId(song.id);
     setModified(true);

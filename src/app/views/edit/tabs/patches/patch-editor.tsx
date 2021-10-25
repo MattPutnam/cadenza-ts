@@ -39,17 +39,17 @@ interface Props {
 }
 
 export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
-  const { patches, addPatch, deletePatch, updatePatch } = usePatches();
-  const { synthesizers } = useSynthesizers();
+  const { patches, createPatch, findPatch, deletePatch, updatePatch } = usePatches();
+  const { synthesizers, findSynthesizer } = useSynthesizers();
   const { cues } = useCues();
   const midiInterfaces = Midi.useMidiInterfaces();
 
   const { allPatches } = SynthUtils.resolveSynthesizersAndPatches(synthesizers);
 
-  const selectedPatch = _.find(patches, { id: selectedPatchId })!;
+  const selectedPatch = findPatch(selectedPatchId)!;
   const patchAssigned =
     selectedPatch.synthesizerId !== undefined && selectedPatch.bank && selectedPatch.number !== undefined;
-  const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })!;
+  const selectedSynth = findSynthesizer(selectedPatch.synthesizerId)!;
   const outputDevice = Midi.findInterfaceByName(midiInterfaces.outputs, selectedSynth.midiInterfaceName) as
     | WebMidi.MIDIOutput
     | undefined;
@@ -87,7 +87,7 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
   };
 
   const deleteSelectedPatch = () => {
-    deletePatch(selectedPatch);
+    deletePatch(selectedPatch.id);
     setSelectedPatchId(undefined);
   };
 
@@ -107,7 +107,7 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     newPatch.id = id;
     newPatch.name = name;
 
-    addPatch(newPatch);
+    createPatch(newPatch);
     setSelectedPatchId(id);
   };
 

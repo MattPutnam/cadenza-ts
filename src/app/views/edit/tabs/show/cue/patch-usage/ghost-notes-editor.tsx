@@ -9,7 +9,7 @@ import { PatchUsageEditorProps } from './patch-usage-editor-props';
 import { wrongType } from './wrong-type';
 
 export const GhostNotesEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditorProps) => {
-  const { keyboards } = useKeyboards();
+  const { findKeyboard } = useKeyboards();
   const [selectedKey, setSelectedKey] = React.useState<number | undefined>(undefined);
 
   if (patchUsage.type !== 'ghost-notes') {
@@ -34,7 +34,7 @@ export const GhostNotesEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditor
     }
   };
 
-  const keyboard = _.find(keyboards, { id: patchUsage.keyboardId })!;
+  const keyboard = findKeyboard(patchUsage.keyboardId)!;
   const subKeyboard = createSubKeyboard(keyboard, patchUsage.range);
 
   const sourceHighlight = _.keys(mappedNotes).map((x) => parseInt(x, 10));

@@ -24,21 +24,21 @@ interface Props {
 }
 
 export const SongLocationEditor = ({ songId }: Props) => {
-  const { songs, updateSong } = useSongs();
+  const { songs, findSong, updateSong } = useSongs();
   const [songNumber, setSongNumber] = React.useState<string | undefined>(undefined);
   const [modified, setModified] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
 
-  const song = _.find(songs, { id: songId })!;
+  const song = findSong(songId)!;
 
   React.useEffect(() => {
-    const song = _.find(songs, { id: songId });
+    const song = findSong(songId);
     if (song) {
       setSongNumber(printLocation(song.location));
     } else {
       setSongNumber(undefined);
     }
-  }, [songId, songs]);
+  }, [findSong, songId, songs]);
 
   const updateSongNumber = React.useCallback(
     (numberString: string) => {

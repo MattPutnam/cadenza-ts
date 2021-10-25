@@ -15,8 +15,8 @@ interface Props {
 
 export const CueList = ({ selection, setSelection }: Props) => {
   const { synthesizers } = useSynthesizers();
-  const { songs, addSong } = useSongs();
-  const { cues, addCue } = useCues();
+  const { songs, createSong, findSong } = useSongs();
+  const { cues, createCue, findCue } = useCues();
 
   const addSongAction = React.useCallback(() => {
     let newNumber: LocationNumber;
@@ -27,15 +27,15 @@ export const CueList = ({ selection, setSelection }: Props) => {
       newNumber = generateNext(_.last(songs)!.location);
     } else if (selection.type === 'song') {
       // a song is selected, insert after
-      const song = _.find(songs, { id: selection.selectedId })!;
+      const song = findSong(selection.selectedId)!;
       newNumber = generateNext(
         song.location,
         songs.map((s) => s.location)
       );
     } else {
       // a cue is selected, insert after its song
-      const cue = _.find(cues, { id: selection.selectedId })!;
-      const song = _.find(songs, { id: cue.songId })!;
+      const cue = findCue(selection.selectedId)!;
+      const song = findSong(cue.songId)!;
       newNumber = generateNext(
         song.location,
         songs.map((s) => s.location)
@@ -44,7 +44,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
 
     const id = findId(songs);
 
-    addSong({
+    createSong({
       id,
       name: '',
       location: newNumber,
@@ -54,7 +54,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
     });
 
     setSelection({ type: 'song', selectedId: id });
-  }, [addSong, cues, selection, setSelection, songs]);
+  }, [createSong, findCue, findSong, selection, setSelection, songs]);
 
   const addCueAction = React.useCallback(() => {
     let resolvedSongId: number;
@@ -82,8 +82,8 @@ export const CueList = ({ selection, setSelection }: Props) => {
       }
     } else {
       // a cue is selected, insert after
-      const cue = _.find(cues, { id: selection.selectedId })!;
-      const song = _.find(songs, { id: cue.songId })!;
+      const cue = findCue(selection.selectedId)!;
+      const song = findSong(cue.songId)!;
       const songCues = _.filter(cues, { songId: song.id }).sort(compareHasLocation);
       resolvedSongId = song.id;
       newNumber = generateNext(
@@ -94,7 +94,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
 
     const id = findId(cues);
 
-    addCue({
+    createCue({
       id,
       songId: resolvedSongId,
       location: newNumber,
@@ -104,7 +104,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
     });
 
     setSelection({ type: 'cue', selectedId: id });
-  }, [addCue, cues, selection, setSelection, songs]);
+  }, [createCue, cues, findCue, findSong, selection, setSelection, songs]);
 
   return (
     <Container flex="0 0 200px">

@@ -33,11 +33,11 @@ export const PatchSelector = ({ patchUsage, updatePatchUsage }: Props) => {
   const [patchTreeSelection, setPatchTreeSelection] = React.useState<PatchTreeSelection | undefined>(undefined);
 
   const { synthesizers, allPatches } = useSynthesizers();
-  const { patches, addPatch } = usePatches();
+  const { patches, createPatch, findPatch } = usePatches();
   const firstPatch = allPatches[0];
   const firstPatchTreeSelection: PatchTreeSelection = [firstPatch.synthesizer, firstPatch.bank, firstPatch.number];
 
-  const selectedPatch = _.find(patches, { id: patchUsage.patchId })!;
+  const selectedPatch = findPatch(patchUsage.patchId)!;
 
   const startDefiningNew = () => {
     setDefiningNew(true);
@@ -70,7 +70,7 @@ export const PatchSelector = ({ patchUsage, updatePatchUsage }: Props) => {
       transposition: 0
     };
 
-    addPatch(newPatch);
+    createPatch(newPatch);
     updatePatchUsage({ patchId: newId });
     setDefiningNew(false);
   };

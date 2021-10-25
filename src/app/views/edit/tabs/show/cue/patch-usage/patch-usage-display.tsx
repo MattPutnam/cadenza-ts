@@ -104,7 +104,7 @@ const PatchUsageBar = styled(ButtonLike)<{ width: number; selected: boolean }>`
 `;
 
 const PatchUsageRow = ({ patchUsageRow, keyboard, selectedPatchUsage, setSelectedPatchUsage }: PatchUsageRowProps) => {
-  const { patches } = usePatches();
+  const { findPatch } = usePatches();
 
   const tagged = patchUsageRow.map((patchUsage) => {
     return {
@@ -125,7 +125,7 @@ const PatchUsageRow = ({ patchUsageRow, keyboard, selectedPatchUsage, setSelecte
       adjustedWidth -= accum - left;
     }
     const { patchId } = patchUsage;
-    const patch = _.find(patches, { id: patchId });
+    const patch = findPatch(patchId);
     const selected = selectedPatchUsage === patchUsage;
     elements.push(
       <PatchUsageBar

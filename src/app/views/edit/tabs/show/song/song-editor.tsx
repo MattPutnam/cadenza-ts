@@ -13,8 +13,8 @@ interface Props {
 }
 
 const SongEditor = ({ songId, cloneSelf, deleteSelf }: Props) => {
-  const { songs, updateSong } = useSongs();
-  const song = _.find(songs, { id: songId })!;
+  const { findSong, updateSong } = useSongs();
+  const song = findSong(songId)!;
 
   return (
     <Container marginCollapse="left">

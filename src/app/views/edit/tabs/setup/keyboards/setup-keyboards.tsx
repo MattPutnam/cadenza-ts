@@ -12,7 +12,7 @@ import { MidiInterfacePlaceholder } from '../interface-selector';
 import { KeyboardConfig } from './keyboard-config';
 
 export const SetupKeyboards = () => {
-  const { keyboards, addKeyboard, deleteKeyboard, setKeyboards } = useKeyboards();
+  const { keyboards, createKeyboard, deleteKeyboard, setKeyboards } = useKeyboards();
   const { actionPedal, updateActionPedal, setActionPedal } = useActionPedal();
   const { inputs } = Midi.useMidiInterfaces();
   const [moveUp, moveDown] = useReorder(keyboards, setKeyboards);
@@ -20,13 +20,13 @@ export const SetupKeyboards = () => {
 
   const addNewKeyboardFromButton = React.useCallback(
     () =>
-      addKeyboard({
+      createKeyboard({
         range: defaultRange,
         midiInterfaceName: inputs[0] ? Midi.midiInterfaceToName(inputs[0]) : MidiInterfacePlaceholder,
         channel: 0,
         id: findId(keyboards)
       }),
-    [addKeyboard, inputs, keyboards]
+    [createKeyboard, inputs, keyboards]
   );
 
   const addNewKeyboardFromMidi = React.useCallback(
@@ -34,7 +34,7 @@ export const SetupKeyboards = () => {
       const { keyboardId, midiInterfaceName, channel } = msg;
       if (!_.some(keyboards, { id: keyboardId })) {
         setListening(false);
-        addKeyboard({
+        createKeyboard({
           range: defaultRange,
           midiInterfaceName,
           channel,
@@ -42,7 +42,7 @@ export const SetupKeyboards = () => {
         });
       }
     },
-    [addKeyboard, keyboards]
+    [createKeyboard, keyboards]
   );
 
   const wrappedDelete = (keyboard: KeyboardDefinition) => {
@@ -54,7 +54,7 @@ export const SetupKeyboards = () => {
         setActionPedal(undefined);
       }
     }
-    deleteKeyboard(keyboard);
+    deleteKeyboard(keyboard.id);
   };
 
   return (

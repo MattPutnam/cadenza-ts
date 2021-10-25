@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const PatchList = ({ selectedPatchId, setSelectedPatchId }: Props) => {
-  const { patches, setPatches, addPatch } = usePatches();
+  const { patches, setPatches, createPatch } = usePatches();
   const { synthesizers, allPatches } = useSynthesizers();
 
   const sortPatches = () => {
@@ -21,7 +21,7 @@ export const PatchList = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     const id = findId(patches);
     const patch = allPatches[0];
 
-    addPatch({
+    createPatch({
       id,
       ...patch,
       volume: 100,

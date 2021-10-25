@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const GotoEditor = ({ action, setAction }: Props) => {
-  const { songs } = useSongs();
+  const { songs, findSong } = useSongs();
   const [error, setError] = React.useState<string | undefined>(undefined);
 
   if (action.type !== 'goto') {
@@ -24,7 +24,7 @@ export const GotoEditor = ({ action, setAction }: Props) => {
     return <Placeholder>Add a song first</Placeholder>;
   }
 
-  const selectedSong = _.find(songs, { id: action.songId })!;
+  const selectedSong = findSong(action.songId)!;
 
   const setMeasure = (newMeasure: string) => {
     const trimmed = newMeasure.trim();

@@ -19,25 +19,25 @@ const StyledFlex = styled(Flex)`
 export const ShowTab = () => {
   const [selection, setSelection] = React.useState<Selection>(undefined);
   const { synthesizers } = useSynthesizers();
-  const { songs, cloneSong, deleteSong } = useSongs();
+  const { findSong, cloneSong, deleteSong } = useSongs();
 
   const cloneSongAction = React.useCallback(() => {
     if (!(selection?.type === 'song')) return; // trick type system
     const songId = selection.selectedId;
-    const song = _.find(songs, { id: songId })!;
+    const song = findSong(songId)!;
 
     const newSongId = cloneSong(song);
     setSelection({ type: 'song', selectedId: newSongId });
-  }, [cloneSong, selection, songs]);
+  }, [cloneSong, findSong, selection]);
 
   const deleteSongAction = React.useCallback(() => {
     if (!(selection?.type === 'song')) return; // trick type system
     const songId = selection.selectedId;
-    const song = _.find(songs, { id: songId })!;
+    const song = findSong(songId)!;
 
     setSelection(undefined);
     deleteSong(song);
-  }, [deleteSong, selection, songs]);
+  }, [deleteSong, findSong, selection]);
 
   const cloneCueAction = React.useCallback(() => {}, []);
 

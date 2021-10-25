@@ -11,10 +11,10 @@ import { PatchUsageDisplay } from './patch-usage/patch-usage-display';
 import { PatchUsageEditor } from './patch-usage/patch-usage-editor';
 
 export const CueEditor = ({ cueId, cloneSelf, deleteSelf }) => {
-  const { cues, updateCue } = useCues();
+  const { findCue, updateCue } = useCues();
   const [selectedPatchUsageIndex, setSelectedPatchUsageIndex] = React.useState<number | undefined>(undefined);
 
-  const cue = _.find(cues, { id: cueId })!;
+  const cue = findCue(cueId)!;
   const selectedPatchUsage =
     selectedPatchUsageIndex === undefined ? undefined : cue.patchUsages[selectedPatchUsageIndex];
   const setSelectedPatchUsage = (pu?: PatchUsage) =>

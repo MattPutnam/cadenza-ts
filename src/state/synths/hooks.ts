@@ -7,7 +7,10 @@ import { CRUD } from '../utils';
 export const useSynthesizers = () => {
   const { synthesizers, setSynthesizers } = React.useContext(AppContext);
 
-  const [addSynthesizer, deleteSynthesizer, updateSynthesizer] = CRUD(synthesizers, setSynthesizers);
+  const [createSynthesizer, findSynthesizer, updateSynthesizer, deleteSynthesizer] = CRUD(
+    synthesizers,
+    setSynthesizers
+  );
 
   const allPatches = React.useMemo(() => {
     const resolution = SynthUtils.resolveSynthesizersAndPatches(synthesizers);
@@ -19,5 +22,14 @@ export const useSynthesizers = () => {
     return resolution.synthTree;
   }, [synthesizers]);
 
-  return { synthesizers, setSynthesizers, addSynthesizer, deleteSynthesizer, updateSynthesizer, allPatches, synthTree };
+  return {
+    synthesizers,
+    setSynthesizers,
+    createSynthesizer,
+    findSynthesizer,
+    updateSynthesizer,
+    deleteSynthesizer,
+    allPatches,
+    synthTree
+  };
 };
