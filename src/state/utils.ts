@@ -1,22 +1,25 @@
 import _ from 'lodash';
 
 import { Ided } from '../types';
+import { findId, findIds } from './../utils/id';
 
 export const CRUD = <T extends Ided>(
   objects: T[],
   setObjects: (newObjects: T[]) => void,
   transform: (values: T[]) => T[] = _.identity
 ): [
-  (object: T) => void, // create
+  (object: Omit<T, 'id'>) => number, // create
   (id: number) => T | undefined, // find
   (id: number, props: Partial<T>) => void, // update
   (id: number) => void, // delete
-  (objects: T[]) => void, // addAll
-  (objects: T[]) => void // deleteAll
+  (objects: Omit<T, 'id'>[]) => void, // addAll
+  (ids: number[]) => void // deleteAll
 ] => {
-  const createObject = (object: T) => {
-    const newObjects = [...objects, object];
+  const createObject = (object: Omit<T, 'id'>): number => {
+    const id = findId(objects);
+    const newObjects = [...objects, { ...object, id } as T];
     setObjects(transform(newObjects));
+    return id;
   };
 
   const findObject = (id: number): T | undefined => {
@@ -36,14 +39,17 @@ export const CRUD = <T extends Ided>(
     setObjects(newObjects);
   };
 
-  const addAll = (newObjects: T[]) => {
-    setObjects(transform([...objects, ...newObjects]));
+  const addAll = (newObjects: Omit<T, 'id'>[]) => {
+    const ids = findIds(objects, newObjects.length);
+    const zipped = _.zip(newObjects, ids);
+    const newWithIds = zipped.map(([obj, id]) => ({ ...obj!, id: id! } as T));
+    setObjects(transform([...objects, ...newWithIds]));
   };
 
-  const deleteAll = (toDelete: T[]) => {
-    const targetIds = new Set(toDelete.map((obj) => obj.id));
+  const deleteAll = (ids: number[]) => {
+    const idsSet = new Set(ids);
     const newObjects = [...objects];
-    _.remove(newObjects, (obj) => targetIds.has(obj.id));
+    _.remove(newObjects, (obj) => idsSet.has(obj.id));
     setObjects(newObjects);
   };
 

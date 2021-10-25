@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import { useReorder } from '../../../../../../hooks/use-reorder';
 import { useSynthesizers } from '../../../../../../state';
-import { findId } from '../../../../../../utils/id';
 import { Container, Content, Header, Placeholder, Title } from '../../../../../components';
 import { MidiInterfacePlaceholder } from '../interface-selector';
 import { allChannels } from './multi-channel-selector';
@@ -17,12 +16,11 @@ export const SetupSynths = () => {
   const addSynthesizerAction = React.useCallback(() => {
     createSynthesizer({
       name: 'Roland JV-1080',
-      id: findId(synthesizers),
       midiInterfaceName: MidiInterfacePlaceholder,
       expansionCards: {},
       channels: allChannels
     });
-  }, [createSynthesizer, synthesizers]);
+  }, [createSynthesizer]);
 
   return (
     <Container collapse marginCollapse="top">

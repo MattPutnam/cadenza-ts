@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { usePatches, useSynthesizers } from '../../../../../state';
-import { findId } from '../../../../../utils/id';
 import { Container, Content, Header, List, ListItem, Title } from '../../../../components';
 
 interface Props {
@@ -17,18 +16,16 @@ export const PatchList = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     setPatches(_.sortBy(patches, 'name'));
   };
 
-  const doAddPatch = () => {
-    const id = findId(patches);
+  const addPatch = () => {
     const patch = allPatches[0];
 
-    createPatch({
-      id,
+    const newId = createPatch({
       ...patch,
       volume: 100,
       mapping: {},
       transposition: 0
     });
-    setSelectedPatchId(id);
+    setSelectedPatchId(newId);
   };
 
   return (
@@ -36,7 +33,7 @@ export const PatchList = ({ selectedPatchId, setSelectedPatchId }: Props) => {
       <Header
         buttons={[
           ['sortDown', sortPatches, _.isEmpty(patches)],
-          ['add', doAddPatch, _.isEmpty(synthesizers)]
+          ['add', addPatch, _.isEmpty(synthesizers)]
         ]}
       >
         <Title>Patches</Title>

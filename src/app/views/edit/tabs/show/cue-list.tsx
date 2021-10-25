@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import { useCues, useSongs, useSynthesizers } from '../../../../../state';
 import { compareHasLocation, generateNext, LocationNumber, printLocation } from '../../../../../types';
-import { findId } from '../../../../../utils/id';
 import { Container, Content, Header, List, ListItem, ListSection, Title } from '../../../../components';
 import { Selection } from './selection';
 
@@ -42,10 +41,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
       );
     }
 
-    const id = findId(songs);
-
-    createSong({
-      id,
+    const newId = createSong({
       name: '',
       location: newNumber,
       transposition: 0,
@@ -53,7 +49,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
       triggers: []
     });
 
-    setSelection({ type: 'song', selectedId: id });
+    setSelection({ type: 'song', selectedId: newId });
   }, [createSong, findCue, findSong, selection, setSelection, songs]);
 
   const addCueAction = React.useCallback(() => {
@@ -92,10 +88,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
       );
     }
 
-    const id = findId(cues);
-
-    createCue({
-      id,
+    const newId = createCue({
       songId: resolvedSongId,
       location: newNumber,
       patchUsages: [],
@@ -103,7 +96,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
       triggers: []
     });
 
-    setSelection({ type: 'cue', selectedId: id });
+    setSelection({ type: 'cue', selectedId: newId });
   }, [createCue, cues, findCue, findSong, selection, setSelection, songs]);
 
   return (

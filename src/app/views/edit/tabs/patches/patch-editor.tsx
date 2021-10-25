@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import * as Midi from '../../../../../midi';
 import { useCues, usePatches, useSynthesizers } from '../../../../../state';
 import { PatchSelection } from '../../../../../types';
-import { findId } from '../../../../../utils/id';
 import * as SynthUtils from '../../../../../utils/synth-utils';
 import {
   Container,
@@ -92,7 +91,6 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
   };
 
   const cloneSelectedPatch = () => {
-    const id = findId(patches);
     const match = /(.*)\s\(\d+\)/.exec(selectedPatch.name);
     const baseName = match ? match[1] : selectedPatch.name;
     let nameNumber = 0;
@@ -104,11 +102,10 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     } while (allNames.has(name));
 
     const newPatch = _.cloneDeep(selectedPatch);
-    newPatch.id = id;
     newPatch.name = name;
 
-    createPatch(newPatch);
-    setSelectedPatchId(id);
+    const newId = createPatch(newPatch);
+    setSelectedPatchId(newId);
   };
 
   React.useEffect(() => {

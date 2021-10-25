@@ -6,7 +6,6 @@ import { useReorder } from '../../../../../../hooks/use-reorder';
 import * as Midi from '../../../../../../midi';
 import { useActionPedal, useKeyboards } from '../../../../../../state';
 import { defaultRange, KeyboardDefinition } from '../../../../../../types';
-import { findId } from '../../../../../../utils/id';
 import { Container, Header, Content, Title, Placeholder, MidiListener } from '../../../../../components';
 import { MidiInterfacePlaceholder } from '../interface-selector';
 import { KeyboardConfig } from './keyboard-config';
@@ -23,10 +22,9 @@ export const SetupKeyboards = () => {
       createKeyboard({
         range: defaultRange,
         midiInterfaceName: inputs[0] ? Midi.midiInterfaceToName(inputs[0]) : MidiInterfacePlaceholder,
-        channel: 0,
-        id: findId(keyboards)
+        channel: 0
       }),
-    [createKeyboard, inputs, keyboards]
+    [createKeyboard, inputs]
   );
 
   const addNewKeyboardFromMidi = React.useCallback(
@@ -37,8 +35,7 @@ export const SetupKeyboards = () => {
         createKeyboard({
           range: defaultRange,
           midiInterfaceName,
-          channel,
-          id: findId(keyboards)
+          channel
         });
       }
     },

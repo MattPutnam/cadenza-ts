@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { usePatches, useSynthesizers } from '../../../../../../../state';
 import { PatchUsage } from '../../../../../../../types';
-import { findId } from '../../../../../../../utils/id';
 import {
   Button,
   Container,
@@ -54,12 +53,10 @@ export const PatchSelector = ({ patchUsage, updatePatchUsage }: Props) => {
     const [synthName, bank, number] = patchTreeSelection;
     if (!synthName || !bank || number === undefined) return;
 
-    const newId = findId(patches);
     const synthesizerId = _.find(synthesizers, { name: synthName })!.id;
     const patch = _.find(allPatches, { synthesizerId, bank, number })!;
 
     const newPatch = {
-      id: newId,
       synthesizer: synthName,
       synthesizerId,
       bank,
@@ -70,7 +67,7 @@ export const PatchSelector = ({ patchUsage, updatePatchUsage }: Props) => {
       transposition: 0
     };
 
-    createPatch(newPatch);
+    const newId = createPatch(newPatch);
     updatePatchUsage({ patchId: newId });
     setDefiningNew(false);
   };
