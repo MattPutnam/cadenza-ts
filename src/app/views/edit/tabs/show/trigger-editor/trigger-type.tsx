@@ -1,5 +1,5 @@
 import { Trigger, TriggerSequenceType, triggerSequenceTypes } from '../../../../../../types';
-import { Flex, Select } from '../../../../../components';
+import { Select } from '../../../../../components';
 
 interface Props {
   trigger: Trigger;
@@ -13,9 +13,5 @@ export const TriggerType = ({ trigger, setTrigger }: Props) => {
     setTrigger({ ...trigger, type: newType });
   };
 
-  return (
-    <Flex pad>
-      <Select label="Type:" options={triggerSequenceTypes} selected={type} setSelected={setSelected} />
-    </Flex>
-  );
+  return <Select label="Type:" options={triggerSequenceTypes} selected={type} setSelected={setSelected} />;
 };

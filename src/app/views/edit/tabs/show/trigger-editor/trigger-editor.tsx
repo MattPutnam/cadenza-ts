@@ -24,8 +24,9 @@ const summarize = (trigger: Trigger, songs: Song[]) => {
 
   const inputString = `[${inputs.map(printTriggerInput).join(', ')}]`;
   const actionString = `[${actions.map((action) => printTriggerAction(action, songs)).join(', ')}]`;
+  const typeString = inputs.length > 1 ? ` ${type}` : '';
 
-  return `On ${type}: ${inputString} do: ${actionString}`;
+  return `On${typeString}: ${inputString} do: ${actionString}`;
 };
 
 interface Props extends ContainerProps {
@@ -86,15 +87,21 @@ export const TriggerEditor = ({ triggers, setTriggers, ...containerProps }: Prop
   );
 };
 
-const Editor = ({ trigger, setSelectedTrigger, deleteSelf }) => {
+interface EditorProps {
+  trigger: Trigger;
+  setSelectedTrigger: (trigger: Trigger) => void;
+  deleteSelf: () => void;
+}
+
+const Editor = ({ trigger, setSelectedTrigger, deleteSelf }: EditorProps) => {
   return (
     <SectionWrapper>
       <Container>
         <Header buttons={[['delete', deleteSelf]]}>
           <Title>Edit Trigger</Title>
+          {trigger.inputs.length > 1 && <TriggerType trigger={trigger} setTrigger={setSelectedTrigger} />}
         </Header>
         <Content>
-          <TriggerType trigger={trigger} setTrigger={setSelectedTrigger} />
           <Inputs trigger={trigger} setTrigger={setSelectedTrigger} />
           <Actions trigger={trigger} setTrigger={setSelectedTrigger} />
         </Content>
