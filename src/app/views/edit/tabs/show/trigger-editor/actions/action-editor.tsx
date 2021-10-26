@@ -39,7 +39,7 @@ export const ActionEditor = ({ action, setAction, deleteSelf, moveUp, moveDown }
     if (index === 0) {
       setAction({ type: 'step', reverse: false });
     } else if (index === 1) {
-      setAction({ type: 'goto', songId: songs[0].id, measure: { numberPart: 1 } });
+      setAction({ type: 'goto', songId: songs[0]?.id ?? -1, measure: { numberPart: 1 } });
     } else if (index === 2) {
       setAction({ type: 'wait', millis: 500 });
     } else if (index === 3) {

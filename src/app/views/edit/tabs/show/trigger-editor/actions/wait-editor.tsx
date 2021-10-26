@@ -1,5 +1,5 @@
 import { TriggerAction } from '../../../../../../../types';
-import { Flex, NumberField, Placeholder } from '../../../../../../components';
+import { Flex, Label, NumberField, Placeholder } from '../../../../../../components';
 
 interface Props {
   action: TriggerAction;
@@ -19,7 +19,7 @@ export const WaitEditor = ({ action, setAction }: Props) => {
         value={action.millis}
         setValue={(millis) => setAction({ ...action, millis })}
       />
-      milliseconds
+      <Label>milliseconds</Label>
     </Flex>
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { useCues, useSongs, useSynthesizers } from '../../../../../state';
+import { useCues, useSongs } from '../../../../../state';
 import { compareHasLocation, generateNext, LocationNumber, printLocation } from '../../../../../types';
 import { Container, Content, Header, List, ListItem, ListSection, Title } from '../../../../components';
 import { Selection } from './selection';
@@ -13,7 +13,6 @@ interface Props {
 }
 
 export const CueList = ({ selection, setSelection }: Props) => {
-  const { synthesizers } = useSynthesizers();
   const { songs, createSong, findSong } = useSongs();
   const { cues, createCue, findCue } = useCues();
 
@@ -103,7 +102,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
     <Container flex="0 0 200px">
       <Header
         buttons={[
-          ['addSong', addSongAction, _.isEmpty(synthesizers)],
+          ['addSong', addSongAction],
           ['add', addCueAction, _.isEmpty(songs)]
         ]}
       >

@@ -53,8 +53,12 @@ export const printTriggerAction = (triggerAction: TriggerAction, songs: Song[]):
   if (triggerAction.type === 'step') {
     return triggerAction.reverse ? 'Prev cue' : 'Next cue';
   } else if (triggerAction.type === 'goto') {
-    const song = _.find(songs, { id: triggerAction.songId })!;
-    return `Go to #${printLocation(song.location)} m. ${printLocation(triggerAction.measure)}`;
+    const song = _.find(songs, { id: triggerAction.songId });
+    if (song) {
+      return `Go to #${printLocation(song.location)} m. ${printLocation(triggerAction.measure)}`;
+    } else {
+      return `Go to undefined song`;
+    }
   } else if (triggerAction.type === 'wait') {
     return `Wait ${triggerAction.millis}ms`;
   } else if (triggerAction.type === 'panic') {
