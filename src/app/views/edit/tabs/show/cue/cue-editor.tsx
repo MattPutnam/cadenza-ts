@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { useCues } from '../../../../../../state';
 import { PatchUsage, printLocation } from '../../../../../../types';
-import { Container, ControlMapper, Header, Title } from '../../../../../components';
+import { Container, ControlMapper, Header, Title, Transpose } from '../../../../../components';
 import { TriggerEditor } from '../trigger-editor';
 import { CueLocationEditor } from './cue-location-editor';
 import { PatchUsageDisplay } from './patch-usage/patch-usage-display';
@@ -72,19 +72,25 @@ export const CueEditor = ({ cueId, cloneSelf, deleteSelf }) => {
         />
       )}
       {!selectedPatchUsage && (
-        <TriggerEditor
-          marginCollapse="top"
-          triggers={cue.triggers}
-          setTriggers={(triggers) => updateCue(cueId, { triggers })}
-        />
-      )}
-      {!selectedPatchUsage && (
-        <ControlMapper
-          marginCollapse="top"
-          alternate
-          mapping={cue.mapping}
-          setMapping={(mapping) => updateCue(cueId, { mapping })}
-        />
+        <>
+          <Transpose
+            marginCollapse="top"
+            alternate
+            transposition={cue.transposition}
+            setTransposition={(transposition) => updateCue(cueId, { transposition })}
+          />
+          <TriggerEditor
+            marginCollapse="top"
+            triggers={cue.triggers}
+            setTriggers={(triggers) => updateCue(cueId, { triggers })}
+          />
+          <ControlMapper
+            marginCollapse="top"
+            alternate
+            mapping={cue.mapping}
+            setMapping={(mapping) => updateCue(cueId, { mapping })}
+          />
+        </>
       )}
     </Container>
   );

@@ -39,6 +39,7 @@ export const useSongs = () => {
         songId: newSongId,
         patchUsages: _.cloneDeep(cue.patchUsages),
         location: cue.location,
+        transposition: cue.transposition,
         triggers: _.cloneDeep(cue.triggers),
         mapping: { ...cue.mapping }
       }));

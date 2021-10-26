@@ -91,6 +91,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
       songId: resolvedSongId,
       location: newNumber,
       patchUsages: [],
+      transposition: 0,
       mapping: {},
       triggers: []
     });

@@ -4,7 +4,7 @@ export interface Song extends HasLocation, Ided, Mappable, Transposeable, HasTri
   name: string;
 }
 
-export interface Cue extends HasLocation, Ided, Mappable, HasTriggers {
+export interface Cue extends HasLocation, Ided, Mappable, Transposeable, HasTriggers {
   songId: number;
   patchUsages: PatchUsage[];
 }
