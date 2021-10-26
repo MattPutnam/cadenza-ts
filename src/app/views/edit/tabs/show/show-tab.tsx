@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import { useSongs, useSynthesizers } from '../../../../../state';
+import { useSongs } from '../../../../../state';
 import { Flex, Placeholder } from '../../../../components';
 import { CueList } from './cue-list';
 import { CueEditor } from './cue/cue-editor';
@@ -18,11 +18,10 @@ const StyledFlex = styled(Flex)`
 
 export const ShowTab = () => {
   const [selection, setSelection] = React.useState<Selection>(undefined);
-  const { synthesizers } = useSynthesizers();
   const { findSong, cloneSong, deleteSong } = useSongs();
 
   const cloneSongAction = React.useCallback(() => {
-    if (!(selection?.type === 'song')) return; // trick type system
+    if (!(selection?.type === 'song')) return;
     const songId = selection.selectedId;
     const song = findSong(songId)!;
 
@@ -31,7 +30,7 @@ export const ShowTab = () => {
   }, [cloneSong, findSong, selection]);
 
   const deleteSongAction = React.useCallback(() => {
-    if (!(selection?.type === 'song')) return; // trick type system
+    if (!(selection?.type === 'song')) return;
     const songId = selection.selectedId;
     const song = findSong(songId)!;
 
@@ -46,8 +45,6 @@ export const ShowTab = () => {
   let mainDisplay: React.ReactNode;
   if (selection && selection.type === 'globals') {
     mainDisplay = <GlobalsEditor />;
-  } else if (synthesizers.length === 0) {
-    mainDisplay = <Placeholder>Add a synthesizer in the Setup tab</Placeholder>;
   } else if (!selection) {
     mainDisplay = <Placeholder>Select a song or cue to edit it</Placeholder>;
   } else if (selection.type === 'song') {

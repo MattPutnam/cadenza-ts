@@ -15,7 +15,7 @@ export const TriggerType = ({ trigger, setTrigger }: Props) => {
 
   return (
     <Flex pad>
-      <Select label="On:" options={triggerSequenceTypes} selected={type} setSelected={setSelected} />
+      <Select label="Type:" options={triggerSequenceTypes} selected={type} setSelected={setSelected} />
     </Flex>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Select, NumberField, Container, Header, Title, Flex, ContainerProps } from '..';
+import { Button, Select, NumberField, Container, Title, Flex, ContainerProps, Content } from '..';
 
 interface Props extends ContainerProps {
   transposition: number;
@@ -29,26 +29,26 @@ export const Transpose = ({ transposition, setTransposition, ...containerProps }
 
   return (
     <Container key={transposition} flex="none" {...containerProps}>
-      <Header>
-        <Title>Transposition</Title>
-      </Header>
-      <Flex pad>
-        {/* max of 10 just to make the fields the same size */}
-        <NumberField label="Transpose" value={octaves} max={10} setValue={setOctaves} />
-        <NumberField label="octaves plus" value={steps} max={11} setValue={setSteps} />
-        <Select
-          label="half steps"
-          disabled={!transposition}
-          options={['Up', 'Down']}
-          selected={down ? 'Down' : 'Up'}
-          setSelected={(newValue) => setTransposition(absTransposition * (newValue === 'Up' ? 1 : -1))}
-        />
-        {transposition ? (
-          <Button disabled={!transposition} onClick={() => setTransposition(0)}>
-            Clear
-          </Button>
-        ) : undefined}
-      </Flex>
+      <Content>
+        <Flex pad>
+          <Title>Transposition</Title>
+          {/* max of 10 just to make the fields the same size */}
+          <NumberField label="Transpose" value={octaves} max={10} setValue={setOctaves} />
+          <NumberField label="octaves plus" value={steps} max={11} setValue={setSteps} />
+          <Select
+            label="half steps"
+            disabled={!transposition}
+            options={['Up', 'Down']}
+            selected={down ? 'Down' : 'Up'}
+            setSelected={(newValue) => setTransposition(absTransposition * (newValue === 'Up' ? 1 : -1))}
+          />
+          {transposition ? (
+            <Button disabled={!transposition} onClick={() => setTransposition(0)}>
+              Clear
+            </Button>
+          ) : undefined}
+        </Flex>
+      </Content>
     </Container>
   );
 };

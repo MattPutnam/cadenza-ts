@@ -8,7 +8,6 @@ import {
   Container,
   ContainerProps,
   Content,
-  Flex,
   Header,
   List,
   ListItem,
@@ -97,7 +96,6 @@ const Editor = ({ trigger, setSelectedTrigger, deleteSelf }) => {
         <Content>
           <TriggerType trigger={trigger} setTrigger={setSelectedTrigger} />
           <Inputs trigger={trigger} setTrigger={setSelectedTrigger} />
-          <Flex pad>Do</Flex>
           <Actions trigger={trigger} setTrigger={setSelectedTrigger} />
         </Content>
       </Container>

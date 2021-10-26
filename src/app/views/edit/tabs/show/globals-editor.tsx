@@ -1,5 +1,5 @@
 import { useGlobals } from '../../../../../state';
-import { Container, Content, ControlMapper, Header, Title, Transpose } from '../../../../components';
+import { Container, Content, ControlMapper, Transpose } from '../../../../components';
 import { TriggerEditor } from './trigger-editor';
 
 export const GlobalsEditor = () => {
@@ -7,9 +7,6 @@ export const GlobalsEditor = () => {
 
   return (
     <Container marginCollapse="left">
-      <Header>
-        <Title>Edit global settings</Title>
-      </Header>
       <Content>
         <Transpose alternate transposition={transposition} setTransposition={setTransposition} />
         <TriggerEditor triggers={triggers} setTriggers={setTriggers} />
