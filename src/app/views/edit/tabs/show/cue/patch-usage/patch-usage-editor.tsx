@@ -9,7 +9,8 @@ import {
   TabHeader,
   TabPanel,
   Tabs,
-  Title
+  Title,
+  Transpose
 } from '../../../../../../components';
 import { GhostNotesEditor } from './ghost-notes-editor';
 import { HarpPedalsEditor } from './harp-pedals-editor';
@@ -69,6 +70,10 @@ export const PatchUsageEditor = ({ patchUsage, setPatchUsage, updatePatchUsage, 
             </TabPanel>
           </Tabs>
         </Container>
+        <Transpose
+          transposition={patchUsage.transposition}
+          setTransposition={(transposition) => updatePatchUsage({ transposition })}
+        />
         <ControlMapper mapping={patchUsage.mapping} setMapping={(mapping) => updatePatchUsage({ mapping })} />
       </Content>
     </Container>
