@@ -1,11 +1,13 @@
 import _ from 'lodash';
 
+import { usePatches } from '../../../../../../../state';
 import { PatchUsage } from '../../../../../../../types';
 import {
   Container,
   Content,
   ControlMapper,
   Header,
+  ObjectSelect,
   TabHeader,
   TabPanel,
   Tabs,
@@ -15,7 +17,6 @@ import {
 import { GhostNotesEditor } from './ghost-notes-editor';
 import { HarpPedalsEditor } from './harp-pedals-editor';
 import { NormalEditor } from './normal-editor';
-import { PatchSelector } from './patch-selector';
 import { RangeSelector } from './range-selector';
 
 interface Props {
@@ -26,6 +27,8 @@ interface Props {
 }
 
 export const PatchUsageEditor = ({ patchUsage, setPatchUsage, updatePatchUsage, deleteSelf }: Props) => {
+  const { patches, findPatch } = usePatches();
+
   let selectedTab = 0;
   if (patchUsage.type === 'ghost-notes') {
     selectedTab = 1;
@@ -46,10 +49,16 @@ export const PatchUsageEditor = ({ patchUsage, setPatchUsage, updatePatchUsage, 
   return (
     <Container alternate collapse marginCollapse="top">
       <Header buttons={[['delete', deleteSelf]]}>
-        <Title>Configure Patch</Title>
+        <Title>Configure</Title>
+        <ObjectSelect
+          label="Patch:"
+          options={patches}
+          selected={findPatch(patchUsage.patchId)!}
+          setSelected={(patch) => updatePatchUsage({ patchId: patch.id })}
+          render={(p) => p.name}
+        />
       </Header>
       <Content>
-        <PatchSelector patchUsage={patchUsage} updatePatchUsage={updatePatchUsage} />
         <RangeSelector patchUsage={patchUsage} updatePatchUsage={updatePatchUsage} />
         <Container collapse>
           <Header>
