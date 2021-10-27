@@ -13,13 +13,13 @@ import {
   ControlMapper,
   Flex,
   Header,
-  MidiListener,
   PatchPicker,
   PatchTreeSelection,
   Title,
   Transpose,
   Warning
 } from '../../../../components';
+import { PatchPerformer } from '../../../../performers';
 import { PatchNamer } from './patch-namer';
 import { Volume } from './volume';
 
@@ -46,13 +46,8 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
   const { allPatches } = SynthUtils.resolveSynthesizersAndPatches(synthesizers);
 
   const selectedPatch = findPatch(selectedPatchId)!;
-  const patchAssigned =
-    selectedPatch.synthesizerId !== undefined && selectedPatch.bank && selectedPatch.number !== undefined;
   const selectedSynth = findSynthesizer(selectedPatch.synthesizerId)!;
-  const outputDevice = Midi.findInterfaceByName(midiInterfaces.outputs, selectedSynth.midiInterfaceName) as
-    | WebMidi.MIDIOutput
-    | undefined;
-  const channelToUse = selectedSynth.channels[0];
+  const outputDevice = Midi.findInterfaceByName(midiInterfaces.outputs, selectedSynth.midiInterfaceName);
 
   const initialSelection = [
     selectedSynth ? selectedSynth.name : synthesizers[0].name,
@@ -108,49 +103,6 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     setSelectedPatchId(newId);
   };
 
-  React.useEffect(() => {
-    if (outputDevice && patchAssigned) {
-      SynthUtils.loadPatch(selectedPatch, selectedSynth, channelToUse, outputDevice);
-    }
-  }, [
-    outputDevice,
-    selectedPatch,
-    selectedPatch.bank,
-    selectedPatch.number,
-    selectedSynth,
-    channelToUse,
-    patchAssigned
-  ]);
-
-  React.useEffect(() => {
-    if (outputDevice && patchAssigned) {
-      outputDevice.send(Midi.setVolumeMessage(channelToUse, selectedPatch.volume).unparse());
-    }
-  }, [outputDevice, channelToUse, selectedPatch.volume, patchAssigned]);
-
-  const handleMidi = (parsedMessage: Midi.MidiMessage) => {
-    if (patchAssigned && outputDevice) {
-      const { transposition, mapping } = selectedPatch;
-
-      if (
-        transposition &&
-        (parsedMessage instanceof Midi.NoteOnMessage || parsedMessage instanceof Midi.NoteOffMessage)
-      ) {
-        parsedMessage.note = parsedMessage.note + transposition;
-      }
-
-      if (mapping && parsedMessage instanceof Midi.ControllerMessage) {
-        const mapped = mapping[parsedMessage.controller];
-        if (mapped && mapped !== 'none') {
-          parsedMessage.controller = mapped;
-        }
-      }
-
-      parsedMessage.channel = channelToUse;
-      outputDevice.send(parsedMessage.unparse());
-    }
-  };
-
   return (
     <Container marginCollapse="left">
       <Header
@@ -162,7 +114,7 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
         <Title>Edit</Title>
       </Header>
       <Content>
-        {outputDevice && <MidiListener id={`PatchEditor#${selectedPatchId}`} dispatch={handleMidi} />}
+        <PatchPerformer patch={selectedPatch} />
         <AllControls>
           <NotVolume column>
             <Container alternate>
