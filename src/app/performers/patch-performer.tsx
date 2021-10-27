@@ -45,11 +45,11 @@ export const PatchPerformer = ({ patch }: Props) => {
     if (device) {
       const { transposition, mapping } = patch;
 
-      if (transposition && (parsedMessage instanceof NoteOnMessage || parsedMessage instanceof NoteOffMessage)) {
+      if (parsedMessage instanceof NoteOnMessage || parsedMessage instanceof NoteOffMessage) {
         parsedMessage.note = parsedMessage.note + transposition;
       }
 
-      if (mapping && parsedMessage instanceof ControllerMessage) {
+      if (parsedMessage instanceof ControllerMessage) {
         const mapped = mapping[parsedMessage.controller];
         if (mapped && mapped !== 'none') {
           parsedMessage.controller = mapped;
