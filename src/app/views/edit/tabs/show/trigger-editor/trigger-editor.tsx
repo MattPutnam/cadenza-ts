@@ -2,8 +2,8 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import { useSongs } from '../../../../../../state';
-import { printTriggerAction, printTriggerInput, Song, Trigger } from '../../../../../../types';
+import { useKeyboards, useSongs } from '../../../../../../state';
+import { KeyboardDefinition, printTriggerAction, printTriggerInput, Song, Trigger } from '../../../../../../types';
 import {
   Container,
   ContainerProps,
@@ -19,11 +19,24 @@ import { Inputs } from './inputs';
 import { SectionWrapper } from './section-wrapper';
 import { TriggerType } from './trigger-type';
 
-const summarize = (trigger: Trigger, songs: Song[]) => {
+const summarize = (trigger: Trigger, keyboards: KeyboardDefinition[], songs: Song[]) => {
   const { inputs, actions, type } = trigger;
 
-  const inputString = `[${inputs.map(printTriggerInput).join(', ')}]`;
-  const actionString = `[${actions.map((action) => printTriggerAction(action, songs)).join(', ')}]`;
+  if (inputs.length === 0) {
+    return '[No inputs]';
+  }
+  if (actions.length === 0) {
+    return '[No action]';
+  }
+
+  const inputString =
+    inputs.length === 1
+      ? printTriggerInput(inputs[0], keyboards)
+      : `[${inputs.map((input) => printTriggerInput(input, keyboards)).join(', ')}]`;
+  const actionString =
+    actions.length === 1
+      ? printTriggerAction(actions[0], songs)
+      : `[${actions.map((action) => printTriggerAction(action, songs)).join(', ')}]`;
   const typeString = inputs.length > 1 ? ` ${type}` : '';
 
   return `On${typeString}: ${inputString} do: ${actionString}`;
@@ -36,6 +49,7 @@ interface Props extends ContainerProps {
 
 export const TriggerEditor = ({ triggers, setTriggers, ...containerProps }: Props) => {
   const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
+  const { keyboards } = useKeyboards();
   const { songs } = useSongs();
 
   const trigger = selectedIndex === undefined ? undefined : triggers[selectedIndex];
@@ -76,7 +90,7 @@ export const TriggerEditor = ({ triggers, setTriggers, ...containerProps }: Prop
           {triggers.map((trigger, index) => {
             return (
               <ListItem key={index} value={index}>
-                {summarize(trigger, songs)}
+                {summarize(trigger, keyboards, songs)}
               </ListItem>
             );
           })}

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useKeyboards } from '../../../../../../../state';
 import { printTriggerInput, Trigger, TriggerInput } from '../../../../../../../types';
 import { Container, Content, Header, List, ListItem, Title } from '../../../../../../components';
 import { InputEditor } from './input-editor';
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export const Inputs = ({ trigger, setTrigger }: Props) => {
+  const { keyboards } = useKeyboards();
+
   const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
   const { inputs } = trigger;
 
@@ -64,7 +67,7 @@ export const Inputs = ({ trigger, setTrigger }: Props) => {
           {inputs.map((input, index) => {
             return (
               <ListItem key={index} value={index}>
-                {printTriggerInput(input)}
+                {printTriggerInput(input, keyboards)}
               </ListItem>
             );
           })}

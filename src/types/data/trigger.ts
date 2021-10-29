@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { LocationNumber, printLocation, Song } from '..';
+import { KeyboardDefinition, LocationNumber, printLocation, Song } from '..';
 import * as Midi from '../../midi';
 
 type KeyPressTriggerInput = {
@@ -17,9 +17,15 @@ type ControlTriggerInput = {
 
 export type TriggerInput = KeyPressTriggerInput | ControlTriggerInput;
 
-export const printTriggerInput = (triggerInput: TriggerInput): string => {
+export const printTriggerInput = (triggerInput: TriggerInput, keyboards: KeyboardDefinition[]): string => {
   if (triggerInput.type === 'key-press') {
-    return triggerInput.key ? Midi.midiNoteNumberToName(triggerInput.key) : '[unset key]';
+    const keyName = triggerInput.key ? Midi.midiNoteNumberToName(triggerInput.key) : '[unset key]';
+    if (keyboards.length === 1) {
+      return keyName;
+    } else {
+      const index = _.findIndex(keyboards, { id: triggerInput.keyboardId });
+      return `${keyName} on kbd ${index + 1}`;
+    }
   } else if (triggerInput.type === 'control') {
     return `${Midi.shortCCName(triggerInput.controller)}@${triggerInput.value}`;
   } else {
