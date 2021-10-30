@@ -47,6 +47,7 @@ export const PatchUsageEditor = ({ patchUsage, setPatchUsage, updatePatchUsage, 
     <Container
       alternate
       collapse
+      startCollapsed
       marginCollapse="top"
       header={{
         title: 'Configure',
@@ -59,7 +60,8 @@ export const PatchUsageEditor = ({ patchUsage, setPatchUsage, updatePatchUsage, 
             render={(p) => p.name}
           />
         ),
-        buttons: [['delete', deleteSelf]]
+        buttons: [['delete', deleteSelf]],
+        showButtonsOnCollapsed: true
       }}
     >
       <RangeSelector patchUsage={patchUsage} updatePatchUsage={updatePatchUsage} />

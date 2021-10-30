@@ -8,6 +8,7 @@ export default {
   argTypes: {
     collapse: 'boolean',
     alternate: 'boolean',
+    showButtonsOnCollapsed: 'boolean',
     header: disableArg,
     startCollapsed: disableArg,
     flex: disableArg,
@@ -15,14 +16,15 @@ export default {
   }
 };
 
-export const Basic = ({ collapse, startCollapsed, alternate }) => (
+export const Basic = ({ collapse, startCollapsed, alternate, showButtonsOnCollapsed }) => (
   <Container
     header={{
       title: 'Header text',
       buttons: [
         ['add', () => {}],
         ['delete', () => {}]
-      ]
+      ],
+      showButtonsOnCollapsed
     }}
     collapse={collapse}
     startCollapsed={startCollapsed}

@@ -10,7 +10,13 @@ import { CueLocationEditor } from './cue-location-editor';
 import { PatchUsageDisplay } from './patch-usage/patch-usage-display';
 import { PatchUsageEditor } from './patch-usage/patch-usage-editor';
 
-export const CueEditor = ({ cueId, cloneSelf, deleteSelf }) => {
+interface Props {
+  cueId: number;
+  cloneSelf: () => void;
+  deleteSelf: () => void;
+}
+
+export const CueEditor = ({ cueId, cloneSelf, deleteSelf }: Props) => {
   const { findCue, updateCue } = useCues();
   const [selectedPatchUsageIndex, setSelectedPatchUsageIndex] = React.useState<number | undefined>(undefined);
 

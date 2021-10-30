@@ -26,6 +26,7 @@ export type ContainerProps = {
     title?: string;
     contents?: React.ReactNode;
     buttons?: ([IconName, MaybeAction, boolean?] | false | undefined)[];
+    showButtonsOnCollapsed?: boolean;
   };
 };
 
@@ -101,7 +102,7 @@ export const Container: React.FC<Props> = ({
           {header.title && <Title>{header.title}</Title>}
           {header.contents}
           {!_.isEmpty(header.buttons) && <Spacer />}
-          {!collapsed && (
+          {(!collapsed || header.showButtonsOnCollapsed) && (
             <>
               {header.buttons?.map((buttonSpec, index) => {
                 if (buttonSpec) {

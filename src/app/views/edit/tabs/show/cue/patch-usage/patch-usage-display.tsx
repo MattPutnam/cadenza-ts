@@ -1,6 +1,9 @@
+import React from 'react';
+
 import _ from 'lodash';
 import styled from 'styled-components';
 
+import * as Midi from '../../../../../../../midi';
 import { useKeyboards, usePatches } from '../../../../../../../state';
 import { Cue, KeyboardDefinition, PatchUsage } from '../../../../../../../types';
 import * as KeyboardUtils from '../../../../../../../utils/keyboard-utils';
@@ -11,6 +14,7 @@ import {
   Container,
   Flex,
   KeyboardPanel,
+  MidiListener,
   Placeholder,
   Spacer
 } from '../../../../../../components';
@@ -26,24 +30,71 @@ export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsa
   const { keyboards } = useKeyboards();
   const { patches } = usePatches();
 
+  const [listening, setListening] = React.useState(false);
+  const [savedNote, setSavedNote] = React.useState<{ keyboardId: number; note: number } | undefined>(undefined);
+
   const patchUsagesByKeyboardId = _.groupBy(cue.patchUsages, 'keyboardId');
 
-  const onRangeDrag = (keyboard: KeyboardDefinition, low: number, high: number) => {
-    const newPatchUsage: PatchUsage = {
-      type: 'normal',
-      keyboardId: keyboard.id,
-      patchId: patches[0].id,
-      range: [low, high],
-      mapping: {},
-      transposition: 0,
-      monophonic: false
-    };
+  const createPatchUsage = React.useCallback(
+    (keyboardId: number, low: number, high: number) => {
+      const newPatchUsage: PatchUsage = {
+        type: 'normal',
+        keyboardId,
+        patchId: patches[0].id,
+        range: [low, high],
+        mapping: {},
+        transposition: 0,
+        monophonic: false
+      };
 
-    addPatchUsage(newPatchUsage);
-  };
+      addPatchUsage(newPatchUsage);
+    },
+    [addPatchUsage, patches]
+  );
+
+  const handleListeningClick = React.useCallback(() => {
+    if (!listening) {
+      setListening(true);
+    } else {
+      setSavedNote(undefined);
+      setListening(false);
+    }
+  }, [listening]);
+
+  const handleMidi = React.useCallback(
+    (msg: Midi.MidiMessage) => {
+      if (msg instanceof Midi.NoteOnMessage) {
+        const { keyboardId, note } = msg;
+        if (keyboardId !== undefined) {
+          if (savedNote) {
+            if (savedNote.keyboardId === keyboardId) {
+              const [low, high] = [savedNote.note, note].sort();
+              createPatchUsage(keyboardId, low, high);
+              setSavedNote(undefined);
+              setListening(false);
+            } else {
+              setSavedNote({ keyboardId, note });
+            }
+          } else {
+            setSavedNote({ keyboardId, note });
+          }
+        }
+      }
+    },
+    [createPatchUsage, savedNote]
+  );
 
   return (
-    <Container alternate collapse marginCollapse="top" header={{ title: 'Drag a range of notes to add a patch' }}>
+    <Container
+      alternate
+      collapse
+      marginCollapse="top"
+      header={{
+        title: 'Drag a range of notes to add a patch',
+        buttons: [[listening ? 'cancel' : 'ear', handleListeningClick]]
+      }}
+    >
+      {listening && <MidiListener id="PatchUsageDisplay" dispatch={handleMidi} />}
       {_.isEmpty(keyboards) && <Placeholder height="50px">No keyboards defined</Placeholder>}
       {keyboards.map((keyboard) => {
         const patchUsages = patchUsagesByKeyboardId[keyboard.id] || [];
@@ -53,8 +104,9 @@ export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsa
             <Flex column align="stretch">
               <KeyboardPanel
                 keyboard={keyboard}
-                onKeyClick={(key) => onRangeDrag(keyboard, key, key)}
-                onRangeDrag={([low, high]) => onRangeDrag(keyboard, low, high)}
+                listenerId={`PatchUsageDisplay${keyboard.id}`}
+                onKeyClick={(key) => createPatchUsage(keyboard.id, key, key)}
+                onRangeDrag={([low, high]) => createPatchUsage(keyboard.id, low, high)}
               />
               {patchUsageRows.map((patchUsageRow, index) => {
                 return (

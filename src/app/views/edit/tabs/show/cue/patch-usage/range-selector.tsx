@@ -40,7 +40,7 @@ export const RangeSelector = ({ patchUsage, updatePatchUsage }: Props) => {
         <KeyboardPanel
           keyboard={keyboard}
           onKeyClick={(key) => updatePatchUsage({ range: [key, key] })}
-          onRangeDrag={([lowNote, highNote]) => updatePatchUsage({ range: [lowNote, highNote] })}
+          onRangeDrag={(range) => updatePatchUsage({ range })}
         />
       </Center>
     </Container>
