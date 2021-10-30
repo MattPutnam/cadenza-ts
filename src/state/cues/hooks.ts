@@ -4,9 +4,13 @@ import { AppContext } from '..';
 import { CRUD } from '../utils';
 
 export const useCues = () => {
-  const { cues, setCues } = React.useContext(AppContext);
+  const { cues, setCues, patches, songs } = React.useContext(AppContext);
 
   const [createCue, findCue, updateCue, deleteCue, addCues, deleteCues] = CRUD(cues, setCues);
 
-  return { cues, setCues, createCue, findCue, updateCue, deleteCue, addCues, deleteCues };
+  const canCreateCue = (): boolean => {
+    return patches.length > 0 && songs.length > 0;
+  };
+
+  return { cues, setCues, createCue, findCue, updateCue, deleteCue, addCues, deleteCues, canCreateCue };
 };

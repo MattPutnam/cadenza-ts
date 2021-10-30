@@ -14,7 +14,7 @@ interface Props {
 
 export const CueList = ({ selection, setSelection }: Props) => {
   const { songs, createSong, findSong } = useSongs();
-  const { cues, createCue, findCue } = useCues();
+  const { cues, createCue, findCue, canCreateCue } = useCues();
 
   const addSongAction = React.useCallback(() => {
     let newNumber: LocationNumber;
@@ -106,7 +106,7 @@ export const CueList = ({ selection, setSelection }: Props) => {
         title: 'Cues',
         buttons: [
           ['addSong', addSongAction],
-          ['add', addCueAction, _.isEmpty(songs)]
+          ['add', addCueAction, !canCreateCue()]
         ]
       }}
     >
