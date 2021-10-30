@@ -28,9 +28,9 @@ export const PatchNamer = ({ patch }: Props) => {
   };
 
   return (
-    <Container alternate flex="none" marginCollapse="top" header={{ title: 'Name' }}>
+    <Container alternate flex="none" marginCollapse="top">
       <Flex pad>
-        <TextField value={patch.name} setValue={changeName} />
+        <TextField label="Name:" value={patch.name} setValue={changeName} />
         <Button disabled={patch.number === undefined} onClick={useDefaultName}>
           Use default
         </Button>
