@@ -6,7 +6,7 @@ export * from './control-select';
 export * from './control-mapper';
 export * from './flex';
 export * from './icons';
-export * from './keyboard';
+export * from './keyboard-panel';
 export * from './label';
 export * from './list';
 export * from './message';
