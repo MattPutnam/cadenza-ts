@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import { useSongs } from '../../../../../state';
+import { useCues, useSongs } from '../../../../../state';
 import { Flex, Placeholder } from '../../../../components';
 import { CueList } from './cue-list';
 import { CueEditor } from './cue/cue-editor';
@@ -18,30 +18,36 @@ const StyledFlex = styled(Flex)`
 
 export const ShowTab = () => {
   const [selection, setSelection] = React.useState<Selection>(undefined);
-  const { findSong, cloneSong, deleteSong } = useSongs();
+  const { cloneSong, deleteSong } = useSongs();
+  const { cloneCue, deleteCue } = useCues();
 
   const cloneSongAction = React.useCallback(() => {
     if (!(selection?.type === 'song')) return;
-    const songId = selection.selectedId;
-    const song = findSong(songId)!;
-
-    const newSongId = cloneSong(song);
-    setSelection({ type: 'song', selectedId: newSongId });
-  }, [cloneSong, findSong, selection]);
+    const newSongId = cloneSong(selection.selectedId);
+    if (newSongId !== undefined) {
+      setSelection({ type: 'song', selectedId: newSongId });
+    }
+  }, [cloneSong, selection]);
 
   const deleteSongAction = React.useCallback(() => {
     if (!(selection?.type === 'song')) return;
-    const songId = selection.selectedId;
-    const song = findSong(songId)!;
-
     setSelection(undefined);
-    deleteSong(song);
-  }, [deleteSong, findSong, selection]);
+    deleteSong(selection.selectedId);
+  }, [deleteSong, selection]);
 
-  // TODO:
-  const cloneCueAction = React.useCallback(() => {}, []);
+  const cloneCueAction = React.useCallback(() => {
+    if (!(selection?.type === 'cue')) return;
+    const newCueId = cloneCue(selection.selectedId);
+    if (newCueId !== undefined) {
+      setSelection({ type: 'cue', selectedId: newCueId });
+    }
+  }, [cloneCue, selection]);
 
-  const deleteCueAction = React.useCallback(() => {}, []);
+  const deleteCueAction = React.useCallback(() => {
+    if (!(selection?.type === 'cue')) return;
+    setSelection(undefined);
+    deleteCue(selection.selectedId);
+  }, [deleteCue, selection]);
 
   let mainDisplay: React.ReactNode;
   if (selection && selection.type === 'globals') {

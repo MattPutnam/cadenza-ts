@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { AppContext } from '..';
 import { compareHasLocation, Cue, generateNext, Song } from '../../types';
-import { findId } from '../../utils/id';
+import { findId, findIds } from '../../utils/id';
 import { CRUD } from '../utils';
 
 export const useSongs = () => {
@@ -16,7 +16,10 @@ export const useSongs = () => {
   };
   const [createSong, findSong, updateSong] = CRUD(songs, setSongs, transform);
 
-  const cloneSong = (song: Song) => {
+  const cloneSong = (songId: number) => {
+    const song = findSong(songId);
+    if (!song) return;
+
     const newLocation = generateNext(
       song.location,
       songs.map((s) => s.location)
@@ -31,28 +34,28 @@ export const useSongs = () => {
       triggers: _.cloneDeep(song.triggers)
     };
 
-    let firstId = findId(cues);
-    const clonedCues: Cue[] = cues
-      .filter((cue) => cue.songId === song.id)
-      .map((cue) => ({
-        id: firstId++,
-        songId: newSongId,
-        patchUsages: _.cloneDeep(cue.patchUsages),
-        location: cue.location,
-        transposition: cue.transposition,
-        triggers: _.cloneDeep(cue.triggers),
-        mapping: { ...cue.mapping }
-      }));
+    const songCues = cues.filter((cue) => cue.songId === song.id);
+    const newCueIds = findIds(cues, songCues.length);
+    const newCuesWithIndices = _.zip(songCues, newCueIds);
+    const clonedCues: Cue[] = newCuesWithIndices.map(([cue, id]) => ({
+      id: id!,
+      songId: newSongId,
+      patchUsages: _.cloneDeep(cue!.patchUsages),
+      location: cue!.location,
+      transposition: cue!.transposition,
+      triggers: _.cloneDeep(cue!.triggers),
+      mapping: { ...cue!.mapping }
+    }));
 
     setState({ songs: [...songs, newSong], cues: [...cues, ...clonedCues] });
     return newSongId;
   };
 
-  const deleteSong = (song: Song) => {
+  const deleteSong = (songId: number) => {
     const newSongs = [...songs];
-    _.remove(newSongs, { id: song.id });
+    _.remove(newSongs, { id: songId });
     const newCues = [...cues];
-    _.remove(newCues, { songId: song.id });
+    _.remove(newCues, { songId: songId });
 
     setState({ songs: newSongs, cues: newCues });
   };
