@@ -8,6 +8,7 @@ import { useKeyboards, usePatches } from '../../../../../../../state';
 import { Cue, KeyboardDefinition, PatchUsage } from '../../../../../../../types';
 import * as KeyboardUtils from '../../../../../../../utils/keyboard-utils';
 import {
+  Button,
   ButtonLike,
   Center,
   colors,
@@ -19,6 +20,18 @@ import {
   Spacer
 } from '../../../../../../components';
 
+const KeyboardContainer = styled.div`
+  position: relative;
+`;
+
+const FullRangeButtonContainer = styled.div`
+  position: absolute;
+  left: 100%;
+  top: 30%;
+  width: fit-content;
+  padding-right: 0.5rem;
+`;
+
 interface Props {
   cue: Cue;
   selectedPatchUsage?: PatchUsage;
@@ -27,7 +40,7 @@ interface Props {
 }
 
 export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, addPatchUsage }: Props) => {
-  const { keyboards } = useKeyboards();
+  const { keyboards, findKeyboard } = useKeyboards();
   const { patches } = usePatches();
 
   const [listening, setListening] = React.useState(false);
@@ -50,6 +63,16 @@ export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsa
       addPatchUsage(newPatchUsage);
     },
     [addPatchUsage, patches]
+  );
+
+  const createFullRange = React.useCallback(
+    (keyboardId: number) => {
+      const keyboard = findKeyboard(keyboardId);
+      if (!keyboard) return;
+      const [low, high] = keyboard.range;
+      createPatchUsage(keyboardId, low, high);
+    },
+    [createPatchUsage, findKeyboard]
   );
 
   const handleListeningClick = React.useCallback(() => {
@@ -102,12 +125,17 @@ export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsa
         return (
           <Center pad key={keyboard.id}>
             <Flex column align="stretch">
-              <KeyboardPanel
-                keyboard={keyboard}
-                listenerId={`PatchUsageDisplay${keyboard.id}`}
-                onKeyClick={(key) => createPatchUsage(keyboard.id, key, key)}
-                onRangeDrag={([low, high]) => createPatchUsage(keyboard.id, low, high)}
-              />
+              <KeyboardContainer>
+                <KeyboardPanel
+                  keyboard={keyboard}
+                  listenerId={`PatchUsageDisplay${keyboard.id}`}
+                  onKeyClick={(key) => createPatchUsage(keyboard.id, key, key)}
+                  onRangeDrag={([low, high]) => createPatchUsage(keyboard.id, low, high)}
+                />
+                <FullRangeButtonContainer>
+                  <Button onClick={() => createFullRange(keyboard.id)}>Full range</Button>
+                </FullRangeButtonContainer>
+              </KeyboardContainer>
               {patchUsageRows.map((patchUsageRow, index) => {
                 return (
                   <PatchUsageRow
