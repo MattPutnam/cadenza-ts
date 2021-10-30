@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import { usePatches, useSynthesizers } from '../../../../../../state';
+import { useSynthesizers } from '../../../../../../state';
 import { SynthesizerConfig } from '../../../../../../types';
 import { Container, Content, Flex, Header } from '../../../../../components';
 import { InterfaceSelector } from '../interface-selector';
@@ -21,9 +21,8 @@ interface Props {
 }
 
 export const SynthConfig = ({ synthesizer, deleteSelf, moveUp, moveDown }: Props) => {
-  const { updateSynthesizer } = useSynthesizers();
-  const { patches } = usePatches();
-  const inUse = _.some(patches, { synthesizerId: synthesizer.id });
+  const { updateSynthesizer, isInUse } = useSynthesizers();
+  const inUse = isInUse(synthesizer.id);
 
   return (
     <Container alternate>

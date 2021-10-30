@@ -4,7 +4,7 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 import * as Midi from '../../../../../midi';
-import { useCues, usePatches, useSynthesizers } from '../../../../../state';
+import { usePatches, useSynthesizers } from '../../../../../state';
 import { PatchSelection } from '../../../../../types';
 import * as SynthUtils from '../../../../../utils/synth-utils';
 import {
@@ -38,9 +38,8 @@ interface Props {
 }
 
 export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
-  const { patches, createPatch, findPatch, deletePatch, updatePatch } = usePatches();
+  const { patches, createPatch, findPatch, deletePatch, updatePatch, isInUse } = usePatches();
   const { synthesizers, findSynthesizer } = useSynthesizers();
-  const { cues } = useCues();
   const midiInterfaces = Midi.useMidiInterfaces();
 
   const { allPatches } = SynthUtils.resolveSynthesizersAndPatches(synthesizers);
@@ -54,12 +53,6 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
     selectedPatch ? selectedPatch.bank : undefined,
     selectedPatch ? selectedPatch.number : undefined
   ] as PatchTreeSelection;
-
-  const deleteDisabled = _.some(cues, (cue) => {
-    return _.some(cue.patchUsages, (patchUsage) => {
-      return patchUsage.patchId === selectedPatchId;
-    });
-  });
 
   const onPatchSelected = ([selectedSynthName, selectedBankName, selectedNumber]: [
     string,
@@ -108,7 +101,7 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
       <Header
         buttons={[
           ['clone', cloneSelectedPatch],
-          ['delete', deleteSelectedPatch, deleteDisabled]
+          ['delete', deleteSelectedPatch, isInUse(selectedPatchId)]
         ]}
       >
         <Title>Edit</Title>
