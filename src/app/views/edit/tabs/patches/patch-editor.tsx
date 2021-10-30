@@ -9,13 +9,10 @@ import { PatchSelection } from '../../../../../types';
 import * as SynthUtils from '../../../../../utils/synth-utils';
 import {
   Container,
-  Content,
   ControlMapper,
   Flex,
-  Header,
   PatchPicker,
   PatchTreeSelection,
-  Title,
   Transpose,
   Warning
 } from '../../../../components';
@@ -97,45 +94,41 @@ export const PatchEditor = ({ selectedPatchId, setSelectedPatchId }: Props) => {
   };
 
   return (
-    <Container marginCollapse="left">
-      <Header
-        buttons={[
+    <Container
+      marginCollapse="left"
+      header={{
+        title: 'Edit',
+        buttons: [
           ['clone', cloneSelectedPatch],
           ['delete', deleteSelectedPatch, isInUse(selectedPatchId)]
-        ]}
-      >
-        <Title>Edit</Title>
-      </Header>
-      <Content>
-        <PatchPerformer patch={selectedPatch} />
-        <AllControls>
-          <NotVolume column>
-            <Container alternate>
-              <Header>
-                <Title>Assignment</Title>
-                {!outputDevice && <Warning>Interface not found</Warning>}
-              </Header>
-              <Content>
-                <PatchPicker initialSelection={initialSelection} onPatchSelected={onPatchSelected} />
-              </Content>
-            </Container>
-            <PatchNamer patch={selectedPatch} />
-            <Transpose
-              marginCollapse="top"
-              alternate
-              transposition={selectedPatch.transposition}
-              setTransposition={(transposition) => updatePatch(selectedPatch.id, { transposition })}
-            />
-            <ControlMapper
-              marginCollapse="top"
-              alternate
-              mapping={selectedPatch.mapping}
-              setMapping={(mapping) => updatePatch(selectedPatch.id, { mapping })}
-            />
-          </NotVolume>
-          <Volume patch={selectedPatch} />
-        </AllControls>
-      </Content>
+        ]
+      }}
+    >
+      <PatchPerformer patch={selectedPatch} />
+      <AllControls>
+        <NotVolume column>
+          <Container
+            alternate
+            header={{ title: 'Assignment', contents: !outputDevice && <Warning>Interface not found</Warning> }}
+          >
+            <PatchPicker initialSelection={initialSelection} onPatchSelected={onPatchSelected} />
+          </Container>
+          <PatchNamer patch={selectedPatch} />
+          <Transpose
+            marginCollapse="top"
+            alternate
+            transposition={selectedPatch.transposition}
+            setTransposition={(transposition) => updatePatch(selectedPatch.id, { transposition })}
+          />
+          <ControlMapper
+            marginCollapse="top"
+            alternate
+            mapping={selectedPatch.mapping}
+            setMapping={(mapping) => updatePatch(selectedPatch.id, { mapping })}
+          />
+        </NotVolume>
+        <Volume patch={selectedPatch} />
+      </AllControls>
     </Container>
   );
 };

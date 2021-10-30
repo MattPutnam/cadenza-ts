@@ -4,14 +4,11 @@ import { usePatches } from '../../../../../../../state';
 import { PatchUsage } from '../../../../../../../types';
 import {
   Container,
-  Content,
   ControlMapper,
-  Header,
   ObjectSelect,
   TabHeader,
   TabPanel,
   Tabs,
-  Title,
   Transpose
 } from '../../../../../../components';
 import { GhostNotesEditor } from './ghost-notes-editor';
@@ -47,44 +44,46 @@ export const PatchUsageEditor = ({ patchUsage, setPatchUsage, updatePatchUsage, 
   };
 
   return (
-    <Container alternate collapse marginCollapse="top">
-      <Header buttons={[['delete', deleteSelf]]}>
-        <Title>Configure</Title>
-        <ObjectSelect
-          label="Patch:"
-          options={patches}
-          selected={findPatch(patchUsage.patchId)!}
-          setSelected={(patch) => updatePatchUsage({ patchId: patch.id })}
-          render={(p) => p.name}
-        />
-      </Header>
-      <Content>
-        <RangeSelector patchUsage={patchUsage} updatePatchUsage={updatePatchUsage} />
-        <Container collapse>
-          <Header>
-            <Title>Type</Title>
-          </Header>
-          <Tabs selectedTab={selectedTab} setSelectedTab={onTabSelected}>
-            <TabHeader>Normal</TabHeader>
-            <TabHeader>Ghost Notes</TabHeader>
-            <TabHeader>Harp Pedals</TabHeader>
-            <TabPanel>
-              <NormalEditor patchUsage={patchUsage} setPatchUsage={setPatchUsage} />
-            </TabPanel>
-            <TabPanel>
-              <GhostNotesEditor patchUsage={patchUsage} setPatchUsage={setPatchUsage} />
-            </TabPanel>
-            <TabPanel>
-              <HarpPedalsEditor patchUsage={patchUsage} setPatchUsage={setPatchUsage} />
-            </TabPanel>
-          </Tabs>
-        </Container>
-        <Transpose
-          transposition={patchUsage.transposition}
-          setTransposition={(transposition) => updatePatchUsage({ transposition })}
-        />
-        <ControlMapper mapping={patchUsage.mapping} setMapping={(mapping) => updatePatchUsage({ mapping })} />
-      </Content>
+    <Container
+      alternate
+      collapse
+      marginCollapse="top"
+      header={{
+        title: 'Configure',
+        contents: (
+          <ObjectSelect
+            label="Patch:"
+            options={patches}
+            selected={findPatch(patchUsage.patchId)!}
+            setSelected={(patch) => updatePatchUsage({ patchId: patch.id })}
+            render={(p) => p.name}
+          />
+        ),
+        buttons: [['delete', deleteSelf]]
+      }}
+    >
+      <RangeSelector patchUsage={patchUsage} updatePatchUsage={updatePatchUsage} />
+      <Container collapse header={{ title: 'Type' }}>
+        <Tabs selectedTab={selectedTab} setSelectedTab={onTabSelected}>
+          <TabHeader>Normal</TabHeader>
+          <TabHeader>Ghost Notes</TabHeader>
+          <TabHeader>Harp Pedals</TabHeader>
+          <TabPanel>
+            <NormalEditor patchUsage={patchUsage} setPatchUsage={setPatchUsage} />
+          </TabPanel>
+          <TabPanel>
+            <GhostNotesEditor patchUsage={patchUsage} setPatchUsage={setPatchUsage} />
+          </TabPanel>
+          <TabPanel>
+            <HarpPedalsEditor patchUsage={patchUsage} setPatchUsage={setPatchUsage} />
+          </TabPanel>
+        </Tabs>
+      </Container>
+      <Transpose
+        transposition={patchUsage.transposition}
+        setTransposition={(transposition) => updatePatchUsage({ transposition })}
+      />
+      <ControlMapper mapping={patchUsage.mapping} setMapping={(mapping) => updatePatchUsage({ mapping })} />
     </Container>
   );
 };

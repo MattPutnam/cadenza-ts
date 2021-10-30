@@ -6,7 +6,7 @@ import { useReorder } from '../../../../../../hooks/use-reorder';
 import * as Midi from '../../../../../../midi';
 import { useActionPedal, useKeyboards } from '../../../../../../state';
 import { defaultRange, KeyboardDefinition } from '../../../../../../types';
-import { Container, Header, Content, Title, Placeholder, MidiListener } from '../../../../../components';
+import { Container, Placeholder, MidiListener } from '../../../../../components';
 import { MidiInterfacePlaceholder } from '../interface-selector';
 import { KeyboardConfig } from './keyboard-config';
 
@@ -55,28 +55,27 @@ export const SetupKeyboards = () => {
   };
 
   return (
-    <Container collapse>
-      <Header
-        buttons={[
+    <Container
+      collapse
+      header={{
+        title: 'Keyboards',
+        buttons: [
           [listening ? 'cancel' : 'ear', () => setListening(!listening)],
           ['add', addNewKeyboardFromButton]
-        ]}
-      >
-        <Title>Keyboards</Title>
-      </Header>
-      <Content>
-        {_.isEmpty(keyboards) && <Placeholder height="199px">No keyboards defined.</Placeholder>}
-        {keyboards.map((keyboard, index) => (
-          <KeyboardConfig
-            key={keyboard.id}
-            keyboard={keyboard}
-            deleteSelf={() => wrappedDelete(keyboard)}
-            moveUp={index > 0 ? moveUp(index) : undefined}
-            moveDown={index < keyboards.length - 1 ? moveDown(index) : undefined}
-          />
-        ))}
-        {listening && <MidiListener id="SetupKeyboards" dispatch={addNewKeyboardFromMidi} />}
-      </Content>
+        ]
+      }}
+    >
+      {_.isEmpty(keyboards) && <Placeholder height="199px">No keyboards defined.</Placeholder>}
+      {keyboards.map((keyboard, index) => (
+        <KeyboardConfig
+          key={keyboard.id}
+          keyboard={keyboard}
+          deleteSelf={() => wrappedDelete(keyboard)}
+          moveUp={index > 0 ? moveUp(index) : undefined}
+          moveDown={index < keyboards.length - 1 ? moveDown(index) : undefined}
+        />
+      ))}
+      {listening && <MidiListener id="SetupKeyboards" dispatch={addNewKeyboardFromMidi} />}
     </Container>
   );
 };

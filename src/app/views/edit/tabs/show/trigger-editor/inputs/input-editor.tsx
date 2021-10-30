@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { TriggerInput } from '../../../../../../../types';
-import { Container, Content, Header, Tabs, TabHeader, TabPanel, Title } from '../../../../../../components';
+import { Container, Tabs, TabHeader, TabPanel } from '../../../../../../components';
 import { SectionWrapper } from '../section-wrapper';
 import { ControlEditor } from './control-editor';
 import { KeyPressEditor } from './key-press-editor';
@@ -30,28 +30,26 @@ export const InputEditor = ({ input, setInput, deleteSelf, moveUp, moveDown }: P
 
   return (
     <SectionWrapper>
-      <Container>
-        <Header
-          buttons={[
+      <Container
+        header={{
+          title: 'Edit Input',
+          buttons: [
             ['arrowUp', moveUp],
             ['arrowDown', moveDown],
             ['delete', deleteSelf]
-          ]}
-        >
-          <Title>Edit Input</Title>
-        </Header>
-        <Content>
-          <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}>
-            <TabHeader>Key Press</TabHeader>
-            <TabHeader>Controller</TabHeader>
-            <TabPanel>
-              <KeyPressEditor input={input} setInput={setInput} />
-            </TabPanel>
-            <TabPanel>
-              <ControlEditor input={input} setInput={setInput} />
-            </TabPanel>
-          </Tabs>
-        </Content>
+          ]
+        }}
+      >
+        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}>
+          <TabHeader>Key Press</TabHeader>
+          <TabHeader>Controller</TabHeader>
+          <TabPanel>
+            <KeyPressEditor input={input} setInput={setInput} />
+          </TabPanel>
+          <TabPanel>
+            <ControlEditor input={input} setInput={setInput} />
+          </TabPanel>
+        </Tabs>
       </Container>
     </SectionWrapper>
   );

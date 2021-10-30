@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useKeyboards } from '../../../../../../../state';
 import { printTriggerInput, Trigger, TriggerInput } from '../../../../../../../types';
-import { Container, Content, Header, List, ListItem, Title } from '../../../../../../components';
+import { Container, List, ListItem } from '../../../../../../components';
 import { InputEditor } from './input-editor';
 
 interface Props {
@@ -58,30 +58,25 @@ export const Inputs = ({ trigger, setTrigger }: Props) => {
   };
 
   return (
-    <Container alternate>
-      <Header buttons={[['add', addInput]]}>
-        <Title>Inputs</Title>
-      </Header>
-      <Content>
-        <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
-          {inputs.map((input, index) => {
-            return (
-              <ListItem key={index} value={index}>
-                {printTriggerInput(input, keyboards)}
-              </ListItem>
-            );
-          })}
-        </List>
-        {input && (
-          <InputEditor
-            input={input}
-            setInput={setInput}
-            deleteSelf={deleteSelf}
-            moveUp={selectedIndex! > 0 ? moveUp : undefined}
-            moveDown={selectedIndex! < inputs.length - 1 ? moveDown : undefined}
-          />
-        )}
-      </Content>
+    <Container alternate header={{ title: 'Inputs', buttons: [['add', addInput]] }}>
+      <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+        {inputs.map((input, index) => {
+          return (
+            <ListItem key={index} value={index}>
+              {printTriggerInput(input, keyboards)}
+            </ListItem>
+          );
+        })}
+      </List>
+      {input && (
+        <InputEditor
+          input={input}
+          setInput={setInput}
+          deleteSelf={deleteSelf}
+          moveUp={selectedIndex! > 0 ? moveUp : undefined}
+          moveDown={selectedIndex! < inputs.length - 1 ? moveDown : undefined}
+        />
+      )}
     </Container>
   );
 };

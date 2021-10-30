@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import { colors, Container, Header, icon } from '..';
+import { colors, Container, icon } from '..';
 import { useSynthesizers } from '../../../state';
 import { PatchDefinition } from '../../../types';
 import { Selectable, select } from '../utils';
@@ -52,15 +52,19 @@ export const SearchSection: React.FC<Props> = ({ selectedPatch, setSelectedPatch
   const results = displayResults ? allPatches.filter((patch) => patch.name.toLowerCase().indexOf(txt) !== -1) : [];
 
   return (
-    <Container alternate={alternate}>
-      <Header>
-        <SearchField
-          type="search"
-          value={searchText}
-          placeholder="Search..."
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-      </Header>
+    <Container
+      alternate={alternate}
+      header={{
+        contents: (
+          <SearchField
+            type="search"
+            value={searchText}
+            placeholder="Search..."
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        )
+      }}
+    >
       {displayResults && (
         <List key={searchText}>
           <StyledTable>

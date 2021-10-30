@@ -1,4 +1,4 @@
-import { Checkbox, Container, Content, Flex } from '../../../../../../components';
+import { Checkbox, Container, Flex } from '../../../../../../components';
 import { PatchUsageEditorProps } from './patch-usage-editor-props';
 import { wrongType } from './wrong-type';
 
@@ -9,15 +9,13 @@ export const NormalEditor = ({ patchUsage, setPatchUsage }: PatchUsageEditorProp
 
   return (
     <Container alternate>
-      <Content>
-        <Flex pad>
-          <Checkbox
-            label="Monophonic"
-            checked={patchUsage.monophonic}
-            onChange={(monophonic) => setPatchUsage({ ...patchUsage, monophonic })}
-          />
-        </Flex>
-      </Content>
+      <Flex pad>
+        <Checkbox
+          label="Monophonic"
+          checked={patchUsage.monophonic}
+          onChange={(monophonic) => setPatchUsage({ ...patchUsage, monophonic })}
+        />
+      </Flex>
     </Container>
   );
 };

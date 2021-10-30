@@ -5,7 +5,7 @@ import _ from 'lodash';
 import * as Midi from '../../../../../../midi';
 import { useActionPedal, useKeyboards } from '../../../../../../state';
 import { ActionPedalType } from '../../../../../../types';
-import { Button, Container, Flex, Header, Title, Message, MidiListener, Spacer } from '../../../../../components';
+import { Button, Container, Flex, Message, MidiListener, Spacer } from '../../../../../components';
 import { ActionPedalDisplay } from './action-pedal-display';
 
 const STAGE1 = 'Press the pedal...';
@@ -124,10 +124,7 @@ export const ActionPedalConfig = () => {
   );
 
   return (
-    <Container flex="none" marginCollapse="top">
-      <Header>
-        <Title>Action Pedal</Title>
-      </Header>
+    <Container flex="none" marginCollapse="top" header={{ title: 'Action Pedal' }}>
       {stage && <MidiListener id="ActionPedal" dispatch={handleMidi} />}
       <Flex pad align="center">
         <ActionPedalDisplay />

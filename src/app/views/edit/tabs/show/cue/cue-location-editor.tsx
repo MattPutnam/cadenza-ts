@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { useCues, useSongs } from '../../../../../../state';
 import { isValidLocation, locationEquals, parseLocation, printLocation, Song } from '../../../../../../types';
-import { Button, Container, Content, Flex, TextField, Warning } from '../../../../../components';
+import { Button, Container, Flex, TextField, Warning } from '../../../../../components';
 import { SongSelector } from '../song-selector';
 
 interface Props {
@@ -51,16 +51,14 @@ export const CueLocationEditor = ({ cueId }: Props) => {
 
   return (
     <Container alternate flex="none">
-      <Content>
-        <Flex pad>
-          <SongSelector selectedSong={selectedSong} setSelectedSong={setSelectedSong} />
-          <TextField label="Measure:" size={6} value={printLocation(selectedMeasure)} setValue={measureUpdate} />
-          {modified && <span>- Modified</span>}
-          {error && <Warning>{error}</Warning>}
-          {conflict && <Warning>Another cue with this song/measure already exists</Warning>}
-          {modified && !error && !conflict && <Button onClick={save}>Save</Button>}
-        </Flex>
-      </Content>
+      <Flex pad>
+        <SongSelector selectedSong={selectedSong} setSelectedSong={setSelectedSong} />
+        <TextField label="Measure:" size={6} value={printLocation(selectedMeasure)} setValue={measureUpdate} />
+        {modified && <span>- Modified</span>}
+        {error && <Warning>{error}</Warning>}
+        {conflict && <Warning>Another cue with this song/measure already exists</Warning>}
+        {modified && !error && !conflict && <Button onClick={save}>Save</Button>}
+      </Flex>
     </Container>
   );
 };

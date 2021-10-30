@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { useSongs } from '../../../../../../state';
 import { isValidLocation, parseLocation, printLocation } from '../../../../../../types';
-import { Button, Container, Content, Flex, TextField, Warning } from '../../../../../components';
+import { Button, Container, Flex, TextField, Warning } from '../../../../../components';
 
 const StyledButton = styled(Button)`
   margin-right: 0.5rem;
@@ -68,15 +68,13 @@ export const SongLocationEditor = ({ songId }: Props) => {
 
   return (
     <Container alternate>
-      <Content>
-        <Flex pad>
-          <TextField label="Number:" size={6} value={songNumber || ''} setValue={updateSongNumber} />
-          {modified && <Pre> - Modified</Pre>}
-          {error && <Warning>{error}</Warning>}
-          {modified && !error && <StyledButton onClick={save}>Save</StyledButton>}
-          <StyledInput label="Name:" value={song.name} setValue={(name) => updateSong(songId, { name })} />
-        </Flex>
-      </Content>
+      <Flex pad>
+        <TextField label="Number:" size={6} value={songNumber || ''} setValue={updateSongNumber} />
+        {modified && <Pre> - Modified</Pre>}
+        {error && <Warning>{error}</Warning>}
+        {modified && !error && <StyledButton onClick={save}>Save</StyledButton>}
+        <StyledInput label="Name:" value={song.name} setValue={(name) => updateSong(songId, { name })} />
+      </Flex>
     </Container>
   );
 };

@@ -16,7 +16,7 @@ const StyledButton = styled(Button)`
   align-self: center;
   background-color: ${colors.gray[1]};
   border: 1px solid ${colors.gray[0]};
-  margin: -0px.5rem 0 -0.5rem 0.5rem;
+  margin: -0.5rem 0 -0.5rem 0.5rem;
 `;
 
 export const HeaderButton: React.FC<Props> = ({ iconName, onClick, disabled }) => (

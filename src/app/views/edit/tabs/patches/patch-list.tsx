@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { usePatches, useSynthesizers } from '../../../../../state';
-import { Container, Content, Header, List, ListItem, Title } from '../../../../components';
+import { Container, List, ListItem } from '../../../../components';
 
 interface Props {
   selectedPatchId?: number;
@@ -29,26 +29,25 @@ export const PatchList = ({ selectedPatchId, setSelectedPatchId }: Props) => {
   };
 
   return (
-    <Container flex="0 0 200px">
-      <Header
-        buttons={[
+    <Container
+      flex="0 0 200px"
+      header={{
+        title: 'Patches',
+        buttons: [
           ['sortDown', sortPatches, _.isEmpty(patches)],
           ['add', addPatch, _.isEmpty(synthesizers)]
-        ]}
-      >
-        <Title>Patches</Title>
-      </Header>
-      <Content>
-        <List selectedItem={selectedPatchId} setSelectedItem={setSelectedPatchId}>
-          {patches.map((patch) => {
-            return (
-              <ListItem key={patch.id} value={patch.id}>
-                {patch.name || '<Untitled>'}
-              </ListItem>
-            );
-          })}
-        </List>
-      </Content>
+        ]
+      }}
+    >
+      <List selectedItem={selectedPatchId} setSelectedItem={setSelectedPatchId}>
+        {patches.map((patch) => {
+          return (
+            <ListItem key={patch.id} value={patch.id}>
+              {patch.name || '<Untitled>'}
+            </ListItem>
+          );
+        })}
+      </List>
     </Container>
   );
 };

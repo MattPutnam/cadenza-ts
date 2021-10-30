@@ -3,8 +3,9 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import { colors } from '..';
-import { ContainerContext } from './context';
+import { ButtonLike, colors, Spacer } from '..';
+import { icon, IconName } from '../icons/icons';
+import { HeaderButton } from './header-button';
 
 type CollapsedState = {
   collapsed: boolean;
@@ -15,13 +16,18 @@ type CollapseProps = {
   startCollapsed?: boolean;
 };
 
+type MaybeAction = ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined;
+
 export type ContainerProps = {
   flex?: string | number;
   alternate?: boolean;
   marginCollapse?: 'top' | 'left';
+  header?: {
+    title?: string;
+    contents?: React.ReactNode;
+    buttons?: ([IconName, MaybeAction, boolean?] | false | undefined)[];
+  };
 };
-
-type Props = React.HTMLAttributes<HTMLDivElement> & ContainerProps & CollapseProps;
 
 const StyledSection = styled.section<ContainerProps & CollapsedState>`
   display: flex;
@@ -39,31 +45,77 @@ const StyledSection = styled.section<ContainerProps & CollapsedState>`
   overflow: hidden;
 `;
 
+interface Collapsible {
+  collapsed: boolean;
+}
+
+const Caret = styled(ButtonLike)<Collapsible>`
+  flex: none;
+  width: unset;
+  align-self: center;
+  cursor: pointer;
+  margin-right: 0.5rem;
+`;
+
+const HeaderContainer = styled.div<Collapsible>`
+  display: flex;
+  align-items: baseline;
+  align-self: stretch;
+  padding: 0.5rem;
+  border-bottom: ${({ collapsed }) => (collapsed ? undefined : '1px solid black')};
+`;
+
+const Title = styled.span`
+  font-weight: bold;
+`;
+
+const ContentContainer = styled.div<{ collapsed: boolean }>`
+  display: ${({ collapsed }) => (collapsed ? 'none' : undefined)};
+  flex: 1 1 auto;
+  overflow: auto;
+`;
+
+type Props = React.HTMLAttributes<HTMLDivElement> & ContainerProps & CollapseProps;
+
 export const Container: React.FC<Props> = ({
   alternate,
   collapse,
   startCollapsed,
   flex,
   marginCollapse,
+  header,
   children,
   ...props
 }) => {
   const [collapsed, setCollapsed] = React.useState(!!startCollapsed);
 
-  const contextValue = React.useMemo(
-    () => ({
-      collapse,
-      collapsed,
-      setCollapsed
-    }),
-    [collapse, collapsed]
-  );
-
   return (
-    <ContainerContext.Provider value={contextValue}>
-      <StyledSection collapsed={collapsed} flex={flex} alternate={alternate} marginCollapse={marginCollapse} {...props}>
-        {children}
-      </StyledSection>
-    </ContainerContext.Provider>
+    <StyledSection collapsed={collapsed} flex={flex} alternate={alternate} marginCollapse={marginCollapse} {...props}>
+      {header && (
+        <HeaderContainer collapsed={collapsed}>
+          {collapse && (
+            <Caret collapsed={collapsed} onClick={() => setCollapsed(!collapsed)}>
+              {icon(collapsed ? 'collapsed' : 'expanded')}
+            </Caret>
+          )}
+          {header.title && <Title>{header.title}</Title>}
+          {header.contents}
+          {!_.isEmpty(header.buttons) && <Spacer />}
+          {!collapsed && (
+            <>
+              {header.buttons?.map((buttonSpec, index) => {
+                if (buttonSpec) {
+                  const [iconName, onClick, disabled] = buttonSpec;
+                  return <HeaderButton key={index} iconName={iconName} onClick={onClick} disabled={disabled} />;
+                } else {
+                  return undefined;
+                }
+              })}
+            </>
+          )}
+        </HeaderContainer>
+      )}
+      <ContentContainer collapsed={collapsed}>{children}</ContentContainer>
+    </StyledSection>
   );
 };

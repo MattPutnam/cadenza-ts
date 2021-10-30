@@ -1,10 +1,8 @@
-import React from 'react';
-
 import _ from 'lodash';
 
 import { usePatches, useSynthesizers } from '../../../../../state';
 import { PatchSelection } from '../../../../../types';
-import { Button, Container, Header, Flex, TextField, Title } from '../../../../components';
+import { Button, Container, Flex, TextField } from '../../../../components';
 
 interface Props {
   patch: PatchSelection;
@@ -30,10 +28,7 @@ export const PatchNamer = ({ patch }: Props) => {
   };
 
   return (
-    <Container alternate flex="none" marginCollapse="top">
-      <Header>
-        <Title>Name</Title>
-      </Header>
+    <Container alternate flex="none" marginCollapse="top" header={{ title: 'Name' }}>
       <Flex pad>
         <TextField value={patch.name} setValue={changeName} />
         <Button disabled={patch.number === undefined} onClick={useDefaultName}>

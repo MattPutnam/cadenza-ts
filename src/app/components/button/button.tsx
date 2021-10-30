@@ -12,7 +12,7 @@ interface Props {
 }
 
 const StyledButton = styled.button<Pick<Props, 'large' | 'disabled'>>`
-  margin: ${({ large }) => (large ? '0 0 0 0.5rem' : '-2px 0 -2px 0.5rem')};
+  margin: ${({ large }) => (large ? '0 0 0 0.5rem' : '-4px 0 -4px 0.5rem')};
   padding: ${({ large }) => (large ? '0.5rem 0.75rem' : '2px 0.75rem')};
   background-color: ${({ disabled }) => (disabled ? colors.gray[2] : colors.blue[2])};
   color: ${({ disabled }) => (disabled ? colors.gray[4] : 'white')};

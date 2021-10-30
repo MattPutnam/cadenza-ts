@@ -1,15 +1,6 @@
 import { useSongs } from '../../../../../../../state';
 import { TriggerAction } from '../../../../../../../types';
-import {
-  Container,
-  Content,
-  Header,
-  Placeholder,
-  TabHeader,
-  TabPanel,
-  Tabs,
-  Title
-} from '../../../../../../components';
+import { Container, Placeholder, TabHeader, TabPanel, Tabs } from '../../../../../../components';
 import { SectionWrapper } from '../section-wrapper';
 import { CueStepEditor } from './cue-step-editor';
 import { GotoEditor } from './goto-editor';
@@ -49,36 +40,34 @@ export const ActionEditor = ({ action, setAction, deleteSelf, moveUp, moveDown }
 
   return (
     <SectionWrapper>
-      <Container>
-        <Header
-          buttons={[
+      <Container
+        header={{
+          title: 'Edit Action',
+          buttons: [
             ['arrowUp', moveUp],
             ['arrowDown', moveDown],
             ['delete', deleteSelf]
-          ]}
-        >
-          <Title>Edit Action</Title>
-        </Header>
-        <Content>
-          <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}>
-            <TabHeader>Cue Step</TabHeader>
-            <TabHeader>Go to Location</TabHeader>
-            <TabHeader>Wait</TabHeader>
-            <TabHeader>Panic</TabHeader>
-            <TabPanel>
-              <CueStepEditor action={action} setAction={setAction} />
-            </TabPanel>
-            <TabPanel>
-              <GotoEditor action={action} setAction={setAction} />
-            </TabPanel>
-            <TabPanel>
-              <WaitEditor action={action} setAction={setAction} />
-            </TabPanel>
-            <TabPanel>
-              <Placeholder>Panic (all notes off)</Placeholder>
-            </TabPanel>
-          </Tabs>
-        </Content>
+          ]
+        }}
+      >
+        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}>
+          <TabHeader>Cue Step</TabHeader>
+          <TabHeader>Go to Location</TabHeader>
+          <TabHeader>Wait</TabHeader>
+          <TabHeader>Panic</TabHeader>
+          <TabPanel>
+            <CueStepEditor action={action} setAction={setAction} />
+          </TabPanel>
+          <TabPanel>
+            <GotoEditor action={action} setAction={setAction} />
+          </TabPanel>
+          <TabPanel>
+            <WaitEditor action={action} setAction={setAction} />
+          </TabPanel>
+          <TabPanel>
+            <Placeholder>Panic (all notes off)</Placeholder>
+          </TabPanel>
+        </Tabs>
       </Container>
     </SectionWrapper>
   );

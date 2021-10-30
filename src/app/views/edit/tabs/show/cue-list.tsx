@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { useCues, useSongs } from '../../../../../state';
 import { compareHasLocation, generateNext, LocationNumber, printLocation } from '../../../../../types';
-import { Container, Content, Header, List, ListItem, ListSection, Title } from '../../../../components';
+import { Container, List, ListItem, ListSection } from '../../../../components';
 import { Selection } from './selection';
 
 interface Props {
@@ -100,40 +100,39 @@ export const CueList = ({ selection, setSelection }: Props) => {
   }, [createCue, cues, findCue, findSong, selection, setSelection, songs]);
 
   return (
-    <Container flex="0 0 200px">
-      <Header
-        buttons={[
+    <Container
+      flex="0 0 200px"
+      header={{
+        title: 'Cues',
+        buttons: [
           ['addSong', addSongAction],
           ['add', addCueAction, _.isEmpty(songs)]
-        ]}
-      >
-        <Title>Cues</Title>
-      </Header>
-      <Content>
-        <List selectedItem={selection} setSelectedItem={setSelection}>
-          <ListItem value={{ type: 'globals' }}>Global settings</ListItem>
-          {songs.map((song, songIndex) => {
-            const { name, location } = song;
-            const songCues = _.filter(cues, { songId: song.id }).sort(compareHasLocation);
+        ]
+      }}
+    >
+      <List selectedItem={selection} setSelectedItem={setSelection}>
+        <ListItem value={{ type: 'globals' }}>Global settings</ListItem>
+        {songs.map((song, songIndex) => {
+          const { name, location } = song;
+          const songCues = _.filter(cues, { songId: song.id }).sort(compareHasLocation);
 
-            return (
-              <ListSection
-                key={songIndex}
-                title={`${printLocation(location)}: ${name}`}
-                value={{ type: 'song', selectedId: song.id }}
-              >
-                {songCues.map((cue, cueIndex) => {
-                  return (
-                    <ListItem key={cueIndex} value={{ type: 'cue', selectedId: cue.id }}>
-                      {`m. ${printLocation(cue.location)}`}
-                    </ListItem>
-                  );
-                })}
-              </ListSection>
-            );
-          })}
-        </List>
-      </Content>
+          return (
+            <ListSection
+              key={songIndex}
+              title={`${printLocation(location)}: ${name}`}
+              value={{ type: 'song', selectedId: song.id }}
+            >
+              {songCues.map((cue, cueIndex) => {
+                return (
+                  <ListItem key={cueIndex} value={{ type: 'cue', selectedId: cue.id }}>
+                    {`m. ${printLocation(cue.location)}`}
+                  </ListItem>
+                );
+              })}
+            </ListSection>
+          );
+        })}
+      </List>
     </Container>
   );
 };

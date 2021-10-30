@@ -9,13 +9,10 @@ import {
   Center,
   colors,
   Container,
-  Content,
   Flex,
-  Header,
   KeyboardPanel,
   Placeholder,
-  Spacer,
-  Title
+  Spacer
 } from '../../../../../../components';
 
 interface Props {
@@ -46,39 +43,34 @@ export const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsa
   };
 
   return (
-    <Container alternate collapse marginCollapse="top">
-      <Header>
-        <Title>Drag a range of notes to add a patch</Title>
-      </Header>
-      <Content>
-        {_.isEmpty(keyboards) && <Placeholder height="50px">No keyboards defined</Placeholder>}
-        {keyboards.map((keyboard) => {
-          const patchUsages = patchUsagesByKeyboardId[keyboard.id] || [];
-          const patchUsageRows = KeyboardUtils.groupIntoRows(patchUsages);
-          return (
-            <Center pad key={keyboard.id}>
-              <Flex column align="stretch">
-                <KeyboardPanel
-                  keyboard={keyboard}
-                  onKeyClick={(key) => onRangeDrag(keyboard, key, key)}
-                  onRangeDrag={([low, high]) => onRangeDrag(keyboard, low, high)}
-                />
-                {patchUsageRows.map((patchUsageRow, index) => {
-                  return (
-                    <PatchUsageRow
-                      key={index}
-                      patchUsageRow={patchUsageRow}
-                      keyboard={keyboard}
-                      selectedPatchUsage={selectedPatchUsage}
-                      setSelectedPatchUsage={setSelectedPatchUsage}
-                    />
-                  );
-                })}
-              </Flex>
-            </Center>
-          );
-        })}
-      </Content>
+    <Container alternate collapse marginCollapse="top" header={{ title: 'Drag a range of notes to add a patch' }}>
+      {_.isEmpty(keyboards) && <Placeholder height="50px">No keyboards defined</Placeholder>}
+      {keyboards.map((keyboard) => {
+        const patchUsages = patchUsagesByKeyboardId[keyboard.id] || [];
+        const patchUsageRows = KeyboardUtils.groupIntoRows(patchUsages);
+        return (
+          <Center pad key={keyboard.id}>
+            <Flex column align="stretch">
+              <KeyboardPanel
+                keyboard={keyboard}
+                onKeyClick={(key) => onRangeDrag(keyboard, key, key)}
+                onRangeDrag={([low, high]) => onRangeDrag(keyboard, low, high)}
+              />
+              {patchUsageRows.map((patchUsageRow, index) => {
+                return (
+                  <PatchUsageRow
+                    key={index}
+                    patchUsageRow={patchUsageRow}
+                    keyboard={keyboard}
+                    selectedPatchUsage={selectedPatchUsage}
+                    setSelectedPatchUsage={setSelectedPatchUsage}
+                  />
+                );
+              })}
+            </Flex>
+          </Center>
+        );
+      })}
     </Container>
   );
 };

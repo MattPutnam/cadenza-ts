@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { useKeyboards } from '../../../../../../../state';
 import { PatchUsage, Range } from '../../../../../../../types';
-import { Center, Container, Content, Header, KeyboardPanel, Title } from '../../../../../../components';
+import { Center, Container, KeyboardPanel } from '../../../../../../components';
 
 interface Props {
   patchUsage: PatchUsage;
@@ -27,24 +27,22 @@ export const RangeSelector = ({ patchUsage, updatePatchUsage }: Props) => {
   };
 
   return (
-    <Container>
-      <Header
-        buttons={[
+    <Container
+      header={{
+        title: 'Set Range',
+        buttons: [
           ['arrowUp', () => move(keyboardIndex - 1), !moreAbove],
           ['arrowDown', () => move(keyboardIndex + 1), !moreBelow]
-        ]}
-      >
-        <Title>Set Range</Title>
-      </Header>
-      <Content>
-        <Center pad>
-          <KeyboardPanel
-            keyboard={keyboard}
-            onKeyClick={(key) => updatePatchUsage({ range: [key, key] })}
-            onRangeDrag={([lowNote, highNote]) => updatePatchUsage({ range: [lowNote, highNote] })}
-          />
-        </Center>
-      </Content>
+        ]
+      }}
+    >
+      <Center pad>
+        <KeyboardPanel
+          keyboard={keyboard}
+          onKeyClick={(key) => updatePatchUsage({ range: [key, key] })}
+          onRangeDrag={([lowNote, highNote]) => updatePatchUsage({ range: [lowNote, highNote] })}
+        />
+      </Center>
     </Container>
   );
 };

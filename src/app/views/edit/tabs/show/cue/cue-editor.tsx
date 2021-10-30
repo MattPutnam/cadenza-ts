@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { useCues } from '../../../../../../state';
 import { PatchUsage, printLocation } from '../../../../../../types';
-import { Container, ControlMapper, Header, Title, Transpose } from '../../../../../components';
+import { Container, ControlMapper, Transpose } from '../../../../../components';
 import { TriggerEditor } from '../trigger-editor';
 import { CueLocationEditor } from './cue-location-editor';
 import { PatchUsageDisplay } from './patch-usage/patch-usage-display';
@@ -47,15 +47,16 @@ export const CueEditor = ({ cueId, cloneSelf, deleteSelf }) => {
   };
 
   return (
-    <Container marginCollapse="left">
-      <Header
-        buttons={[
+    <Container
+      marginCollapse="left"
+      header={{
+        title: 'Edit Cue',
+        buttons: [
           ['clone', cloneSelf],
           ['delete', deleteSelf]
-        ]}
-      >
-        <Title>Edit Cue</Title>
-      </Header>
+        ]
+      }}
+    >
       <CueLocationEditor key={`${cue.songId}#${printLocation(cue.location)}`} cueId={cueId} />
       <PatchUsageDisplay
         cue={cue}

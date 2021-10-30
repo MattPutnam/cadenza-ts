@@ -1,9 +1,6 @@
 import { Flex } from '..';
 import { disableArg, noControls } from '../../../storybook-components';
 import { Container } from './container';
-import { Content } from './content';
-import { Header } from './header';
-import { Title } from './title';
 
 export default {
   title: 'Components / Container',
@@ -11,6 +8,7 @@ export default {
   argTypes: {
     collapse: 'boolean',
     alternate: 'boolean',
+    header: disableArg,
     startCollapsed: disableArg,
     flex: disableArg,
     marginCollapse: disableArg
@@ -18,62 +16,45 @@ export default {
 };
 
 export const Basic = ({ collapse, startCollapsed, alternate }) => (
-  <Container collapse={collapse} startCollapsed={startCollapsed} alternate={alternate}>
-    <Header
-      buttons={[
+  <Container
+    header={{
+      title: 'Header text',
+      buttons: [
         ['add', () => {}],
         ['delete', () => {}]
-      ]}
-    >
-      <Title>Header text</Title>
-    </Header>
-    <Content>This is the content</Content>
+      ]
+    }}
+    collapse={collapse}
+    startCollapsed={startCollapsed}
+    alternate={alternate}
+  >
+    This is the content
   </Container>
 );
 
 export const Nested = noControls(() => (
-  <Container collapse>
-    <Header>
-      <Title>Parent container</Title>
-    </Header>
-    <Content>
-      <Container collapse alternate>
-        <Header>
-          <Title>Child container</Title>
-        </Header>
-        <Content>Nested content!</Content>
-      </Container>
-    </Content>
+  <Container collapse header={{ title: 'Parent container' }}>
+    <Container collapse alternate header={{ title: 'Child container' }}>
+      Nested content!
+    </Container>
   </Container>
 ));
 
 export const Sibling = noControls(() => (
   <Flex>
     <Flex column>
-      <Container collapse>
-        <Header>
-          <Title>Collapse 1</Title>
-        </Header>
-        <Content>Foo</Content>
+      <Container collapse header={{ title: 'Collapse 1' }}>
+        Foo
       </Container>
-      <Container collapse marginCollapse="top">
-        <Header>
-          <Title>Collapse 2</Title>
-        </Header>
-        <Content>Foo</Content>
+      <Container collapse marginCollapse="top" header={{ title: 'Collapse 2' }}>
+        Foo
       </Container>
-      <Container collapse marginCollapse="top">
-        <Header>
-          <Title>Collapse 3</Title>
-        </Header>
-        <Content>Foo</Content>
+      <Container collapse marginCollapse="top" header={{ title: 'Collapse 3' }}>
+        Foo
       </Container>
     </Flex>
-    <Container collapse marginCollapse="left">
-      <Header>
-        <Title>Collapse 4</Title>
-      </Header>
-      <Content>Foo</Content>
+    <Container collapse marginCollapse="left" header={{ title: 'Collapse 4' }}>
+      Foo
     </Container>
   </Flex>
 ));

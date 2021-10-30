@@ -4,16 +4,7 @@ import _ from 'lodash';
 
 import { useKeyboards, useSongs } from '../../../../../../state';
 import { KeyboardDefinition, printTriggerAction, printTriggerInput, Song, Trigger } from '../../../../../../types';
-import {
-  Container,
-  ContainerProps,
-  Content,
-  Header,
-  List,
-  ListItem,
-  Placeholder,
-  Title
-} from '../../../../../components';
+import { Container, ContainerProps, List, ListItem, Placeholder } from '../../../../../components';
 import { Actions } from './actions';
 import { Inputs } from './inputs';
 import { SectionWrapper } from './section-wrapper';
@@ -80,23 +71,24 @@ export const TriggerEditor = ({ triggers, setTriggers, ...containerProps }: Prop
   };
 
   return (
-    <Container alternate collapse startCollapsed={noTriggers} {...containerProps}>
-      <Header buttons={[['add', addTrigger]]}>
-        <Title>Triggers</Title>
-      </Header>
-      <Content>
-        {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
-        <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
-          {triggers.map((trigger, index) => {
-            return (
-              <ListItem key={index} value={index}>
-                {summarize(trigger, keyboards, songs)}
-              </ListItem>
-            );
-          })}
-        </List>
-        {trigger && <Editor trigger={trigger} setSelectedTrigger={setSelectedTrigger} deleteSelf={deleteSelf} />}
-      </Content>
+    <Container
+      alternate
+      collapse
+      startCollapsed={noTriggers}
+      header={{ title: 'Triggers', buttons: [['add', addTrigger]] }}
+      {...containerProps}
+    >
+      {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
+      <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+        {triggers.map((trigger, index) => {
+          return (
+            <ListItem key={index} value={index}>
+              {summarize(trigger, keyboards, songs)}
+            </ListItem>
+          );
+        })}
+      </List>
+      {trigger && <Editor trigger={trigger} setSelectedTrigger={setSelectedTrigger} deleteSelf={deleteSelf} />}
     </Container>
   );
 };
@@ -110,15 +102,15 @@ interface EditorProps {
 const Editor = ({ trigger, setSelectedTrigger, deleteSelf }: EditorProps) => {
   return (
     <SectionWrapper>
-      <Container>
-        <Header buttons={[['delete', deleteSelf]]}>
-          <Title>Edit Trigger</Title>
-          {trigger.inputs.length > 1 && <TriggerType trigger={trigger} setTrigger={setSelectedTrigger} />}
-        </Header>
-        <Content>
-          <Inputs trigger={trigger} setTrigger={setSelectedTrigger} />
-          <Actions trigger={trigger} setTrigger={setSelectedTrigger} />
-        </Content>
+      <Container
+        header={{
+          title: 'Edit Trigger',
+          contents: trigger.inputs.length > 1 && <TriggerType trigger={trigger} setTrigger={setSelectedTrigger} />,
+          buttons: [['delete', deleteSelf]]
+        }}
+      >
+        <Inputs trigger={trigger} setTrigger={setSelectedTrigger} />
+        <Actions trigger={trigger} setTrigger={setSelectedTrigger} />
       </Container>
     </SectionWrapper>
   );

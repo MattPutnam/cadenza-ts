@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useSongs } from '../../../../../../../state';
 import { printTriggerAction, Trigger, TriggerAction } from '../../../../../../../types';
-import { Container, Content, Header, List, ListItem, Title } from '../../../../../../components';
+import { Container, List, ListItem } from '../../../../../../components';
 import { ActionEditor } from './action-editor';
 
 interface Props {
@@ -57,30 +57,25 @@ export const Actions = ({ trigger, setTrigger }: Props) => {
   };
 
   return (
-    <Container alternate>
-      <Header buttons={[['add', addAction]]}>
-        <Title>Actions</Title>
-      </Header>
-      <Content>
-        <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
-          {actions.map((action, index) => {
-            return (
-              <ListItem key={index} value={index}>
-                {printTriggerAction(action, songs)}
-              </ListItem>
-            );
-          })}
-        </List>
-        {action && (
-          <ActionEditor
-            action={action}
-            setAction={setAction}
-            deleteSelf={deleteSelf}
-            moveUp={selectedIndex! > 0 ? moveUp : undefined}
-            moveDown={selectedIndex! < actions.length - 1 ? moveDown : undefined}
-          />
-        )}
-      </Content>
+    <Container alternate header={{ title: 'Actions', buttons: [['add', addAction]] }}>
+      <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+        {actions.map((action, index) => {
+          return (
+            <ListItem key={index} value={index}>
+              {printTriggerAction(action, songs)}
+            </ListItem>
+          );
+        })}
+      </List>
+      {action && (
+        <ActionEditor
+          action={action}
+          setAction={setAction}
+          deleteSelf={deleteSelf}
+          moveUp={selectedIndex! > 0 ? moveUp : undefined}
+          moveDown={selectedIndex! < actions.length - 1 ? moveDown : undefined}
+        />
+      )}
     </Container>
   );
 };

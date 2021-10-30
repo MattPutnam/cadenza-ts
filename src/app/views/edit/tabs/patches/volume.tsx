@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { usePatches } from '../../../../../state';
 import { PatchSelection } from '../../../../../types';
-import { Container, Content, Flex, Header, NumberField, Title } from '../../../../components';
+import { Container, Flex, NumberField } from '../../../../components';
 
 const Column = styled(Flex)`
   height: 100%;
@@ -31,22 +31,17 @@ export const Volume = ({ patch }: Props) => {
   };
 
   return (
-    <Container alternate flex="none" marginCollapse="left">
-      <Header>
-        <Title>Volume</Title>
-      </Header>
-      <Content>
-        <Column column pad align="center">
-          <StyledNumberField value={patch.volume} max={127} setValue={setVolume} />
-          <Slider
-            type="range"
-            min={1}
-            max={127}
-            value={patch.volume}
-            onChange={(e) => setVolume(parseInt(e.target.value, 10))}
-          />
-        </Column>
-      </Content>
+    <Container alternate flex="none" marginCollapse="left" header={{ title: 'Volume' }}>
+      <Column column pad align="center">
+        <StyledNumberField value={patch.volume} max={127} setValue={setVolume} />
+        <Slider
+          type="range"
+          min={1}
+          max={127}
+          value={patch.volume}
+          onChange={(e) => setVolume(parseInt(e.target.value, 10))}
+        />
+      </Column>
     </Container>
   );
 };

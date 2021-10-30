@@ -2,19 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {
-  Button,
-  Container,
-  ContainerProps,
-  Content,
-  ControlOrNoneSelect,
-  ControlSelect,
-  Flex,
-  Header,
-  icon,
-  Placeholder,
-  Title
-} from '..';
+import { Button, Container, ContainerProps, ControlOrNoneSelect, ControlSelect, Flex, icon, Placeholder } from '..';
 import { MappingType, MaybeController } from '../../../types';
 
 interface Props extends ContainerProps {
@@ -60,26 +48,27 @@ export const ControlMapper: React.FC<Props> = ({ mapping, setMapping, ...contain
   }, [mapping, updateValue]);
 
   return (
-    <Container flex="none" collapse startCollapsed={_.isEmpty(mapping)} {...containerProps}>
-      <Header buttons={[['add', addNew]]}>
-        <Title>Map controls</Title>
-      </Header>
-      <Content>
-        <Flex column pad>
-          {_.isEmpty(mapping) && <Placeholder>Click &apos;+&apos; to add a mapping</Placeholder>}
-          {_.toPairs(mapping).map(([k, value]) => {
-            const key = parseInt(k, 10);
-            return (
-              <Flex pad align="center" key={key}>
-                <ControlSelect selected={key} setSelected={(newKey) => updateKey(key, newKey)} />
-                {icon('treeSeparator', { style: { marginRight: '0.5rem' } })}
-                <ControlOrNoneSelect selected={value} setSelected={(newValue) => updateValue(key, newValue)} />
-                <Button onClick={() => remove(key)}>Delete</Button>
-              </Flex>
-            );
-          })}
-        </Flex>
-      </Content>
+    <Container
+      flex="none"
+      collapse
+      startCollapsed={_.isEmpty(mapping)}
+      {...containerProps}
+      header={{ title: 'Map controls', buttons: [['add', addNew]] }}
+    >
+      <Flex column pad>
+        {_.isEmpty(mapping) && <Placeholder>Click &apos;+&apos; to add a mapping</Placeholder>}
+        {_.toPairs(mapping).map(([k, value]) => {
+          const key = parseInt(k, 10);
+          return (
+            <Flex pad align="center" key={key}>
+              <ControlSelect selected={key} setSelected={(newKey) => updateKey(key, newKey)} />
+              {icon('treeSeparator', { style: { marginRight: '0.5rem' } })}
+              <ControlOrNoneSelect selected={value} setSelected={(newValue) => updateValue(key, newValue)} />
+              <Button onClick={() => remove(key)}>Delete</Button>
+            </Flex>
+          );
+        })}
+      </Flex>
     </Container>
   );
 };
