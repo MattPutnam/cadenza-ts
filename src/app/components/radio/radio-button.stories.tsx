@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { RadioButton, RadioButtonGroup } from '.';
 import { noControls, storyWrapper, textArg } from '../../../storybook-components';
-import { RadioButton, RadioButtonGroup } from '../radio';
 
 export default {
   title: 'Components / Radio',

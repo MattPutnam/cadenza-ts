@@ -1,4 +1,4 @@
-import { Cue } from './../../types';
+import { Cue } from '../../types';
 
 export type CuesActions = {
   setCues: (cues: Cue[]) => void;

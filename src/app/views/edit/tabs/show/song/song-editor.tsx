@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { useSongs } from '../../../../../../state';
 import { printLocation } from '../../../../../../types';
-import { Container, ControlMapper, Transpose } from '../../../../../components/';
+import { Container, ControlMapper, Transpose } from '../../../../../components';
 import { TriggerEditor } from '../trigger-editor';
 import { SongLocationEditor } from './song-location-editor';
 

@@ -4,9 +4,9 @@ import _ from 'lodash';
 
 import { AppContext } from '..';
 import { Cue } from '../../types';
+import { generateNext } from '../../types/location';
 import { findId } from '../../utils/id';
 import { CRUD } from '../utils';
-import { generateNext } from './../../types/location';
 
 export const useCues = () => {
   const { cues, setCues, patches, songs, setState } = React.useContext(AppContext);

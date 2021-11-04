@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { Ided } from '../types';
-import { findId, findIds } from './../utils/id';
+import { findId, findIds } from '../utils/id';
 
 export const CRUD = <T extends Ided>(
   objects: T[],
